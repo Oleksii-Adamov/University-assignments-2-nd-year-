@@ -87,6 +87,36 @@ public:
 	void LibSort(size_t begin_pos, size_t end_pos/*, bool(*comp)(const T& x, const T& y)*/) {
 		std::sort(m_array + begin_pos, m_array + end_pos/*, comp*/);
 	}
+
+public:
+	void HeapSort(int begin_pos, int end_pos)
+	{
+		if (begin_pos < 0 || end_pos > m_size) exit(1);
+		for (int i = end_pos / 2 - 1; i >= begin_pos; i--)
+			Heapify(end_pos, i);
+		for (int i = end_pos - 1; i >= begin_pos; i--)
+		{
+			std::swap(m_array[begin_pos], m_array[i]);
+			Heapify(i, begin_pos);
+		}
+	}
+private:
+	void Heapify(int end_pos, int root)
+	{
+		int largest = root;
+		int l = 2 * root + 1;
+		int r = 2 * root + 2;
+		if (l < end_pos && m_array[l] > m_array[largest])
+			largest = l;
+
+		if (r < end_pos && m_array[r] > m_array[largest])
+			largest = r;
+		if (largest != root)
+		{
+			std::swap(m_array[root], m_array[largest]);
+			Heapify(end_pos, largest);
+		}
+	}
 };
 
 class CircularLinkedList {
@@ -138,15 +168,41 @@ public:
 		std::sort(m_vector.begin() + begin_pos, m_vector.begin() + end_pos/*, comp*/);
 	}
 
+public:
+	void HeapSort(int begin_pos, int end_pos)
+	{
+		if (begin_pos < 0 || end_pos > m_vector.size()) exit(1);
+		for (int i = end_pos / 2 - 1; i >= begin_pos; i--)
+			Heapify(end_pos, i);
+		for (int i = end_pos - 1; i >= begin_pos; i--)
+		{
+			std::swap(m_vector[begin_pos], m_vector[i]);
+			Heapify(i, begin_pos);
+		}
+	}
+private:
+	void Heapify(int end_pos, int root)
+	{
+		int largest = root;
+		int l = 2 * root + 1;
+		int r = 2 * root + 2;
+		if (l < end_pos && m_vector[l] > m_vector[largest])
+			largest = l;
+
+		if (r < end_pos && m_vector[r] > m_vector[largest])
+			largest = r;
+		if (largest != root)
+		{
+			std::swap(m_vector[root], m_vector[largest]);
+			Heapify(end_pos, largest);
+		}
+	}
+
 	void QuickSort() {
 
 	}
 
 	void MergeSort() {
-
-	}
-
-	void HeapSort() {
 
 	}
 
@@ -165,7 +221,7 @@ std::ostream& operator<<(std::ostream& stream, L<T>& array) {
 int main() {
 	//int n;
 	//std::cin >> n;
-	ArrayList<std::string> array(3);
+	StdVectorList<std::string> array(3);
 	array[0] = "9";
 	array[1] = "8";
 	array[2] = "7";
@@ -177,12 +233,12 @@ int main() {
 	std::cout << array;
 	array.Erase(2);
 	std::cout << array;
-	array.LibSort(0, 3);
-	std::cout << array;
-	array.LibSort(0, array.Size());
-	std::cout << array;
 	array.Insert(0, "1");
 	std::cout << array;
 	array.Insert(2, "3");
+	std::cout << array;
+	array.HeapSort(0, 3);
+	std::cout << array;
+	array.HeapSort(0, array.Size());
 	std::cout << array;
 }
