@@ -1,14 +1,92 @@
 #include<iostream>
 #include<vector>
 #include<algorithm>
+#include<string>
 
 // abstract interface class
 class List {
 
 };
 
-class ArrayList {
+template<typename T>
+class ArrayList { // can be more optimized by using std::move, but need to know more about it before using
+private:
+	T* m_array = nullptr;
+	size_t m_size = 0;
+	size_t m_capacity = 0;
+public:
+
+	ArrayList() {
+		Reallocate(2);
+	}
+
+	ArrayList(size_t n) {
+		Reallocate(n);
+		m_size = n;
+	}
+
+	~ArrayList() {
+		delete[] m_array;
+	}
+
+private:
+	void Reallocate(size_t new_size) { // new_size > m_size
+		if (new_size <= m_size) return;
+		T* new_array = new T[new_size];
+		for (int i = 0; i < m_size; i++) {
+			new_array[i] = m_array[i];
+		}
+		delete[] m_array;
+		m_array = new_array;
+		m_capacity = new_size;
+	}
+
+public:
+	size_t Size() const {
+		return m_size;
+	}
+	void PushBack(const T& value) { // passing by reference to avoid copying, double capacity when runout of it
+		if (m_size >= m_capacity) {
+			Reallocate(m_size + m_size);
+		}
+		m_array[m_size] = value;
+		m_size++;
+	}
+
+	void PopBack() {
+		m_size--;
+	}
 	
+	T& operator[] (size_t index) {
+		return m_array[index];
+	}
+
+	const T& operator[] (size_t index) const {
+		return m_array[index];
+	}
+
+	void Insert(size_t pos, const T& value) { // passing by reference to avoid copying
+		if (pos > m_size) exit(1);
+		T insert_value = value;
+		for (size_t i = pos; i < m_size; i++) {
+			T temp = m_array[i];
+			m_array[i] = insert_value;
+			insert_value = temp;
+		}
+		PushBack(insert_value);
+	}
+
+	void Erase(size_t pos) {
+		if (pos >= m_size) exit(1);
+		for (size_t i = pos; i < m_size - 1; i++) {
+			m_array[i] = m_array[i + 1];
+		}
+		PopBack();
+	}
+
+	void LibSort(size_t begin_pos, size_t end_pos/*, bool(*comp)(const T& x, const T& y)*/) {
+		std::sort(m_array + begin_pos, m_array + end_pos/*, comp*/);
+	}
 };
 
 class CircularLinkedList {
@@ -18,46 +96,46 @@ class CircularLinkedList {
 template<typename T>
 class StdVectorList {
 private:
-	std::vector<T> m_data;
+	std::vector<T> m_vector;
 public:
 	StdVectorList() {
 		// do nothing
 	}
 
 	StdVectorList(size_t size) {
-		m_data.resize(size);
+		m_vector.resize(size);
 	}
 
 	size_t Size() const{ 
-		return m_data.size();
+		return m_vector.size();
 	}
 
-	void PushBack(T a) {
-		m_data.push_back(a);
+	void PushBack(const T& value) { //passing by reference to avoid copying
+		m_vector.push_back(value);
 	}
 
 	void PopBack() {
-		m_data.pop_back();
-	}
-
-	void Insert(size_t pos, size_t value) {
-		m_data.insert(m_data.begin() + pos, value);
-	}
-
-	void Erase(size_t pos) {
-		m_data.erase(m_data.begin() + pos);
+		m_vector.pop_back();
 	}
 
 	T& operator[] (size_t index) {
-		return m_data[index];
+		return m_vector[index];
 	}
 
 	const T& operator[] (size_t index) const {
-		return m_data[index];
+		return m_vector[index];
+	}
+
+	void Insert(size_t pos, const T& value) { // passing by reference to avoid copying
+		m_vector.insert(m_vector.begin() + pos, value);
+	}
+
+	void Erase(size_t pos) {
+		m_vector.erase(m_vector.begin() + pos);
 	}
 
 	void LibSort(size_t begin_pos, size_t end_pos/*, bool(*comp)(const T& x, const T& y)*/) {
-		std::sort(m_data.begin() + begin_pos, m_data.begin() + end_pos/*, comp*/);
+		std::sort(m_vector.begin() + begin_pos, m_vector.begin() + end_pos/*, comp*/);
 	}
 
 	void QuickSort() {
@@ -74,29 +152,26 @@ public:
 
 };
 
-template<typename T>
-std::ostream& operator<<(std::ostream& stream, StdVectorList<T>& array) {
+template<typename T, template<typename> class L>
+std::ostream& operator<<(std::ostream& stream, L<T>& array) {
 	size_t size = array.Size();
-	if (size > 0) {
-		stream << array[0];
+	for (size_t i = 0; i < array.Size(); i++) {
+		stream << array[i] << "\n";
 	}
-	for (size_t i = 1; i < array.Size(); i++) {
-		stream << ", " << array[i];
-	}
-	stream << "\n-----------------------\n";
+	stream << "-----------------------\n";
 	return stream;
 }
 
 int main() {
-	int n;
+	//int n;
 	//std::cin >> n;
-	StdVectorList<int> array(3);
-	array[0] = 9;
-	array[1] = 8;
-	array[2] = 7;
-	array.PushBack(6);
-	array.PushBack(5);
-	array.PushBack(4);
+	ArrayList<std::string> array(3);
+	array[0] = "9";
+	array[1] = "8";
+	array[2] = "7";
+	array.PushBack("6");
+	array.PushBack("55");
+	array.PushBack("444");
 	std::cout << array;
 	array.PopBack();
 	std::cout << array;
@@ -105,5 +180,9 @@ int main() {
 	array.LibSort(0, 3);
 	std::cout << array;
 	array.LibSort(0, array.Size());
+	std::cout << array;
+	array.Insert(0, "1");
+	std::cout << array;
+	array.Insert(2, "3");
 	std::cout << array;
 }
