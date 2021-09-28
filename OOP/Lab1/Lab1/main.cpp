@@ -5,6 +5,8 @@
 #include<random>
 #include<ctime>
 
+enum quick_sort_mode { STANDART, RANDOM_PIVOT, MEDIAN_OF_THREE };
+
 // abstract interface class
 template<typename T>
 class List {
@@ -104,6 +106,65 @@ private:
 			new_array[i] = m_array[i];
 		}
 		Replace_buffer(new_array);
+	}
+public:
+	// 3-way quick-sort using Hoare’s partition
+	void QuickSort(int l, int r, quick_sort_mode mode) {
+		if (r <= l)
+			return;
+		int i, j;
+		partition( l, r, i, j, mode);
+		QuickSort(l, j, mode);
+		QuickSort(i, r, mode);
+	}
+private:
+	// Hoare’s partition
+	void partition(int l, int r, int& i, int& j, quick_sort_mode mode)   
+	{
+		i = l - 1, j = r;
+		switch (mode) {
+		case RANDOM_PIVOT:
+			std::swap(m_array[r], m_array[l + rand() % (r - l + 1)]);
+			break;
+		case MEDIAN_OF_THREE:
+			int mid = (l + r) / 2;
+			if (m_array[l] > m_array[mid])
+				std::swap(m_array[l], m_array[mid]);
+			if (m_array[r] < m_array[l])
+				std::swap(m_array[r], m_array[l]);
+			if (m_array[mid] < m_array[r])
+				std::swap(m_array[r], m_array[mid]);
+			break;
+		}
+		int pivot = m_array[r], left_border = l - 1, right_border = r; // a[l...left_border] = a[right_border...r] = pivot
+		while (true) {
+			do {
+				i++;
+			} while (m_array[i] < pivot);
+			do {
+				j--;
+			} while (j > l && pivot < m_array[j]);
+			if (i >= j)
+				break;
+			std::swap(m_array[i], m_array[j]);
+			if (m_array[i] == pivot) {
+				left_border++;
+				std::swap(m_array[left_border], m_array[i]);
+			}
+			if (m_array[j] == pivot) {
+				right_border--;
+				std::swap(m_array[j], m_array[right_border]);
+			}
+		}
+		std::swap(m_array[i], m_array[r]);
+		j = i - 1;
+		for (int k = l; k < left_border; k++, j--) {
+			std::swap(m_array[k], m_array[j]);
+		}
+		i = i + 1;
+		for (int k = r - 1; k > right_border; k--, i++) {
+			std::swap(m_array[i], m_array[k]);
+		}
 	}
 };
 
@@ -286,7 +347,7 @@ bool is_sorted(list_type<int> list, int from, int to) {
 	return true;
 }
 
-enum sort_mode { HEAPSORT, MERGESORT, LIBSORT }; // don't know enum classes yet
+enum sort_mode { HEAPSORT, MERGESORT, LIBSORT, QUICKSORT_STANDARD, QUICKSORT_RANDOM, QUICKSORT_MEDIAN}; // don't know enum classes yet
 
 template<template<typename> class list_type>
 bool check_sort(int size, sort_mode sort, int number_of_tests) {
@@ -311,6 +372,15 @@ bool check_sort(int size, sort_mode sort, int number_of_tests) {
 		case LIBSORT:
 			list.LibSort(from, to);
 			break;
+		case QUICKSORT_STANDARD:
+			list.QuickSort(from, to, STANDART);
+			break;
+		case QUICKSORT_RANDOM:
+			list.QuickSort(from, to, RANDOM_PIVOT);
+			break;
+		case QUICKSORT_MEDIAN:
+			list.QuickSort(from, to, MEDIAN_OF_THREE);
+			break;
 		default:
 			break;
 		}
@@ -329,21 +399,33 @@ bool check_sort(int size, sort_mode sort, int number_of_tests) {
 
 
 int main() {
-	if (check_sort<ArrayList>(1000, LIBSORT, 1000)) std::cout << "ArrayList.LibSort() - Ok\n";
+	/*if (check_sort<ArrayList>(1000, LIBSORT, 1000)) std::cout << "ArrayList.LibSort() - Ok\n";
 	else std::cout << "ArrayList.LibSort() - Error\n";
 	if (check_sort<ArrayList>(1000, HEAPSORT, 1000)) std::cout << "ArrayList.HeapSort() - Ok\n";
 	else std::cout << "ArrayList.HeapSort() - Error\n";
 	if (check_sort<ArrayList>(1000, MERGESORT, 1000)) std::cout << "ArrayList.MergeSort() - Ok\n";
-	else std::cout << "ArrayList.MergeSort() - Error\n";
-	if (check_sort<StdVectorList>(1000, LIBSORT, 1000)) std::cout << "StdVectorList.LibSort() - Ok\n";
+	else std::cout << "ArrayList.MergeSort() - Error\n";*/
+	if (check_sort<ArrayList>(1000, QUICKSORT_STANDARD, 1000)) std::cout << "ArrayList.QuickSort(STANDARD) - Ok\n";
+	else std::cout << "ArrayList.QuickSort(STANDARD) - Error\n";
+	if (check_sort<ArrayList>(1000, QUICKSORT_RANDOM, 1000)) std::cout << "ArrayList.QuickSort(RANDOM_PIVOT) - Ok\n";
+	else std::cout << "ArrayList.QuickSort(RANDOM_PIVOT) - Error\n"; 
+	if (check_sort<ArrayList>(1000, QUICKSORT_MEDIAN, 1000)) std::cout << "ArrayList.QuickSort(MEDIAN_OF_THREE) - Ok\n";
+	else std::cout << "ArrayList.QuickSort(MEDIAN_OF_THREE) - Error\n";
+	/*if (check_sort<StdVectorList>(1000, LIBSORT, 1000)) std::cout << "StdVectorList.LibSort() - Ok\n";
 	else std::cout << "StdVectorList.LibSort() - Error\n";
 	if (check_sort<StdVectorList>(1000, HEAPSORT, 1000)) std::cout << "StdVectorList.HeapSort() - Ok\n";
 	else std::cout << "StdVectorList.HeapSort() - Error\n";
 	if (check_sort<StdVectorList>(1000, MERGESORT, 1000)) std::cout << "StdVectorList.MergeSort() - Ok\n";
-	else std::cout << "StdVectorList.MergeSort() - Error\n";
+	else std::cout << "StdVectorList.MergeSort() - Error\n";*/
+	if (check_sort<StdVectorList>(1000, QUICKSORT_STANDARD, 1000)) std::cout << "StdVectorList.QuickSort(STANDARD) - Ok\n";
+	else std::cout << "StdVectorList.QuickSort(STANDARD) - Error\n";
+	if (check_sort<StdVectorList>(1000, QUICKSORT_RANDOM, 1000)) std::cout << "StdVectorList.QuickSort(RANDOM_PIVOT) - Ok\n";
+	else std::cout << "StdVectorList.QuickSort(RANDOM_PIVOT) - Error\n";
+	if (check_sort<StdVectorList>(1000, QUICKSORT_MEDIAN, 1000)) std::cout << "StdVectorList.QuickSort(MEDIAN_OF_THREE) - Ok\n";
+	else std::cout << "StdVectorList.QuickSort(MEDIAN_OF_THREE) - Error\n";
 	//int n;
 	//std::cin >> n;
-	StdVectorList<std::string> array(3);
+	/*StdVectorList<std::string> array(3);
 	array[0] = "9";
 	array[1] = "8";
 	array[2] = "7";
@@ -364,5 +446,5 @@ int main() {
 	array.HeapSort(3, 6);
 	std::cout << array;
 	array.HeapSort(0, array.Size());
-	std::cout << array;
+	std::cout << array;*/
 }
