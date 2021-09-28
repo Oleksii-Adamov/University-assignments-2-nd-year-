@@ -16,17 +16,25 @@ public:
 	virtual const T& operator[] (size_t index) const = 0;
 	virtual void Insert(const size_t pos, const T& value) = 0;
 	virtual void Erase(const size_t pos) = 0;
-	virtual void Print() = 0;
+	//virtual void Print() = 0;
+	virtual void Free() {
+		// do nothing (for library realizations)
+	};
 	// sort maybe
 };
 
 template<typename array_type>
-class ArrayBasedSort{
+class ArrayBasedList{
 protected:
 	array_type m_array;
 	size_t m_size = 0;
 public:
-	// void Print
+	void Print() {
+		for (int i = 0; i < m_size; i++) {
+			std::cout << m_array[i] << "\n";
+		}
+		std::cout << "---------------------------------\n";
+	}
 	virtual size_t Size() const = 0;
 	//virtual array_type GetArray() = 0;
 protected:
@@ -68,7 +76,7 @@ private:
 };
 
 template<typename T>
-class ArrayList : public List<T>, public ArrayBasedSort<T*> { // can be more optimized by using std::move, but need to know more about it before using
+class ArrayList : public List<T>, public ArrayBasedList<T*> { // can be more optimized by using std::move, but need to know more about it before using
 private:
 	//T* m_array = nullptr;
 	//size_t m_size = 0;
@@ -88,7 +96,7 @@ public:
 		// do nothing
 	}
 
-	void Free() {
+	void Free() override {
 		DeleteList(this->m_array);
 	}
 
@@ -157,12 +165,12 @@ public:
 		PopBack();
 	}
 
-	void Print() override {
+	/*void Print() override {
 		for (int i = 0; i < this->m_size; i++) {
 			std::cout << (this->m_array)[i] << "\n";
 		}
 		std::cout << "---------------------------------\n";
-	}
+	}*/
 
 	void LibSort(size_t begin_pos, size_t end_pos/*, bool(*comp)(const T& x, const T& y)*/) {
 		std::sort((this->m_array) + begin_pos, (this->m_array) + end_pos/*, comp*/);
@@ -245,51 +253,56 @@ class CircularLinkedList {
 };
 
 template<typename T>
-class StdVectorList {
+class StdVectorList : public List<T>, public ArrayBasedList<std::vector<T>> {
 private:
-	std::vector<T> m_vector;
-	std::vector<T>* m_vector_ptr = &m_vector;
+	//std::vector<T> m_vector;
+	//std::vector<T>* m_vector_ptr = &m_vector;
 public:
 	StdVectorList() {
 		// do nothing
 	}
 
 	StdVectorList(const size_t size) {
-		m_vector.resize(size);
+		(this->m_array).resize(size);
+		this->m_size = size;
 	}
 
 	size_t Size() const{ 
-		return m_vector.size();
+		return this->m_size;
 	}
 
 	void PushBack(const T& value) { //passing by reference to avoid copying
-		m_vector.push_back(value);
+		(this->m_array).push_back(value);
+		(this->m_size)++;
 	}
 
 	void PopBack() {
-		m_vector.pop_back();
+		(this->m_array).pop_back();
+		(this->m_size)--;
 	}
 
 	T& operator[] (size_t index) {
-		return m_vector[index];
+		return (this->m_array)[index];
 	}
 
 	const T& operator[] (size_t index) const {
-		return m_vector[index];
+		return (this->m_array)[index];
 	}
 
 	void Insert(const size_t pos, const T& value) { // passing by reference to avoid copying
-		m_vector.insert(m_vector.begin() + pos, value);
+		(this->m_array).insert((this->m_array).begin() + pos, value);
+		(this->m_size)++;
 	}
 
 	void Erase(const size_t pos) {
-		m_vector.erase(m_vector.begin() + pos);
+		(this->m_array).erase((this->m_array).begin() + pos);
+		(this->m_size)--;
 	}
 
 	void LibSort(size_t begin_pos, size_t end_pos/*, bool(*comp)(const T& x, const T& y)*/) {
-		std::sort(m_vector.begin() + begin_pos, m_vector.begin() + end_pos/*, comp*/);
+		std::sort((this->m_array).begin() + begin_pos, (this->m_array).begin() + end_pos/*, comp*/);
 	}
-
+/*
 public:
 	void HeapSort(int begin_pos, int end_pos)
 	{
@@ -319,7 +332,8 @@ private:
 			Heapify(end_pos, largest);
 		}
 	}
-
+	*/
+	/*
 public:
 	void MergeSort(int begin_pos, int end_pos) {
 		if (end_pos - begin_pos < 2 || begin_pos > end_pos) return;
@@ -357,6 +371,7 @@ private:
 		}
 		m_vector = new_vector; // double copying, maybe I can replace m_vector, with pointer to a vector, but it will complicate the code
 	}
+	*/
 };
 
 template<typename T, template<typename> class L>
@@ -369,8 +384,6 @@ std::ostream& operator<<(std::ostream& stream, L<T>& array) {
 	return stream;
 }
 
-enum sort_mode { HEAPSORT, MERGESORT, LIBSORT};
-
 template<template<typename> class list_type>
 bool is_sorted(list_type<int> list, int from, int to) {
 	for (int i = from + 1; i < to; i++) {
@@ -378,6 +391,8 @@ bool is_sorted(list_type<int> list, int from, int to) {
 	}
 	return true;
 }
+
+enum sort_mode { HEAPSORT, MERGESORT, LIBSORT }; // don't know enum classes yet
 
 template<template<typename> class list_type>
 bool check_sort(int size, sort_mode sort, int number_of_tests) {
@@ -388,7 +403,6 @@ bool check_sort(int size, sort_mode sort, int number_of_tests) {
 		list_type<int> list;
 		for (int i = 0; i < size; i++) {
 			list.PushBack(distrib(gen));
-			//cout << a[i] << " ";
 		}
 		srand(time(0));
 		int from = rand() % size, to = rand() % (size - from) + from;
@@ -417,13 +431,17 @@ bool check_sort(int size, sort_mode sort, int number_of_tests) {
 }
 
 int main() {
-	if (check_sort<ArrayList>(100, LIBSORT, 1000)) std::cout << "LibSort - Ok\n";
-	else std::cout << "LibSort - Error\n";
-	if (check_sort<ArrayList>(100, HEAPSORT, 1000)) std::cout << "HeapSort - Ok\n";
-	else std::cout << "HeapSort - Error\n";
+	if (check_sort<ArrayList>(1000, LIBSORT, 1000)) std::cout << "ArrayList.LibSort() - Ok\n";
+	else std::cout << "ArrayList.LibSort() - Error\n";
+	if (check_sort<ArrayList>(1000, HEAPSORT, 1000)) std::cout << "ArrayList.HeapSort() - Ok\n";
+	else std::cout << "ArrayList.HeapSort() - Error\n";
+	if (check_sort<StdVectorList>(1000, LIBSORT, 1000)) std::cout << "StdVectorList.LibSort() - Ok\n";
+	else std::cout << "StdVectorList.LibSort() - Error\n";
+	if (check_sort<StdVectorList>(1000, HEAPSORT, 1000)) std::cout << "StdVectorList.HeapSort() - Ok\n";
+	else std::cout << "StdVectorList.HeapSort() - Error\n";
 	//int n;
 	//std::cin >> n;
-	/*ArrayList<std::string> array(3);
+	StdVectorList<std::string> array(3);
 	array[0] = "9";
 	array[1] = "8";
 	array[2] = "7";
@@ -444,7 +462,7 @@ int main() {
 	array.HeapSort(3, 6);
 	std::cout << array;
 	array.HeapSort(0, array.Size());
-	std::cout << array;*/
+	std::cout << array;
 }
 
 /*
