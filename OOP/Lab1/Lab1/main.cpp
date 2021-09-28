@@ -117,6 +117,44 @@ private:
 			Heapify(end_pos, largest);
 		}
 	}
+public:
+	void MergeSort(int begin_pos, int end_pos) {
+		if (end_pos - begin_pos < 2) return;
+		int mid = (end_pos - begin_pos - 1) / 2 + begin_pos;
+		MergeSort(begin_pos, mid + 1);
+		MergeSort(mid + 1, end_pos);
+		Merge(begin_pos, end_pos, mid + 1);
+	}
+private:
+	void Merge(int begin_pos, int end_pos, int border) {
+		T* new_array = new T[m_size];
+		int i;
+		for (i = 0; i < begin_pos; i++) {
+			new_array[i] = m_array[i];
+		}
+		int a_p = begin_pos, b_p = border;
+		for (i = begin_pos; a_p < border && b_p < end_pos; i++) {
+			if (m_array[a_p] < m_array[b_p]) {
+				new_array[i] = m_array[a_p];
+				a_p++;
+			}
+			else {
+				new_array[i] = m_array[b_p];
+				b_p++;
+			}
+		}
+		for (; a_p < border; i++, a_p++) {
+			new_array[i] = m_array[a_p];
+		}
+		for (; b_p < end_pos; i++, b_p++) {
+			new_array[i] = m_array[b_p];
+		}
+		for (; i < m_size; i++) {
+			new_array[i] = m_array[i];
+		}
+		delete[] m_array;
+		m_array = new_array;
+	}
 };
 
 class CircularLinkedList {
@@ -127,6 +165,7 @@ template<typename T>
 class StdVectorList {
 private:
 	std::vector<T> m_vector;
+	std::vector<T>* m_vector_ptr = &m_vector;
 public:
 	StdVectorList() {
 		// do nothing
@@ -197,12 +236,49 @@ private:
 			Heapify(end_pos, largest);
 		}
 	}
+/*
+public:
+	void MergeSort(int begin_pos, int end_pos) {
+		if (end_pos - begin_pos < 2) return;
+		int mid = (end_pos - begin_pos - 1) / 2 + begin_pos;
+		MergeSort(begin_pos, mid + 1);
+		MergeSort(mid + 1, end_pos);
+		Merge(begin_pos, end_pos, mid + 1);
+	}
+private:
+	void Merge(int begin_pos, int end_pos, int border) {
+		std::vector<T> new_vector(m_size);
+		int i;
+		for (i = 0; i < begin_pos; i++) {
+			new_vector[i] = new_vector[i];
+		}
+		int a_p = begin_pos, b_p = border;
+		for (i = begin_pos; a_p < border && b_p < end_pos; i++) {
+			if (m_vector[a_p] < m_vector[b_p]) {
+				new_vector[i] = m_vector[a_p];
+				a_p++;
+			}
+			else {
+				new_vector[i] = m_vector[b_p];
+				b_p++;
+			}
+		}
+		for (; a_p < border; i++, a_p++) {
+			new_vector[i] = m_vector[a_p];
+		}
+		for (; b_p < end_pos; i++, b_p++) {
+			new_vector[i] = m_vector[b_p];
+		}
+		for (; i < m_size; i++) {
+			new_vector[i] = m_vector[i];
+		}
+		delete[] m_array;
+		m_array = new_array;
+	}
+	*/
+};
 
 	void QuickSort() {
-
-	}
-
-	void MergeSort() {
 
 	}
 
@@ -221,7 +297,7 @@ std::ostream& operator<<(std::ostream& stream, L<T>& array) {
 int main() {
 	//int n;
 	//std::cin >> n;
-	StdVectorList<std::string> array(3);
+	ArrayList<std::string> array(3);
 	array[0] = "9";
 	array[1] = "8";
 	array[2] = "7";
@@ -237,8 +313,10 @@ int main() {
 	std::cout << array;
 	array.Insert(2, "3");
 	std::cout << array;
-	array.HeapSort(0, 3);
+	array.MergeSort(0, 3);
 	std::cout << array;
-	array.HeapSort(0, array.Size());
+	array.MergeSort(3, 6);
+	std::cout << array;
+	array.MergeSort(0, array.Size());
 	std::cout << array;
 }
