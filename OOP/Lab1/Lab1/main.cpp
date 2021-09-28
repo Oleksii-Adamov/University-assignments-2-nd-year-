@@ -23,7 +23,7 @@ public:
 	// sort maybe
 };
 
-template<typename array_type>
+template<typename array_type, typename T>
 class ArrayBasedList{
 protected:
 	array_type m_array;
@@ -36,17 +36,11 @@ public:
 		std::cout << "---------------------------------\n";
 	}
 	virtual size_t Size() const = 0;
-	//virtual array_type GetArray() = 0;
-protected:
-	/*void Update() {
-		m_array = GetArray();
-		m_size = Size();
-	}*/
+private:
+	virtual void Replace_buffer(T* buffer) = 0;
 public:
-	// void Print
 	void HeapSort(int begin_pos, int end_pos)
 	{
-		//Update();
 		if (begin_pos < 0 || end_pos > Size()) exit(1);
 		for (int i = (end_pos - begin_pos) / 2 + begin_pos - 1; i >= begin_pos; i--)
 			Heapify(end_pos - begin_pos, i - begin_pos, begin_pos);
@@ -73,10 +67,48 @@ private:
 			Heapify(end_pos, largest, begin_pos);
 		}
 	}
+public:
+	void MergeSort(int begin_pos, int end_pos) {
+		if (end_pos - begin_pos < 2) return;
+		int mid = (end_pos - begin_pos - 1) / 2 + begin_pos;
+		MergeSort(begin_pos, mid + 1);
+		MergeSort(mid + 1, end_pos);
+		Merge(begin_pos, end_pos, mid + 1);
+	}
+
+private:
+	void Merge(int begin_pos, int end_pos, int border) {
+		T* new_array = new T[m_size];
+		int i;
+		for (i = 0; i < begin_pos; i++) {
+			new_array[i] = m_array[i];
+		}
+		int a_p = begin_pos, b_p = border;
+		for (i = begin_pos; a_p < border && b_p < end_pos; i++) {
+			if (m_array[a_p] < m_array[b_p]) {
+				new_array[i] = m_array[a_p];
+				a_p++;
+			}
+			else {
+				new_array[i] = m_array[b_p];
+				b_p++;
+			}
+		}
+		for (; a_p < border; i++, a_p++) {
+			new_array[i] = m_array[a_p];
+		}
+		for (; b_p < end_pos; i++, b_p++) {
+			new_array[i] = m_array[b_p];
+		}
+		for (; i < m_size; i++) {
+			new_array[i] = m_array[i];
+		}
+		Replace_buffer(new_array);
+	}
 };
 
 template<typename T>
-class ArrayList : public List<T>, public ArrayBasedList<T*> { // can be more optimized by using std::move, but need to know more about it before using
+class ArrayList : public List<T>, public ArrayBasedList<T*, T> { // can be more optimized by using std::move, but need to know more about it before using
 private:
 	//T* m_array = nullptr;
 	//size_t m_size = 0;
@@ -103,11 +135,17 @@ public:
 	void Clear() {
 		this->m_size = 0;
 	}
-
 private:
+
+	void Replace_buffer(T* buffer) override {
+		delete[] this->m_array;
+		this->m_array = buffer;
+	}
+
 	void DeleteList(T* list) {
 		delete[] list;
 	}
+
 	void Reallocate(size_t new_size) { // new_size > m_size
 		if (new_size <= this->m_size) return;
 		T* new_array = new T[new_size];
@@ -125,16 +163,11 @@ public:
 		return this->m_size;
 	}
 
-	/*T* GetArray() override {
-		return m_array;
-	}*/
-
 	void PushBack(const T& value) override { // passing by reference to avoid copying, double capacity when runout of it
 		if (this->m_size >= m_capacity) {
 			Reallocate(this->m_size + this->m_size);
 		}
 		(this->m_array)[this->m_size] = value;
-		//m_array[m_size] = value;
 		(this->m_size)++;
 	}
 
@@ -169,98 +202,13 @@ public:
 		PopBack();
 	}
 
-	/*void Print() override {
-		for (int i = 0; i < this->m_size; i++) {
-			std::cout << (this->m_array)[i] << "\n";
-		}
-		std::cout << "---------------------------------\n";
-	}*/
-
 	void LibSort(size_t begin_pos, size_t end_pos/*, bool(*comp)(const T& x, const T& y)*/) {
 		std::sort((this->m_array) + begin_pos, (this->m_array) + end_pos/*, comp*/);
 	}
-/*
-public:
-	void HeapSort(int begin_pos, int end_pos)
-	{
-		if (begin_pos < 0 || end_pos > m_size) exit(1);
-		for (int i = end_pos / 2 - 1; i >= begin_pos; i--)
-			Heapify(end_pos, i);
-		for (int i = end_pos - 1; i >= begin_pos; i--)
-		{
-			std::swap(m_array[begin_pos], m_array[i]);
-			Heapify(i, begin_pos);
-		}
-	}
-private:
-	void Heapify(int end_pos, int root)
-	{
-		int largest = root;
-		int l = 2 * root + 1;
-		int r = 2 * root + 2;
-		if (l < end_pos && m_array[l] > m_array[largest])
-			largest = l;
-
-		if (r < end_pos && m_array[r] > m_array[largest])
-			largest = r;
-		if (largest != root)
-		{
-			std::swap(m_array[root], m_array[largest]);
-			Heapify(end_pos, largest);
-		}
-	}
-	*/
-	/*
-public:
-	void MergeSort(int begin_pos, int end_pos) {
-		if (end_pos - begin_pos < 2) return;
-		int mid = (end_pos - begin_pos - 1) / 2 + begin_pos;
-		MergeSort(begin_pos, mid + 1);
-		MergeSort(mid + 1, end_pos);
-		Merge(begin_pos, end_pos, mid + 1);
-	}
-private:
-	void Merge(int begin_pos, int end_pos, int border) {
-		T* new_array = new T[m_size];
-		int i;
-		for (i = 0; i < begin_pos; i++) {
-			new_array[i] = m_array[i];
-		}
-		int a_p = begin_pos, b_p = border;
-		for (i = begin_pos; a_p < border && b_p < end_pos; i++) {
-			if (m_array[a_p] < m_array[b_p]) {
-				new_array[i] = m_array[a_p];
-				a_p++;
-			}
-			else {
-				new_array[i] = m_array[b_p];
-				b_p++;
-			}
-		}
-		for (; a_p < border; i++, a_p++) {
-			new_array[i] = m_array[a_p];
-		}
-		for (; b_p < end_pos; i++, b_p++) {
-			new_array[i] = m_array[b_p];
-		}
-		for (; i < m_size; i++) {
-			new_array[i] = m_array[i];
-		}
-		delete[] m_array;
-		m_array = new_array;
-	}
-	*/
-};
-
-class CircularLinkedList {
-
 };
 
 template<typename T>
-class StdVectorList : public List<T>, public ArrayBasedList<std::vector<T>> {
-private:
-	//std::vector<T> m_vector;
-	//std::vector<T>* m_vector_ptr = &m_vector;
+class StdVectorList : public List<T>, public ArrayBasedList<std::vector<T>, T> {
 public:
 	StdVectorList() {
 		// do nothing
@@ -279,7 +227,14 @@ public:
 		(this->m_array).clear();
 		this->m_size = (this->m_array).size();
 	}
-
+private:
+	void Replace_buffer(T* buffer) override {
+		for (int i = 0; i < this->m_size; i++) {
+			(this->m_array)[i] = buffer[i];
+		}
+		delete[] buffer;
+	}
+public:
 	void PushBack(const T& value) { //passing by reference to avoid copying
 		(this->m_array).push_back(value);
 		(this->m_size)++;
@@ -311,76 +266,6 @@ public:
 	void LibSort(size_t begin_pos, size_t end_pos/*, bool(*comp)(const T& x, const T& y)*/) {
 		std::sort((this->m_array).begin() + begin_pos, (this->m_array).begin() + end_pos/*, comp*/);
 	}
-/*
-public:
-	void HeapSort(int begin_pos, int end_pos)
-	{
-		if (begin_pos < 0 || end_pos > m_vector.size()) exit(1);
-		for (int i = end_pos / 2 - 1; i >= begin_pos; i--)
-			Heapify(end_pos, i);
-		for (int i = end_pos - 1; i >= begin_pos; i--)
-		{
-			std::swap(m_vector[begin_pos], m_vector[i]);
-			Heapify(i, begin_pos);
-		}
-	}
-private:
-	void Heapify(int end_pos, int root)
-	{
-		int largest = root;
-		int l = 2 * root + 1;
-		int r = 2 * root + 2;
-		if (l < end_pos && m_vector[l] > m_vector[largest])
-			largest = l;
-
-		if (r < end_pos && m_vector[r] > m_vector[largest])
-			largest = r;
-		if (largest != root)
-		{
-			std::swap(m_vector[root], m_vector[largest]);
-			Heapify(end_pos, largest);
-		}
-	}
-	*/
-	/*
-public:
-	void MergeSort(int begin_pos, int end_pos) {
-		if (end_pos - begin_pos < 2 || begin_pos > end_pos) return;
-		int mid = (end_pos - begin_pos - 1) / 2 + begin_pos;
-		MergeSort(begin_pos, mid + 1);
-		MergeSort(mid + 1, end_pos);
-		Merge(begin_pos, end_pos, mid + 1);
-	}
-private:
-	void Merge(int begin_pos, int end_pos, int border) {
-		std::vector<T> new_vector(m_vector.size());
-		int i;
-		for (i = 0; i < begin_pos; i++) {
-			new_vector[i] = m_vector[i];
-		}
-		int a_p = begin_pos, b_p = border;
-		for (i = begin_pos; a_p < border && b_p < end_pos; i++) {
-			if (m_vector[a_p] < m_vector[b_p]) {
-				new_vector[i] = m_vector[a_p];
-				a_p++;
-			}
-			else {
-				new_vector[i] = m_vector[b_p];
-				b_p++;
-			}
-		}
-		for (; a_p < border; i++, a_p++) {
-			new_vector[i] = m_vector[a_p];
-		}
-		for (; b_p < end_pos; i++, b_p++) {
-			new_vector[i] = m_vector[b_p];
-		}
-		for (; i < m_vector.size(); i++) {
-			new_vector[i] = m_vector[i];
-		}
-		m_vector = new_vector; // double copying, maybe I can replace m_vector, with pointer to a vector, but it will complicate the code
-	}
-	*/
 };
 
 template<typename T, template<typename> class L>
@@ -421,6 +306,7 @@ bool check_sort(int size, sort_mode sort, int number_of_tests) {
 			list.HeapSort(from, to);
 			break;
 		case MERGESORT:
+			list.MergeSort(from, to);
 			break;
 		case LIBSORT:
 			list.LibSort(from, to);
@@ -447,10 +333,14 @@ int main() {
 	else std::cout << "ArrayList.LibSort() - Error\n";
 	if (check_sort<ArrayList>(1000, HEAPSORT, 1000)) std::cout << "ArrayList.HeapSort() - Ok\n";
 	else std::cout << "ArrayList.HeapSort() - Error\n";
+	if (check_sort<ArrayList>(1000, MERGESORT, 1000)) std::cout << "ArrayList.MergeSort() - Ok\n";
+	else std::cout << "ArrayList.MergeSort() - Error\n";
 	if (check_sort<StdVectorList>(1000, LIBSORT, 1000)) std::cout << "StdVectorList.LibSort() - Ok\n";
 	else std::cout << "StdVectorList.LibSort() - Error\n";
 	if (check_sort<StdVectorList>(1000, HEAPSORT, 1000)) std::cout << "StdVectorList.HeapSort() - Ok\n";
 	else std::cout << "StdVectorList.HeapSort() - Error\n";
+	if (check_sort<StdVectorList>(1000, MERGESORT, 1000)) std::cout << "StdVectorList.MergeSort() - Ok\n";
+	else std::cout << "StdVectorList.MergeSort() - Error\n";
 	//int n;
 	//std::cin >> n;
 	StdVectorList<std::string> array(3);
