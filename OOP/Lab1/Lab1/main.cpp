@@ -2,17 +2,76 @@
 #include<vector>
 #include<algorithm>
 #include<string>
+#include<random>
+#include<ctime>
 
 // abstract interface class
+template<typename T>
 class List {
+public:
+	virtual size_t Size() const = 0;
+	virtual void PushBack(const T& value) = 0;
+	virtual void PopBack() = 0;
+	virtual T& operator[] (size_t index) = 0;
+	virtual const T& operator[] (size_t index) const = 0;
+	virtual void Insert(const size_t pos, const T& value) = 0;
+	virtual void Erase(const size_t pos) = 0;
+	virtual void Print() = 0;
+	// sort maybe
+};
 
+template<typename array_type>
+class ArrayBasedSort{
+protected:
+	array_type m_array;
+	size_t m_size = 0;
+public:
+	// void Print
+	virtual size_t Size() const = 0;
+	//virtual array_type GetArray() = 0;
+protected:
+	/*void Update() {
+		m_array = GetArray();
+		m_size = Size();
+	}*/
+public:
+	// void Print
+	void HeapSort(int begin_pos, int end_pos)
+	{
+		//Update();
+		if (begin_pos < 0 || end_pos > Size()) exit(1);
+		for (int i = (end_pos - begin_pos) / 2 + begin_pos - 1; i >= begin_pos; i--)
+			Heapify(end_pos - begin_pos, i - begin_pos, begin_pos);
+		for (int i = end_pos - 1; i >= begin_pos; i--)
+		{
+			std::swap(m_array[begin_pos], m_array[i]);
+			Heapify(i - begin_pos, 0, begin_pos);
+		}
+	}
+private:
+	void Heapify(int end_pos, int root, int begin_pos)
+	{
+		int largest = root;
+		int l = 2 * root + 1;
+		int r = 2 * root + 2;
+		if (l < end_pos && m_array[l + begin_pos] > m_array[largest + begin_pos])
+			largest = l;
+
+		if (r < end_pos && m_array[r + begin_pos] > m_array[largest + begin_pos])
+			largest = r;
+		if (largest != root)
+		{
+			std::swap(m_array[root + begin_pos], m_array[largest + begin_pos]);
+			Heapify(end_pos, largest, begin_pos);
+		}
+	}
 };
 
 template<typename T>
-class ArrayList { // can be more optimized by using std::move, but need to know more about it before using
+class ArrayList : public List<T>, public ArrayBasedSort<T*> { // can be more optimized by using std::move, but need to know more about it before using
 private:
-	T* m_array = nullptr;
-	size_t m_size = 0;
+	//T* m_array = nullptr;
+	//size_t m_size = 0;
 	size_t m_capacity = 0;
 public:
 
@@ -22,72 +81,93 @@ public:
 
 	ArrayList(size_t n) {
 		Reallocate(n);
-		m_size = n;
+		this->m_size = n;
 	}
 
-	~ArrayList() {
-		delete[] m_array;
+	~ArrayList() { // need to manage memory by your own because otherwise it won't be possible to pass it into functions
+		// do nothing
+	}
+
+	void Free() {
+		DeleteList(this->m_array);
 	}
 
 private:
+	void DeleteList(T* list) {
+		delete[] list;
+	}
 	void Reallocate(size_t new_size) { // new_size > m_size
-		if (new_size <= m_size) return;
+		if (new_size <= this->m_size) return;
 		T* new_array = new T[new_size];
-		for (int i = 0; i < m_size; i++) {
-			new_array[i] = m_array[i];
+		for (int i = 0; i < this->m_size; i++) {
+			new_array[i] = (this->m_array)[i];
 		}
-		delete[] m_array;
-		m_array = new_array;
+		if (this->m_size > 0)
+			DeleteList(this->m_array);
+		this->m_array = new_array;
 		m_capacity = new_size;
 	}
 
 public:
-	size_t Size() const {
-		return m_size;
-	}
-	void PushBack(const T& value) { // passing by reference to avoid copying, double capacity when runout of it
-		if (m_size >= m_capacity) {
-			Reallocate(m_size + m_size);
-		}
-		m_array[m_size] = value;
-		m_size++;
+	size_t Size() const override {
+		return this->m_size;
 	}
 
-	void PopBack() {
-		m_size--;
+	/*T* GetArray() override {
+		return m_array;
+	}*/
+
+	void PushBack(const T& value) override { // passing by reference to avoid copying, double capacity when runout of it
+		if (this->m_size >= m_capacity) {
+			Reallocate(this->m_size + this->m_size);
+		}
+		(this->m_array)[this->m_size] = value;
+		//m_array[m_size] = value;
+		(this->m_size)++;
+	}
+
+	void PopBack() override {
+		(this->m_size)--;
 	}
 	
-	T& operator[] (size_t index) {
-		return m_array[index];
+	T& operator[] (size_t index) override {
+		return (this->m_array)[index];
 	}
 
-	const T& operator[] (size_t index) const {
-		return m_array[index];
+	const T& operator[] (size_t index) const override{
+		return (this->m_array)[index];
 	}
 
-	void Insert(size_t pos, const T& value) { // passing by reference to avoid copying
-		if (pos > m_size) exit(1);
+	void Insert(const size_t pos, const T& value) override{ // passing by reference to avoid copying
+		if (pos > this->m_size) exit(1);
 		T insert_value = value;
-		for (size_t i = pos; i < m_size; i++) {
-			T temp = m_array[i];
-			m_array[i] = insert_value;
+		for (size_t i = pos; i < this->m_size; i++) {
+			T temp = (this->m_array)[i];
+			(this->m_array)[i] = insert_value;
 			insert_value = temp;
 		}
 		PushBack(insert_value);
 	}
 
-	void Erase(size_t pos) {
-		if (pos >= m_size) exit(1);
-		for (size_t i = pos; i < m_size - 1; i++) {
-			m_array[i] = m_array[i + 1];
+	void Erase(const size_t pos) override{
+		if (pos >= this->m_size) exit(1);
+		for (size_t i = pos; i < this->m_size - 1; i++) {
+			(this->m_array)[i] = (this->m_array)[i + 1];
 		}
 		PopBack();
 	}
 
-	void LibSort(size_t begin_pos, size_t end_pos/*, bool(*comp)(const T& x, const T& y)*/) {
-		std::sort(m_array + begin_pos, m_array + end_pos/*, comp*/);
+	void Print() override {
+		for (int i = 0; i < this->m_size; i++) {
+			std::cout << (this->m_array)[i] << "\n";
+		}
+		std::cout << "---------------------------------\n";
 	}
 
+	void LibSort(size_t begin_pos, size_t end_pos/*, bool(*comp)(const T& x, const T& y)*/) {
+		std::sort((this->m_array) + begin_pos, (this->m_array) + end_pos/*, comp*/);
+	}
+/*
 public:
 	void HeapSort(int begin_pos, int end_pos)
 	{
@@ -117,6 +197,8 @@ private:
 			Heapify(end_pos, largest);
 		}
 	}
+	*/
+	/*
 public:
 	void MergeSort(int begin_pos, int end_pos) {
 		if (end_pos - begin_pos < 2) return;
@@ -155,6 +237,7 @@ private:
 		delete[] m_array;
 		m_array = new_array;
 	}
+	*/
 };
 
 class CircularLinkedList {
@@ -171,7 +254,7 @@ public:
 		// do nothing
 	}
 
-	StdVectorList(size_t size) {
+	StdVectorList(const size_t size) {
 		m_vector.resize(size);
 	}
 
@@ -195,11 +278,11 @@ public:
 		return m_vector[index];
 	}
 
-	void Insert(size_t pos, const T& value) { // passing by reference to avoid copying
+	void Insert(const size_t pos, const T& value) { // passing by reference to avoid copying
 		m_vector.insert(m_vector.begin() + pos, value);
 	}
 
-	void Erase(size_t pos) {
+	void Erase(const size_t pos) {
 		m_vector.erase(m_vector.begin() + pos);
 	}
 
@@ -275,12 +358,6 @@ private:
 		m_vector = new_vector; // double copying, maybe I can replace m_vector, with pointer to a vector, but it will complicate the code
 	}
 };
-/*
-	void QuickSort() {
-
-	}
-
-};*/
 
 template<typename T, template<typename> class L>
 std::ostream& operator<<(std::ostream& stream, L<T>& array) {
@@ -292,10 +369,61 @@ std::ostream& operator<<(std::ostream& stream, L<T>& array) {
 	return stream;
 }
 
+enum sort_mode { HEAPSORT, MERGESORT, LIBSORT};
+
+template<template<typename> class list_type>
+bool is_sorted(list_type<int> list, int from, int to) {
+	for (int i = from + 1; i < to; i++) {
+		if (list[i] < list[i - 1]) return false;
+	}
+	return true;
+}
+
+template<template<typename> class list_type>
+bool check_sort(int size, sort_mode sort, int number_of_tests) {
+	while (number_of_tests--) {
+		std::random_device rd;
+		std::mt19937 gen(rd());
+		std::uniform_int_distribution<> distrib(-INT_MAX, INT_MAX);
+		list_type<int> list;
+		for (int i = 0; i < size; i++) {
+			list.PushBack(distrib(gen));
+			//cout << a[i] << " ";
+		}
+		srand(time(0));
+		int from = rand() % size, to = rand() % (size - from) + from;
+		switch (sort)
+		{
+		case HEAPSORT:
+			list.HeapSort(from, to);
+			break;
+		case MERGESORT:
+			break;
+		case LIBSORT:
+			list.LibSort(from, to);
+			break;
+		default:
+			break;
+		}
+		if (!is_sorted<list_type>(list, from, to)) {
+			std::cout << from << " " << to << " " << number_of_tests+1 << "\n";
+			list.Print();
+			list.Free();
+			return false;
+		}
+		list.Free();
+	}
+	return true;
+}
+
 int main() {
+	if (check_sort<ArrayList>(100, LIBSORT, 1000)) std::cout << "LibSort - Ok\n";
+	else std::cout << "LibSort - Error\n";
+	if (check_sort<ArrayList>(100, HEAPSORT, 1000)) std::cout << "HeapSort - Ok\n";
+	else std::cout << "HeapSort - Error\n";
 	//int n;
 	//std::cin >> n;
-	StdVectorList<std::string> array(3);
+	/*ArrayList<std::string> array(3);
 	array[0] = "9";
 	array[1] = "8";
 	array[2] = "7";
@@ -311,10 +439,26 @@ int main() {
 	std::cout << array;
 	array.Insert(2, "3");
 	std::cout << array;
-	array.MergeSort(0, 3);
+	array.HeapSort(0, 3);
 	std::cout << array;
-	array.MergeSort(3, 6);
+	array.HeapSort(3, 6);
 	std::cout << array;
-	array.MergeSort(0, array.Size());
-	std::cout << array;
+	array.HeapSort(0, array.Size());
+	std::cout << array;*/
 }
+
+/*
+2 6
+35
+18
+-83
+-59
+12
+73
+35
+-48
+-48
+39
+---------------------------------
+HeapSort - Error
+*/
