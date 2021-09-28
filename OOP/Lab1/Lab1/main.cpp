@@ -17,7 +17,7 @@ public:
 	virtual void Insert(const size_t pos, const T& value) = 0;
 	virtual void Erase(const size_t pos) = 0;
 	//virtual void Print() = 0;
-	virtual void Free() {
+	virtual void Free() { // ????????
 		// do nothing (for library realizations)
 	};
 	// sort maybe
@@ -98,6 +98,10 @@ public:
 
 	void Free() override {
 		DeleteList(this->m_array);
+	}
+
+	void Clear() {
+		this->m_size = 0;
 	}
 
 private:
@@ -271,6 +275,11 @@ public:
 		return this->m_size;
 	}
 
+	void Clear() {
+		(this->m_array).clear();
+		this->m_size = (this->m_array).size();
+	}
+
 	void PushBack(const T& value) { //passing by reference to avoid copying
 		(this->m_array).push_back(value);
 		(this->m_size)++;
@@ -396,11 +405,11 @@ enum sort_mode { HEAPSORT, MERGESORT, LIBSORT }; // don't know enum classes yet
 
 template<template<typename> class list_type>
 bool check_sort(int size, sort_mode sort, int number_of_tests) {
+	list_type<int> list;
 	while (number_of_tests--) {
 		std::random_device rd;
 		std::mt19937 gen(rd());
 		std::uniform_int_distribution<> distrib(-INT_MAX, INT_MAX);
-		list_type<int> list;
 		for (int i = 0; i < size; i++) {
 			list.PushBack(distrib(gen));
 		}
@@ -422,13 +431,16 @@ bool check_sort(int size, sort_mode sort, int number_of_tests) {
 		if (!is_sorted<list_type>(list, from, to)) {
 			std::cout << from << " " << to << " " << number_of_tests+1 << "\n";
 			list.Print();
-			list.Free();
+			list.Clear();
 			return false;
 		}
-		list.Free();
+		list.Clear();
 	}
+	list.Free();
 	return true;
 }
+
+
 
 int main() {
 	if (check_sort<ArrayList>(1000, LIBSORT, 1000)) std::cout << "ArrayList.LibSort() - Ok\n";
@@ -464,19 +476,3 @@ int main() {
 	array.HeapSort(0, array.Size());
 	std::cout << array;
 }
-
-/*
-2 6
-35
-18
--83
--59
-12
-73
-35
--48
--48
-39
----------------------------------
-HeapSort - Error
-*/
