@@ -236,10 +236,10 @@ private:
 			Heapify(end_pos, largest);
 		}
 	}
-/*
+
 public:
 	void MergeSort(int begin_pos, int end_pos) {
-		if (end_pos - begin_pos < 2) return;
+		if (end_pos - begin_pos < 2 || begin_pos > end_pos) return;
 		int mid = (end_pos - begin_pos - 1) / 2 + begin_pos;
 		MergeSort(begin_pos, mid + 1);
 		MergeSort(mid + 1, end_pos);
@@ -247,10 +247,10 @@ public:
 	}
 private:
 	void Merge(int begin_pos, int end_pos, int border) {
-		std::vector<T> new_vector(m_size);
+		std::vector<T> new_vector(m_vector.size());
 		int i;
 		for (i = 0; i < begin_pos; i++) {
-			new_vector[i] = new_vector[i];
+			new_vector[i] = m_vector[i];
 		}
 		int a_p = begin_pos, b_p = border;
 		for (i = begin_pos; a_p < border && b_p < end_pos; i++) {
@@ -269,20 +269,18 @@ private:
 		for (; b_p < end_pos; i++, b_p++) {
 			new_vector[i] = m_vector[b_p];
 		}
-		for (; i < m_size; i++) {
+		for (; i < m_vector.size(); i++) {
 			new_vector[i] = m_vector[i];
 		}
-		delete[] m_array;
-		m_array = new_array;
+		m_vector = new_vector; // double copying, maybe I can replace m_vector, with pointer to a vector, but it will complicate the code
 	}
-	*/
 };
-
+/*
 	void QuickSort() {
 
 	}
 
-};
+};*/
 
 template<typename T, template<typename> class L>
 std::ostream& operator<<(std::ostream& stream, L<T>& array) {
@@ -297,7 +295,7 @@ std::ostream& operator<<(std::ostream& stream, L<T>& array) {
 int main() {
 	//int n;
 	//std::cin >> n;
-	ArrayList<std::string> array(3);
+	StdVectorList<std::string> array(3);
 	array[0] = "9";
 	array[1] = "8";
 	array[2] = "7";
