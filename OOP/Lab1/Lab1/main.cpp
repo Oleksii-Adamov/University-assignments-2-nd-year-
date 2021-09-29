@@ -5,8 +5,8 @@
 #include<random>
 #include<ctime>
 
-enum quick_sort_mode { STANDART, RANDOM_PIVOT, MEDIAN_OF_THREE };
-
+enum quick_sort_mode { STANDART, RANDOM_PIVOT, MEDIAN_OF_THREE }; // don't know enum classes yet
+enum sort_mode { HEAPSORT, MERGESORT, LIBSORT, QUICKSORT_STANDARD, QUICKSORT_RANDOM, QUICKSORT_MEDIAN, LISTMERGESORT };
 // abstract interface class
 template<typename T>
 class List {
@@ -22,6 +22,7 @@ public:
 	virtual void Free() { // ????????
 		// do nothing (for library realizations)
 	};
+	virtual void Clear() = 0;
 	// sort maybe
 };
 
@@ -31,12 +32,6 @@ protected:
 	array_type m_array;
 	size_t m_size = 0;
 public:
-	/*void Print() {
-		for (int i = 0; i < m_size; i++) {
-			std::cout << m_array[i] << "\n";
-		}
-		std::cout << "---------------------------------\n";
-	}*/
 	virtual size_t Size() const = 0;
 private:
 	virtual void Replace_buffer(T* buffer) = 0;
@@ -168,6 +163,57 @@ private:
 	}
 public:
 	virtual void LibSort(size_t begin_pos, size_t end_pos/*, bool(*comp)(const T& x, const T& y)*/) = 0;
+
+	bool IsSorted(int from, int to) {
+		for (int i = from + 1; i < to; i++) {
+			if (m_array[i] < m_array[i - 1]) return false;
+		}
+		return true;
+	}
+
+	template<template<typename> class list_type>
+	static bool CheckSort(int size, sort_mode sort, int number_of_tests) {
+		list_type<int> list;
+		while (number_of_tests--) {
+			srand(time(0));
+			for (int i = 0; i < size; i++) {
+				list.PushBack(rand());
+			}
+			int from = rand() % size, to = rand() % (size - from) + from;
+			switch (sort)
+			{
+			case HEAPSORT:
+				list.HeapSort(from, to);
+				break;
+			case MERGESORT:
+				list.MergeSort(from, to);
+				break;
+			case LIBSORT:
+				list.LibSort(from, to);
+				break;
+			case QUICKSORT_STANDARD:
+				list.QuickSort(from, to, STANDART);
+				break;
+			case QUICKSORT_RANDOM:
+				list.QuickSort(from, to, RANDOM_PIVOT);
+				break;
+			case QUICKSORT_MEDIAN:
+				list.QuickSort(from, to, MEDIAN_OF_THREE);
+				break;
+			default:
+				break;
+			}
+			if (!list.IsSorted(from, to)) {
+				std::cout << from << " " << to << " " << number_of_tests + 1 << "\n";
+				list.Print();
+				list.Clear();
+				return false;
+			}
+			list.Clear();
+		}
+		list.Free();
+		return true;
+	}
 };
 
 template<typename T>
@@ -193,7 +239,7 @@ public:
 		DeleteList(this->m_array);
 	}
 
-	void Clear() {
+	void Clear() override {
 		this->m_size = 0;
 	}
 
@@ -291,7 +337,7 @@ public:
 		return this->m_size;
 	}
 
-	void Clear() {
+	void Clear() override {
 		(this->m_array).clear();
 		this->m_size = (this->m_array).size();
 	}
@@ -356,7 +402,7 @@ public:
 
 template<typename T>
 class CircularLinkedList : List<T> {
-private:
+public:
 	struct Node {
 		T data;
 		Node* next;
@@ -370,6 +416,7 @@ private:
 		}
 	};
 	Node* m_last_node;
+private:
 	size_t m_size;
 public:
 	CircularLinkedList() {
@@ -405,7 +452,7 @@ private:
 		m_last_node->next = m_last_node;
 	}
 public:
-	void InsertAfter(Node* node, const T& value, size_t pos)
+	void InsertAfter(Node* node, const T& value, bool is_first)
 	{
 		if (node == nullptr) {
 			InsertInEmpty(value);
@@ -413,29 +460,24 @@ public:
 		else {
 			Node* new_node = new Node(value, node->next);
 			node->next = new_node;
-			if (pos != 0 && m_last_node == node) m_last_node = new_node;
+			if (!is_first && m_last_node == node) m_last_node = new_node;
 		}
 		m_size++;
 	}
 
 	void PushBack(const T& value) override {
-		InsertAfter(m_last_node, value, m_size - 1);
+		if (m_size == 0) InsertAfter(m_last_node, value, true);
+		else InsertAfter(m_last_node, value, false);
 	}
 	void Insert(const size_t pos, const T& value) override {
 		if (pos > m_size - 1) {
 			exit(3);
 		}
 		if (pos == 0) {
-			/*if (m_last_node == nullptr) InsertInEmpty(value);
-			else {
-				Node* new_node = new Node(value, m_last_node->next);
-				m_last_node->next = new_node;
-			}
-			m_size++;*/
-			InsertAfter(m_last_node, value, 0);
+			InsertAfter(m_last_node, value, true);
 		}
 		else
-			InsertAfter(GetNode(pos - 1), value, pos);
+			InsertAfter(GetNode(pos - 1), value, false);
 	}
 	void DeleteNextNode(Node* node, size_t pos)
 	{
@@ -489,6 +531,124 @@ public:
 			cur_node = next_node;
 		}
 		delete m_last_node;
+		m_last_node = nullptr;
+		m_size = 0;
+	}
+	void Clear() override {
+		Free();
+	}
+private:
+	/*void Split(Node* source, Node** front_ptr, Node** back_ptr)
+	{
+		Node* fast;
+		Node* slow;
+		slow = source;
+		fast = source->next;
+
+		while (fast != NULL) {
+			fast = fast->next;
+			if (fast != NULL) {
+				slow = slow->next;
+				fast = fast->next;
+			}
+		}
+
+		/* 'slow' is before the midpoint in the list, so split it in two
+		at that point. 
+		*front_ptr = source;
+		*back_ptr = slow->next;
+		slow->next = NULL;
+	}*/
+	void Split(Node* source_last, Node** front_last_ptr, Node** mid_last_ptr)
+	{
+		Node* fast;
+		Node* slow;
+		slow = source_last->next;
+		fast = slow->next;
+		while (fast->next != source_last->next) {
+			fast = fast->next;
+			if (fast->next != source_last->next) {
+				slow = slow->next;
+				fast = fast->next;
+			}
+		}
+		*front_last_ptr = slow;
+		*mid_last_ptr = fast;
+		Node* first = source_last->next;
+		fast->next = slow->next;
+		slow->next = first;
+	}
+	Node* MergeStep(Node* front, size_t front_size, Node* mid, size_t mid_size) {
+		Node* result = nullptr;
+		if (front_size == 0) return mid;
+		if (mid_size == 0) return front;
+		if (front->data < mid->data) {
+			result = front;
+			result->next = MergeStep(front->next, front_size - 1, mid, mid_size);
+		}
+		else {
+			result = mid;
+			result->next = MergeStep(front, front_size, mid->next, mid_size - 1);
+		}
+		return result;
+	}
+	Node* Merge(Node* front_last, size_t front_size, Node* mid_last, size_t mid_size)
+	{
+		Node* result_head = MergeStep(front_last->next, front_size, mid_last->next, mid_size);
+		Node* result_tail = result_head;
+		for (size_t i = 0; i < front_size + mid_size - 1; i++) {
+			result_tail = result_tail->next;
+		}
+		result_tail->next = result_head;
+		return result_tail;
+	}
+public:
+	void MergeSort(Node** last_ptr, size_t size)
+	{
+		Node* last = *last_ptr;
+		Node* front_last;
+		Node* mid_last;
+		if (size < 2) {
+			return;
+		}
+		Split(last, &front_last, &mid_last);
+		size_t size_front = size / 2, size_mid = size - size_front;
+		MergeSort(&front_last, size_front);
+		MergeSort(&mid_last, size_mid);
+		*last_ptr = Merge(front_last, size_front, mid_last, size_mid);
+	}
+private:
+	bool is_sorted() {
+		if (m_size < 2) {
+			return true;
+		}
+		Node* cur_node = m_last_node->next, * next_node = cur_node->next;
+		do {
+			if (next_node->data < cur_node->data) {
+				return false;
+			}
+			cur_node = cur_node->next;
+			next_node = cur_node->next;
+		} while (next_node != m_last_node->next);
+		return true;
+	}
+public:
+	static bool CheckSort(size_t size, size_t number_of_tests) {
+		CircularLinkedList<T> list;
+		while (number_of_tests--) {
+			srand(time(0));
+			for (int i = 0; i < size; i++) {
+				list.PushBack(rand());
+			}
+			list.MergeSort(&list.m_last_node, list.Size());
+			if (!list.is_sorted()) {
+				std::cout << "Wrong sort\n";
+				list.Print();
+				return false;
+			}
+			list.Free();
+		}
+		return true;
 	}
 };
 
@@ -498,92 +658,33 @@ std::ostream& operator<<(std::ostream& stream, L<T>& list) { // cannot pass List
 	return stream;
 }
 
-template<template<typename> class list_type>
-bool is_sorted(list_type<int> list, int from, int to) {
-	for (int i = from + 1; i < to; i++) {
-		if (list[i] < list[i - 1]) return false;
-	}
-	return true;
-}
-
-enum sort_mode { HEAPSORT, MERGESORT, LIBSORT, QUICKSORT_STANDARD, QUICKSORT_RANDOM, QUICKSORT_MEDIAN}; // don't know enum classes yet
-
-template<template<typename> class list_type>
-bool check_sort(int size, sort_mode sort, int number_of_tests) {
-	list_type<int> list;
-	while (number_of_tests--) {
-		std::random_device rd;
-		std::mt19937 gen(rd());
-		std::uniform_int_distribution<> distrib(-INT_MAX, INT_MAX);
-		for (int i = 0; i < size; i++) {
-			list.PushBack(distrib(gen));
-		}
-		srand(time(0));
-		int from = rand() % size, to = rand() % (size - from) + from;
-		switch (sort)
-		{
-		case HEAPSORT:
-			list.HeapSort(from, to);
-			break;
-		case MERGESORT:
-			list.MergeSort(from, to);
-			break;
-		case LIBSORT:
-			list.LibSort(from, to);
-			break;
-		case QUICKSORT_STANDARD:
-			list.QuickSort(from, to, STANDART);
-			break;
-		case QUICKSORT_RANDOM:
-			list.QuickSort(from, to, RANDOM_PIVOT);
-			break;
-		case QUICKSORT_MEDIAN:
-			list.QuickSort(from, to, MEDIAN_OF_THREE);
-			break;
-		default:
-			break;
-		}
-		if (!is_sorted<list_type>(list, from, to)) {
-			std::cout << from << " " << to << " " << number_of_tests+1 << "\n";
-			list.Print();
-			list.Clear();
-			return false;
-		}
-		list.Clear();
-	}
-	list.Free();
-	return true;
-}
-
-
-
 int main() {
-	/*if (check_sort<ArrayList>(1000, LIBSORT, 1000)) std::cout << "ArrayList.LibSort() - Ok\n";
+	if (CircularLinkedList<int>::CheckSort(1000, 1000)) std::cout << "CircularLinkedList.MergeSort() - Ok\n";
+	else std::cout << "CircularLinkedList.MergeSort() - Error\n";
+	if (ArrayList<int>::CheckSort<ArrayList>(1000, LIBSORT, 1000)) std::cout << "ArrayList.LibSort() - Ok\n";
 	else std::cout << "ArrayList.LibSort() - Error\n";
-	if (check_sort<ArrayList>(1000, HEAPSORT, 1000)) std::cout << "ArrayList.HeapSort() - Ok\n";
+	if (ArrayList<int>::CheckSort<ArrayList>(1000, HEAPSORT, 1000)) std::cout << "ArrayList.HeapSort() - Ok\n";
 	else std::cout << "ArrayList.HeapSort() - Error\n";
-	if (check_sort<ArrayList>(1000, MERGESORT, 1000)) std::cout << "ArrayList.MergeSort() - Ok\n";
+	if (ArrayList<int>::CheckSort<ArrayList>(1000, MERGESORT, 1000)) std::cout << "ArrayList.MergeSort() - Ok\n";
 	else std::cout << "ArrayList.MergeSort() - Error\n";
-	if (check_sort<ArrayList>(1000, QUICKSORT_STANDARD, 1000)) std::cout << "ArrayList.QuickSort(STANDARD) - Ok\n";
+	if (ArrayList<int>::CheckSort<ArrayList>(1000, QUICKSORT_STANDARD, 1000)) std::cout << "ArrayList.QuickSort(STANDARD) - Ok\n";
 	else std::cout << "ArrayList.QuickSort(STANDARD) - Error\n";
-	if (check_sort<ArrayList>(1000, QUICKSORT_RANDOM, 1000)) std::cout << "ArrayList.QuickSort(RANDOM_PIVOT) - Ok\n";
-	else std::cout << "ArrayList.QuickSort(RANDOM_PIVOT) - Error\n"; 
-	if (check_sort<ArrayList>(1000, QUICKSORT_MEDIAN, 1000)) std::cout << "ArrayList.QuickSort(MEDIAN_OF_THREE) - Ok\n";
+	if (ArrayList<int>::CheckSort<ArrayList>(1000, QUICKSORT_RANDOM, 1000)) std::cout << "ArrayList.QuickSort(RANDOM_PIVOT) - Ok\n";
+	else std::cout << "ArrayList.QuickSort(RANDOM_PIVOT) - Error\n";
+	if (ArrayList<int>::CheckSort<ArrayList>(1000, QUICKSORT_MEDIAN, 1000)) std::cout << "ArrayList.QuickSort(MEDIAN_OF_THREE) - Ok\n";
 	else std::cout << "ArrayList.QuickSort(MEDIAN_OF_THREE) - Error\n";
-	/*if (check_sort<StdVectorList>(1000, LIBSORT, 1000)) std::cout << "StdVectorList.LibSort() - Ok\n";
+	if (StdVectorList<int>::CheckSort<StdVectorList>(1000, LIBSORT, 1000)) std::cout << "StdVectorList.LibSort() - Ok\n";
 	else std::cout << "StdVectorList.LibSort() - Error\n";
-	if (check_sort<StdVectorList>(1000, HEAPSORT, 1000)) std::cout << "StdVectorList.HeapSort() - Ok\n";
+	if (StdVectorList<int>::CheckSort<StdVectorList>(1000, HEAPSORT, 1000)) std::cout << "StdVectorList.HeapSort() - Ok\n";
 	else std::cout << "StdVectorList.HeapSort() - Error\n";
-	if (check_sort<StdVectorList>(1000, MERGESORT, 1000)) std::cout << "StdVectorList.MergeSort() - Ok\n";
+	if (StdVectorList<int>::CheckSort<StdVectorList>(1000, MERGESORT, 1000)) std::cout << "StdVectorList.MergeSort() - Ok\n";
 	else std::cout << "StdVectorList.MergeSort() - Error\n";
-	if (check_sort<StdVectorList>(1000, QUICKSORT_STANDARD, 1000)) std::cout << "StdVectorList.QuickSort(STANDARD) - Ok\n";
+	if (StdVectorList<int>::CheckSort<StdVectorList>(1000, QUICKSORT_STANDARD, 1000)) std::cout << "StdVectorList.QuickSort(STANDARD) - Ok\n";
 	else std::cout << "StdVectorList.QuickSort(STANDARD) - Error\n";
-	if (check_sort<StdVectorList>(1000, QUICKSORT_RANDOM, 1000)) std::cout << "StdVectorList.QuickSort(RANDOM_PIVOT) - Ok\n";
+	if (StdVectorList<int>::CheckSort<StdVectorList>(1000, QUICKSORT_RANDOM, 1000)) std::cout << "StdVectorList.QuickSort(RANDOM_PIVOT) - Ok\n";
 	else std::cout << "StdVectorList.QuickSort(RANDOM_PIVOT) - Error\n";
-	if (check_sort<StdVectorList>(1000, QUICKSORT_MEDIAN, 1000)) std::cout << "StdVectorList.QuickSort(MEDIAN_OF_THREE) - Ok\n";
-	else std::cout << "StdVectorList.QuickSort(MEDIAN_OF_THREE) - Error\n";*/
-	//int n;
-	//std::cin >> n;
+	if (StdVectorList<int>::CheckSort<StdVectorList>(1000, QUICKSORT_MEDIAN, 1000)) std::cout << "StdVectorList.QuickSort(MEDIAN_OF_THREE) - Ok\n";
+	else std::cout << "StdVectorList.QuickSort(MEDIAN_OF_THREE) - Error\n";
 	CircularLinkedList<std::string> array;
 	array.PushBack("6");
 	array.PushBack("55");
