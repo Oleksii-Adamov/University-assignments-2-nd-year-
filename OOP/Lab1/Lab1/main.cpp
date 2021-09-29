@@ -14,11 +14,11 @@ public:
 	virtual size_t Size() const = 0;
 	virtual void PushBack(const T& value) = 0;
 	virtual void PopBack() = 0;
-	virtual T& operator[] (size_t index) = 0;
+	//virtual T& operator[] (size_t index) = 0;
 	virtual const T& operator[] (size_t index) const = 0;
 	virtual void Insert(const size_t pos, const T& value) = 0;
 	virtual void Erase(const size_t pos) = 0;
-	//virtual void Print() = 0;
+	virtual void Print() const = 0;
 	virtual void Free() { // ????????
 		// do nothing (for library realizations)
 	};
@@ -31,12 +31,12 @@ protected:
 	array_type m_array;
 	size_t m_size = 0;
 public:
-	void Print() {
+	/*void Print() {
 		for (int i = 0; i < m_size; i++) {
 			std::cout << m_array[i] << "\n";
 		}
 		std::cout << "---------------------------------\n";
-	}
+	}*/
 	virtual size_t Size() const = 0;
 private:
 	virtual void Replace_buffer(T* buffer) = 0;
@@ -166,13 +166,13 @@ private:
 			std::swap(m_array[i], m_array[k]);
 		}
 	}
+public:
+	virtual void LibSort(size_t begin_pos, size_t end_pos/*, bool(*comp)(const T& x, const T& y)*/) = 0;
 };
 
 template<typename T>
 class ArrayList : public List<T>, public ArrayBasedList<T*, T> { // can be more optimized by using std::move, but need to know more about it before using
 private:
-	//T* m_array = nullptr;
-	//size_t m_size = 0;
 	size_t m_capacity = 0;
 public:
 
@@ -195,6 +195,13 @@ public:
 
 	void Clear() {
 		this->m_size = 0;
+	}
+
+	void Print() const override{
+		for (int i = 0; i < this->m_size; i++) {
+			std::cout << (this->m_array)[i] << "\n";
+		}
+		std::cout << "---------------------------------\n";
 	}
 private:
 
@@ -236,7 +243,7 @@ public:
 		(this->m_size)--;
 	}
 	
-	T& operator[] (size_t index) override {
+	T& operator[] (size_t index) /*override*/ {
 		return (this->m_array)[index];
 	}
 
@@ -263,7 +270,7 @@ public:
 		PopBack();
 	}
 
-	void LibSort(size_t begin_pos, size_t end_pos/*, bool(*comp)(const T& x, const T& y)*/) {
+	void LibSort(size_t begin_pos, size_t end_pos/*, bool(*comp)(const T& x, const T& y)*/) override {
 		std::sort((this->m_array) + begin_pos, (this->m_array) + end_pos/*, comp*/);
 	}
 };
@@ -280,7 +287,7 @@ public:
 		this->m_size = size;
 	}
 
-	size_t Size() const{ 
+	size_t Size() const override { 
 		return this->m_size;
 	}
 
@@ -288,6 +295,14 @@ public:
 		(this->m_array).clear();
 		this->m_size = (this->m_array).size();
 	}
+
+	void Print() const override {
+		for (int i = 0; i < this->m_size; i++) {
+			std::cout << (this->m_array)[i] << "\n";
+		}
+		std::cout << "---------------------------------\n";
+	}
+
 private:
 	void Replace_buffer(T* buffer) override {
 		for (int i = 0; i < this->m_size; i++) {
@@ -296,46 +311,190 @@ private:
 		delete[] buffer;
 	}
 public:
-	void PushBack(const T& value) { //passing by reference to avoid copying
+	void PushBack(const T& value) override { //passing by reference to avoid copying
 		(this->m_array).push_back(value);
 		(this->m_size)++;
 	}
 
-	void PopBack() {
+	void PopBack() override {
 		(this->m_array).pop_back();
 		(this->m_size)--;
 	}
-
-	T& operator[] (size_t index) {
+private:
+	bool check_access(size_t index) const{
+		return index < this->m_size;
+	}
+public:
+	T& operator[] (size_t index) /*override*/{
+		if (!check_access(index)) {
+			exit(3);
+		}
 		return (this->m_array)[index];
 	}
 
-	const T& operator[] (size_t index) const {
+	const T& operator[] (size_t index) const override {
+		if (!check_access(index)) {
+			exit(3);
+		}
 		return (this->m_array)[index];
 	}
 
-	void Insert(const size_t pos, const T& value) { // passing by reference to avoid copying
+	void Insert(const size_t pos, const T& value) override { // passing by reference to avoid copying
 		(this->m_array).insert((this->m_array).begin() + pos, value);
 		(this->m_size)++;
 	}
 
-	void Erase(const size_t pos) {
+	void Erase(const size_t pos) override {
 		(this->m_array).erase((this->m_array).begin() + pos);
 		(this->m_size)--;
 	}
 
-	void LibSort(size_t begin_pos, size_t end_pos/*, bool(*comp)(const T& x, const T& y)*/) {
+	void LibSort(size_t begin_pos, size_t end_pos/*, bool(*comp)(const T& x, const T& y)*/) override {
 		std::sort((this->m_array).begin() + begin_pos, (this->m_array).begin() + end_pos/*, comp*/);
 	}
 };
 
-template<typename T, template<typename> class L>
-std::ostream& operator<<(std::ostream& stream, L<T>& array) {
-	size_t size = array.Size();
-	for (size_t i = 0; i < array.Size(); i++) {
-		stream << array[i] << "\n";
+template<typename T>
+class CircularLinkedList : List<T> {
+private:
+	struct Node {
+		T data;
+		Node* next;
+		Node(T data, Node* next)
+			: data(data), next(next) {
+
+		}
+		Node(T data)
+			: data(data), next(nullptr) {
+		
+		}
+	};
+	Node* m_last_node;
+	size_t m_size;
+public:
+	CircularLinkedList() {
+		m_size = 0;
+		m_last_node = nullptr;
 	}
-	stream << "-----------------------\n";
+
+	size_t Size() const {
+		return m_size;
+	}
+
+	Node* GetNode(const size_t pos) const {
+		if (pos > m_size - 1) {
+			exit(3);
+		}
+		int cur_pos = 0;
+		Node* cur_node = m_last_node->next;
+		while (cur_pos < pos) {
+			cur_pos++;
+			cur_node = cur_node->next;
+		}
+		return cur_node;
+	}
+	const T& operator[] (size_t index) const override {
+		return (GetNode(index))->data;
+	}
+private:
+	void InsertInEmpty(const T& value)
+	{
+		if (m_last_node != nullptr) exit(2);
+		Node* new_node = new Node(value);
+		m_last_node = new_node;
+		m_last_node->next = m_last_node;
+	}
+public:
+	void InsertAfter(Node* node, const T& value, size_t pos)
+	{
+		if (node == nullptr) {
+			InsertInEmpty(value);
+		}
+		else {
+			Node* new_node = new Node(value, node->next);
+			node->next = new_node;
+			if (pos != 0 && m_last_node == node) m_last_node = new_node;
+		}
+		m_size++;
+	}
+
+	void PushBack(const T& value) override {
+		InsertAfter(m_last_node, value, m_size - 1);
+	}
+	void Insert(const size_t pos, const T& value) override {
+		if (pos > m_size - 1) {
+			exit(3);
+		}
+		if (pos == 0) {
+			/*if (m_last_node == nullptr) InsertInEmpty(value);
+			else {
+				Node* new_node = new Node(value, m_last_node->next);
+				m_last_node->next = new_node;
+			}
+			m_size++;*/
+			InsertAfter(m_last_node, value, 0);
+		}
+		else
+			InsertAfter(GetNode(pos - 1), value, pos);
+	}
+	void DeleteNextNode(Node* node, size_t pos)
+	{
+		if (node == nullptr) exit(2);
+		Node* node_to_delete = node->next;
+		if (node_to_delete == nullptr) exit(2);
+		if (node_to_delete->next == node_to_delete) {
+			m_last_node = nullptr;
+		}
+		else if (pos != 0 && node_to_delete == m_last_node) {
+			node->next = node_to_delete->next;
+			m_last_node = node;
+		}
+		else {
+			node->next = node_to_delete->next;
+		}
+		delete node_to_delete;
+		m_size--;
+	}
+	void PopBack() override {
+		DeleteNextNode(GetNode(m_size - 2), m_size - 2);
+	}
+	void Erase(const size_t pos) override {
+		if (pos > m_size - 1) {
+			exit(3);
+		}
+		if (pos == 0) {
+			DeleteNextNode(m_last_node, 0);
+		}
+		else 
+			DeleteNextNode(GetNode(pos - 1), pos);
+	}
+	void Print() const override {
+		if (m_last_node == nullptr) {
+			return;
+		}
+		Node* cur_node;
+		cur_node = m_last_node->next;
+		do {
+			std::cout << cur_node->data << "\n";
+			cur_node = cur_node->next;
+		} while (cur_node != m_last_node->next);
+		std::cout << "------------------------\n";
+	}
+	void Free() override {
+		Node* cur_node;
+		cur_node = m_last_node->next;
+		while (cur_node != m_last_node) {
+			Node* next_node = cur_node->next;
+			delete cur_node;
+			cur_node = next_node;
+		}
+		delete m_last_node;
+	}
+};
+
+template<typename T, template<typename> class L>
+std::ostream& operator<<(std::ostream& stream, L<T>& list) { // cannot pass List because it's abstract - tso there is no polymorphism for interaces? Tried List<T>& list
+	list.Print();
 	return stream;
 }
 
@@ -404,7 +563,7 @@ int main() {
 	if (check_sort<ArrayList>(1000, HEAPSORT, 1000)) std::cout << "ArrayList.HeapSort() - Ok\n";
 	else std::cout << "ArrayList.HeapSort() - Error\n";
 	if (check_sort<ArrayList>(1000, MERGESORT, 1000)) std::cout << "ArrayList.MergeSort() - Ok\n";
-	else std::cout << "ArrayList.MergeSort() - Error\n";*/
+	else std::cout << "ArrayList.MergeSort() - Error\n";
 	if (check_sort<ArrayList>(1000, QUICKSORT_STANDARD, 1000)) std::cout << "ArrayList.QuickSort(STANDARD) - Ok\n";
 	else std::cout << "ArrayList.QuickSort(STANDARD) - Error\n";
 	if (check_sort<ArrayList>(1000, QUICKSORT_RANDOM, 1000)) std::cout << "ArrayList.QuickSort(RANDOM_PIVOT) - Ok\n";
@@ -416,35 +575,32 @@ int main() {
 	if (check_sort<StdVectorList>(1000, HEAPSORT, 1000)) std::cout << "StdVectorList.HeapSort() - Ok\n";
 	else std::cout << "StdVectorList.HeapSort() - Error\n";
 	if (check_sort<StdVectorList>(1000, MERGESORT, 1000)) std::cout << "StdVectorList.MergeSort() - Ok\n";
-	else std::cout << "StdVectorList.MergeSort() - Error\n";*/
+	else std::cout << "StdVectorList.MergeSort() - Error\n";
 	if (check_sort<StdVectorList>(1000, QUICKSORT_STANDARD, 1000)) std::cout << "StdVectorList.QuickSort(STANDARD) - Ok\n";
 	else std::cout << "StdVectorList.QuickSort(STANDARD) - Error\n";
 	if (check_sort<StdVectorList>(1000, QUICKSORT_RANDOM, 1000)) std::cout << "StdVectorList.QuickSort(RANDOM_PIVOT) - Ok\n";
 	else std::cout << "StdVectorList.QuickSort(RANDOM_PIVOT) - Error\n";
 	if (check_sort<StdVectorList>(1000, QUICKSORT_MEDIAN, 1000)) std::cout << "StdVectorList.QuickSort(MEDIAN_OF_THREE) - Ok\n";
-	else std::cout << "StdVectorList.QuickSort(MEDIAN_OF_THREE) - Error\n";
+	else std::cout << "StdVectorList.QuickSort(MEDIAN_OF_THREE) - Error\n";*/
 	//int n;
 	//std::cin >> n;
-	/*StdVectorList<std::string> array(3);
-	array[0] = "9";
-	array[1] = "8";
-	array[2] = "7";
+	CircularLinkedList<std::string> array;
 	array.PushBack("6");
 	array.PushBack("55");
 	array.PushBack("444");
 	std::cout << array;
-	array.PopBack();
-	std::cout << array;
-	array.Erase(2);
 	std::cout << array;
 	array.Insert(0, "1");
 	std::cout << array;
 	array.Insert(2, "3");
 	std::cout << array;
-	array.HeapSort(0, 3);
+	array.Insert(array.Size() - 1, "200");
 	std::cout << array;
-	array.HeapSort(3, 6);
+	array.PopBack();
 	std::cout << array;
-	array.HeapSort(0, array.Size());
-	std::cout << array;*/
+	array.Erase(2);
+	std::cout << array;
+	array.Erase(0);
+	std::cout << array;
+	array.Free();
 }
