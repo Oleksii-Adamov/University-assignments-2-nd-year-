@@ -693,49 +693,13 @@ private:
 	}
 public:
 	IPv4() = delete;
-	/*IPv4(char o1, char o2, char o3, char o4) {
-		m_octet[0] = o1;
-		m_octet[1] = o2;
-		m_octet[2] = o3;
-		m_octet[3] = o4;
-		m_is_subnet = true;
-		CalcSubnetBits();
-	}*/
 	IPv4(const char* string) {
 
 	}
 	IPv4(unsigned char octet[4], unsigned char subnet_bits) {
 		Init(octet, subnet_bits);
 	}
-	/*IPv4(char octet[4]) {
-		for (size_t i = 0; i < 4; i++)
-			m_octet[i] = octet[i];
-		CalcSubnetBits();
-	}*/
-	/*IPv4(char subnet_bits)
-		: m_subnet_bits(subnet_bits) {
-		for (size_t i = 0; i < 4; i++)
-			m_octet[i] = 0;
-		m_is_subnet = true;
-	}*/
 private:
-	/*void CalcSubnetBits() {
-		if (!m_is_subnet) return;
-		bool find_1bit = false;
-		int number_of_zeroes = 0;
-		for (int i = 3; !find_1bit && i >= 0; i--) {
-			int dec = m_octet[3];
-			while (dec > 0) {
-				if (dec % 2 != 0) {
-					find_1bit = true;
-					break;
-				}
-				else number_of_zeroes++;
-				dec /= 2;
-			}
-		}
-		m_subnet_bits = 32 - number_of_zeroes;
-	}*/
 public:
 	char GetSubnetBits() {
 		return m_subnet_bits;
@@ -745,14 +709,11 @@ public:
 	}
 	bool IsInSubnet(IPv4 subnet) {
 		if (!subnet.IsSubnet()) exit(4);
-		//if((net_mask == subnet.net_mask) && (mask & net_mask == subnet.mask & subnet.net_mask))
-		//std::cout << m_subnet_mask << "\n" << subnet.m_mask << "\n" << (m_subnet_bits == subnet.GetSubnetBits()) << " && " << (m_subnet_mask == subnet.m_mask) << "\n";
 		return ((m_subnet_bits == subnet.GetSubnetBits()) && (m_subnet_mask == subnet.m_mask));
 	}
 };
 
 int main() {
-	/*
 	if (CircularLinkedList<int>::CheckSort(1000, 1000)) std::cout << "CircularLinkedList.MergeSort() - Ok\n";
 	else std::cout << "CircularLinkedList.MergeSort() - Error\n";
 	if (ArrayList<int>::CheckSort<ArrayList>(1000, LIBSORT, 1000)) std::cout << "ArrayList.LibSort() - Ok\n";
@@ -779,8 +740,6 @@ int main() {
 	else std::cout << "StdVectorList.QuickSort(RANDOM_PIVOT) - Error\n";
 	if (StdVectorList<int>::CheckSort<StdVectorList>(1000, QUICKSORT_MEDIAN, 1000)) std::cout << "StdVectorList.QuickSort(MEDIAN_OF_THREE) - Ok\n";
 	else std::cout << "StdVectorList.QuickSort(MEDIAN_OF_THREE) - Error\n";
-	*/
-	/*
 	CircularLinkedList<std::string> list;
 	list.PushBack("6");
 	list.PushBack("55");
@@ -802,7 +761,6 @@ int main() {
 	list.Erase(0);
 	std::cout << list;
 	list.Free();
-	*/
 	unsigned char octet[4];
 	octet[0] = 192;
 	octet[1] = 168;
