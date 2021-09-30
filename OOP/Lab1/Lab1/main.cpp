@@ -4,6 +4,7 @@
 #include<string>
 #include<random>
 #include<ctime>
+#include <bitset>
 
 enum quick_sort_mode { STANDART, RANDOM_PIVOT, MEDIAN_OF_THREE }; // don't know enum classes yet
 enum sort_mode { HEAPSORT, MERGESORT, LIBSORT, QUICKSORT_STANDARD, QUICKSORT_RANDOM, QUICKSORT_MEDIAN, LISTMERGESORT };
@@ -14,16 +15,14 @@ public:
 	virtual size_t Size() const = 0;
 	virtual void PushBack(const T& value) = 0;
 	virtual void PopBack() = 0;
-	//virtual T& operator[] (size_t index) = 0;
 	virtual const T& operator[] (size_t index) const = 0;
 	virtual void Insert(const size_t pos, const T& value) = 0;
 	virtual void Erase(const size_t pos) = 0;
 	virtual void Print() const = 0;
-	virtual void Free() { // ????????
+	virtual void Free() {
 		// do nothing (for library realizations)
 	};
 	virtual void Clear() = 0;
-	// sort maybe
 };
 
 template<typename array_type, typename T>
@@ -402,7 +401,7 @@ public:
 
 template<typename T>
 class CircularLinkedList : List<T> {
-public:
+private:
 	struct Node {
 		T data;
 		Node* next;
@@ -416,7 +415,6 @@ public:
 		}
 	};
 	Node* m_last_node;
-private:
 	size_t m_size;
 public:
 	CircularLinkedList() {
@@ -426,6 +424,10 @@ public:
 
 	size_t Size() const {
 		return m_size;
+	}
+
+	Node** GetLastNodePtr() {
+		return &m_last_node;
 	}
 
 	Node* GetNode(const size_t pos) const {
@@ -658,7 +660,99 @@ std::ostream& operator<<(std::ostream& stream, L<T>& list) { // cannot pass List
 	return stream;
 }
 
+class IPv4 {
+private:
+	std::bitset<32> m_mask;
+	std::bitset<32> m_net_mask;
+	std::bitset<32> m_subnet_mask;
+	//char m_octet[4];
+	unsigned char m_subnet_bits; //-1 not CIDR or subnet mask
+	bool m_is_subnet;
+	void Init(unsigned char octet[4], unsigned char subnet_bits) {
+		m_subnet_bits = subnet_bits;
+		unsigned char cur_bit = 0, host_bits = 32 - subnet_bits;
+		//bool find_1bit = false;
+		m_is_subnet = true;
+		// find mask
+		for (int i = 3; i >= 0; i--) {
+			unsigned char dec = octet[i];
+			for (unsigned char j = 0; j < 8; dec /= 2, cur_bit++, j++) { // write in bitset in reverse order - because bitset handles it(cout)
+				m_mask[cur_bit] = dec % 2;
+				if (m_mask[cur_bit] && cur_bit < host_bits) {
+					m_is_subnet = false;
+				}
+			}
+		}
+		// find net mask
+		m_net_mask.reset();
+		for (unsigned char i = 0; i < subnet_bits; i++) {
+			m_net_mask.set(31-i);
+		}
+		m_subnet_mask = (m_mask & m_net_mask);
+		std::cout << m_mask << "\n" << m_net_mask << "\n" << m_subnet_mask << "\n" << m_is_subnet << "\n------------------\n";
+	}
+public:
+	IPv4() = delete;
+	/*IPv4(char o1, char o2, char o3, char o4) {
+		m_octet[0] = o1;
+		m_octet[1] = o2;
+		m_octet[2] = o3;
+		m_octet[3] = o4;
+		m_is_subnet = true;
+		CalcSubnetBits();
+	}*/
+	IPv4(const char* string) {
+
+	}
+	IPv4(unsigned char octet[4], unsigned char subnet_bits) {
+		Init(octet, subnet_bits);
+	}
+	/*IPv4(char octet[4]) {
+		for (size_t i = 0; i < 4; i++)
+			m_octet[i] = octet[i];
+		CalcSubnetBits();
+	}*/
+	/*IPv4(char subnet_bits)
+		: m_subnet_bits(subnet_bits) {
+		for (size_t i = 0; i < 4; i++)
+			m_octet[i] = 0;
+		m_is_subnet = true;
+	}*/
+private:
+	/*void CalcSubnetBits() {
+		if (!m_is_subnet) return;
+		bool find_1bit = false;
+		int number_of_zeroes = 0;
+		for (int i = 3; !find_1bit && i >= 0; i--) {
+			int dec = m_octet[3];
+			while (dec > 0) {
+				if (dec % 2 != 0) {
+					find_1bit = true;
+					break;
+				}
+				else number_of_zeroes++;
+				dec /= 2;
+			}
+		}
+		m_subnet_bits = 32 - number_of_zeroes;
+	}*/
+public:
+	char GetSubnetBits() {
+		return m_subnet_bits;
+	}
+	bool IsSubnet() {
+		return m_is_subnet;
+	}
+	bool IsInSubnet(IPv4 subnet) {
+		if (!subnet.IsSubnet()) exit(4);
+		//if((net_mask == subnet.net_mask) && (mask & net_mask == subnet.mask & subnet.net_mask))
+		//std::cout << m_subnet_mask << "\n" << subnet.m_mask << "\n" << (m_subnet_bits == subnet.GetSubnetBits()) << " && " << (m_subnet_mask == subnet.m_mask) << "\n";
+		return ((m_subnet_bits == subnet.GetSubnetBits()) && (m_subnet_mask == subnet.m_mask));
+	}
+};
+
 int main() {
+	/*
 	if (CircularLinkedList<int>::CheckSort(1000, 1000)) std::cout << "CircularLinkedList.MergeSort() - Ok\n";
 	else std::cout << "CircularLinkedList.MergeSort() - Error\n";
 	if (ArrayList<int>::CheckSort<ArrayList>(1000, LIBSORT, 1000)) std::cout << "ArrayList.LibSort() - Ok\n";
@@ -685,23 +779,48 @@ int main() {
 	else std::cout << "StdVectorList.QuickSort(RANDOM_PIVOT) - Error\n";
 	if (StdVectorList<int>::CheckSort<StdVectorList>(1000, QUICKSORT_MEDIAN, 1000)) std::cout << "StdVectorList.QuickSort(MEDIAN_OF_THREE) - Ok\n";
 	else std::cout << "StdVectorList.QuickSort(MEDIAN_OF_THREE) - Error\n";
-	CircularLinkedList<std::string> array;
-	array.PushBack("6");
-	array.PushBack("55");
-	array.PushBack("444");
-	std::cout << array;
-	std::cout << array;
-	array.Insert(0, "1");
-	std::cout << array;
-	array.Insert(2, "3");
-	std::cout << array;
-	array.Insert(array.Size() - 1, "200");
-	std::cout << array;
-	array.PopBack();
-	std::cout << array;
-	array.Erase(2);
-	std::cout << array;
-	array.Erase(0);
-	std::cout << array;
-	array.Free();
+	*/
+	/*
+	CircularLinkedList<std::string> list;
+	list.PushBack("6");
+	list.PushBack("55");
+	list.PushBack("444");
+	std::cout << list;
+	std::cout << list;
+	list.Insert(0, "1");
+	std::cout << list;
+	list.Insert(2, "3");
+	std::cout << list;
+	list.Insert(list.Size() - 1, "200");
+	std::cout << list;
+	list.MergeSort(list.GetLastNodePtr(), list.Size());
+	std::cout << list;
+	list.PopBack();
+	std::cout << list;
+	list.Erase(2);
+	std::cout << list;
+	list.Erase(0);
+	std::cout << list;
+	list.Free();
+	*/
+	unsigned char octet[4];
+	octet[0] = 192;
+	octet[1] = 168;
+	octet[2] = 0;
+	octet[3] = 15;
+	IPv4 ip4(octet, 24); //192.168.0.15
+	unsigned char subnet_octet[4];
+	subnet_octet[0] = 192;
+	subnet_octet[1] = 168;
+	subnet_octet[2] = 0;
+	subnet_octet[3] = 0;
+	IPv4 subnet(subnet_octet, 24);
+	std::cout << ip4.IsInSubnet(subnet) << "\n---------------------------\n";
+	unsigned char octet2[4];
+	octet2[0] = 192;
+	octet2[1] = 168;
+	octet2[2] = 2;
+	octet2[3] = 0;
+	IPv4 ip41(octet2, 24);
+	std::cout << ip41.IsInSubnet(subnet) << "\n---------------------------\n";
 }

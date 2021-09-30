@@ -4,4 +4,11 @@
 Cписок2:Адреси \*\*, \*(a), \*(c), \*(d) 
 
 
-Зараз реалізовані всі дії зі списками для всіх реалізацій(array, vector, circular linked list). Merge sort - для всіх реалізацій. Quick sort - для array та vector. 
+#### Зараз реалізовані:
+Всі дії зі списками для всіх реалізацій(array, vector, circular linked list).
+
+Merge sort - для всіх реалізацій.
+
+Quick sort - для array та vector.
+
+Базові функції IPv4.
