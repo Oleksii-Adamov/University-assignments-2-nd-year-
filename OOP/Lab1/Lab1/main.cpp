@@ -5,7 +5,7 @@
 #include<random>
 #include<ctime>
 #include <bitset>
-
+#include <cstdlib>
 enum quick_sort_mode { STANDART, RANDOM_PIVOT, MEDIAN_OF_THREE }; // don't know enum classes yet
 enum sort_mode { HEAPSORT, MERGESORT, LIBSORT, QUICKSORT_STANDARD, QUICKSORT_RANDOM, QUICKSORT_MEDIAN, LISTMERGESORT };
 // abstract interface class
@@ -216,7 +216,8 @@ public:
 };
 
 template<typename T>
-class ArrayList : public List<T>, public ArrayBasedList<T*, T> { // can be more optimized by using std::move, but need to know more about it before using
+class ArrayList : public List<T>, public ArrayBasedList<T*, T> { // can be more optimized by using std::move, but need to know more about it before using.
+	// Also I cannot understand why i cannot access m_size, but can this->m_size. In IPv4 class it works fine.
 private:
 	size_t m_capacity = 0;
 public:
@@ -660,46 +661,39 @@ std::ostream& operator<<(std::ostream& stream, L<T>& list) { // cannot pass List
 	return stream;
 }
 
-class IPv4 {
-private:
-	std::bitset<32> m_mask;
-	std::bitset<32> m_net_mask;
-	std::bitset<32> m_subnet_mask;
-	//char m_octet[4];
-	unsigned char m_subnet_bits; //-1 not CIDR or subnet mask
+template<unsigned char BITS, unsigned char NUMBER_OF_GROUPS>
+class IP {
+protected:
+	std::bitset<BITS> m_mask;
+	std::bitset<BITS> m_net_mask;
+	std::bitset<BITS> m_subnet_mask;
+	unsigned char m_subnet_bits;
 	bool m_is_subnet;
-	void Init(unsigned char octet[4], unsigned char subnet_bits) {
+	const unsigned char NUMBER_OF_BITS_IN_GROUP = BITS / NUMBER_OF_GROUPS;
+	void Init_Net_and_Subnet_Mask() {
+		m_net_mask.reset();
+		for (unsigned char i = 0; i < m_subnet_bits; i++) {
+			m_net_mask.set(BITS - 1 - i);
+		}
+		m_subnet_mask = (m_mask & m_net_mask);
+	}
+	void InitFromArray(unsigned short int octet[NUMBER_OF_GROUPS], unsigned char subnet_bits) {
 		m_subnet_bits = subnet_bits;
-		unsigned char cur_bit = 0, host_bits = 32 - subnet_bits;
-		//bool find_1bit = false;
+		unsigned char cur_bit = 0, host_bits = BITS - subnet_bits;
 		m_is_subnet = true;
 		// find mask
-		for (int i = 3; i >= 0; i--) {
-			unsigned char dec = octet[i];
-			for (unsigned char j = 0; j < 8; dec /= 2, cur_bit++, j++) { // write in bitset in reverse order - because bitset handles it(cout)
+		for (int i = NUMBER_OF_GROUPS - 1; i >= 0; i--) {
+			unsigned short int dec = octet[i];
+			for (unsigned char j = 0; j < NUMBER_OF_BITS_IN_GROUP; dec /= 2, cur_bit++, j++) { // write in bitset in reverse order - because bitset handles it(cout)
 				m_mask[cur_bit] = dec % 2;
 				if (m_mask[cur_bit] && cur_bit < host_bits) {
 					m_is_subnet = false;
 				}
 			}
 		}
-		// find net mask
-		m_net_mask.reset();
-		for (unsigned char i = 0; i < subnet_bits; i++) {
-			m_net_mask.set(31-i);
-		}
-		m_subnet_mask = (m_mask & m_net_mask);
+		Init_Net_and_Subnet_Mask();
 		std::cout << m_mask << "\n" << m_net_mask << "\n" << m_subnet_mask << "\n" << m_is_subnet << "\n------------------\n";
 	}
-public:
-	IPv4() = delete;
-	IPv4(const char* string) {
-
-	}
-	IPv4(unsigned char octet[4], unsigned char subnet_bits) {
-		Init(octet, subnet_bits);
-	}
-private:
 public:
 	char GetSubnetBits() {
 		return m_subnet_bits;
@@ -707,12 +701,48 @@ public:
 	bool IsSubnet() {
 		return m_is_subnet;
 	}
-	bool IsInSubnet(IPv4 subnet) {
+	bool IsInSubnet(IP<BITS, NUMBER_OF_GROUPS> subnet) {
 		if (!subnet.IsSubnet()) exit(4);
 		return ((m_subnet_bits == subnet.GetSubnetBits()) && (m_subnet_mask == subnet.m_mask));
 	}
 };
 
+class IPv4 : public IP<32, 4> {
+public:
+	IPv4() = delete;
+	IPv4(const char* string) {
+		unsigned short octet[4];
+		unsigned char string_pos = 0, num_pos = 0, octet_pos = 0;
+		char a[4];
+		for (; string[string_pos] != '\0'; string_pos++) {
+			if (string[string_pos] == '.' || string[string_pos] == '/') {
+				a[num_pos] = '\0';
+				num_pos = 0;
+				octet[octet_pos] = atoi(a);
+				octet_pos++;
+			}
+			else {
+				a[num_pos] = string[string_pos];
+				num_pos++;
+			}
+		}
+		a[num_pos] = '\0';
+		unsigned char subnetbits = atoi(a);
+		InitFromArray(octet, subnetbits);
+	}
+	IPv4(unsigned short octet[4], unsigned char subnet_bits) {
+		InitFromArray(octet, subnet_bits);
+	}
+};
+
+class IPv6 : public IP<128, 8> {
+public:
+	IPv6() = delete;
+
+	IPv6(unsigned short groups[8], unsigned char subnet_bits) {
+		InitFromArray(groups, subnet_bits);
+	}
+};
 int main() {
 	if (CircularLinkedList<int>::CheckSort(1000, 1000)) std::cout << "CircularLinkedList.MergeSort() - Ok\n";
 	else std::cout << "CircularLinkedList.MergeSort() - Error\n";
@@ -761,24 +791,29 @@ int main() {
 	list.Erase(0);
 	std::cout << list;
 	list.Free();
-	unsigned char octet[4];
+	/*unsigned short octet[4];
 	octet[0] = 192;
 	octet[1] = 168;
 	octet[2] = 0;
-	octet[3] = 15;
-	IPv4 ip4(octet, 24); //192.168.0.15
-	unsigned char subnet_octet[4];
+	octet[3] = 15;*/
+	IPv4 ip4("192.168.0.15/24"); //192.168.0.15
+	unsigned short subnet_octet[4];
 	subnet_octet[0] = 192;
 	subnet_octet[1] = 168;
 	subnet_octet[2] = 0;
 	subnet_octet[3] = 0;
 	IPv4 subnet(subnet_octet, 24);
 	std::cout << ip4.IsInSubnet(subnet) << "\n---------------------------\n";
-	unsigned char octet2[4];
+	unsigned short octet2[4];
 	octet2[0] = 192;
 	octet2[1] = 168;
 	octet2[2] = 2;
 	octet2[3] = 0;
 	IPv4 ip41(octet2, 24);
 	std::cout << ip41.IsInSubnet(subnet) << "\n---------------------------\n";
+	unsigned short group[8];
+	group[0] = 0x1203;
+	group[1] = 0x890f;
+	group[2] = group[3] = group[4] = group[5] = group[6] = group[7] = 0x000;
+	IPv6 ip6(group, 16);
 }
