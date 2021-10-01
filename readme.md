@@ -15,4 +15,4 @@ Quick sort - для array та vector.
 
 Перевірка належності до підмережі.
 
-Parsing IPv4.
+Parsing IPv4, IPv6.

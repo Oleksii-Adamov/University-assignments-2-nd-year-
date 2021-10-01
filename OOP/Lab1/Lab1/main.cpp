@@ -75,7 +75,7 @@ public:
 private:
 	void Merge(int begin_pos, int end_pos, int border) {
 		T* new_array = new T[m_size];
-		int i;
+		size_t i;
 		for (i = 0; i < begin_pos; i++) {
 			new_array[i] = m_array[i];
 		}
@@ -244,7 +244,7 @@ public:
 	}
 
 	void Print() const override{
-		for (int i = 0; i < this->m_size; i++) {
+		for (size_t i = 0; i < this->m_size; i++) {
 			std::cout << (this->m_array)[i] << "\n";
 		}
 		std::cout << "---------------------------------\n";
@@ -263,7 +263,7 @@ private:
 	void Reallocate(size_t new_size) { // new_size > m_size
 		if (new_size <= this->m_size) return;
 		T* new_array = new T[new_size];
-		for (int i = 0; i < this->m_size; i++) {
+		for (size_t i = 0; i < this->m_size; i++) {
 			new_array[i] = (this->m_array)[i];
 		}
 		if (this->m_size > 0)
@@ -343,7 +343,7 @@ public:
 	}
 
 	void Print() const override {
-		for (int i = 0; i < this->m_size; i++) {
+		for (size_t i = 0; i < this->m_size; i++) {
 			std::cout << (this->m_array)[i] << "\n";
 		}
 		std::cout << "---------------------------------\n";
@@ -351,7 +351,7 @@ public:
 
 private:
 	void Replace_buffer(T* buffer) override {
-		for (int i = 0; i < this->m_size; i++) {
+		for (size_t i = 0; i < this->m_size; i++) {
 			(this->m_array)[i] = buffer[i];
 		}
 		delete[] buffer;
@@ -435,7 +435,7 @@ public:
 		if (pos > m_size - 1) {
 			exit(3);
 		}
-		int cur_pos = 0;
+		size_t cur_pos = 0;
 		Node* cur_node = m_last_node->next;
 		while (cur_pos < pos) {
 			cur_pos++;
@@ -640,7 +640,7 @@ public:
 		CircularLinkedList<T> list;
 		while (number_of_tests--) {
 			srand(time(0));
-			for (int i = 0; i < size; i++) {
+			for (size_t i = 0; i < size; i++) {
 				list.PushBack(rand());
 			}
 			list.MergeSort(&list.m_last_node, list.Size());
@@ -710,7 +710,7 @@ public:
 class IPv4 : public IP<32, 4> {
 public:
 	IPv4() = delete;
-	IPv4(const char* string) {
+	IPv4(const char* string) { // from string
 		unsigned short octet[4];
 		unsigned char string_pos = 0, num_pos = 0, octet_pos = 0;
 		char a[4];
@@ -734,13 +734,48 @@ public:
 		InitFromArray(octet, subnet_bits);
 	}
 };
-
+unsigned short ToHexDigit(char hex_digit) {
+	if (hex_digit >= '0' && hex_digit <= '9') return (hex_digit - '0');
+	if (hex_digit >= 'a' && hex_digit <= 'f') return (hex_digit - 'a');
+	if (hex_digit >= 'A' && hex_digit <= 'F') return (hex_digit - 'A');
+	exit(5);
+}
+unsigned short FromHexStringToDecInt(const char* hex, unsigned short size) {
+	unsigned short result = 0;
+	unsigned short multiplier = 1;
+	for (short i = size - 1; i >= 0; i--) {
+		result += multiplier * ToHexDigit(hex[i]);
+		multiplier *= 16;
+	}
+	return result;
+}
 class IPv6 : public IP<128, 8> {
 public:
 	IPv6() = delete;
 
 	IPv6(unsigned short groups[8], unsigned char subnet_bits) {
 		InitFromArray(groups, subnet_bits);
+	}
+	
+	IPv6(const char* string) { // from string
+		unsigned short groups[8];
+		unsigned char string_pos = 0, num_pos = 0, groups_pos = 0;
+		char a[5];
+		for (; string[string_pos] != '\0'; string_pos++) {
+			if (string[string_pos] == ':' || string[string_pos] == '/') {
+				a[num_pos] = '\0';
+				groups[groups_pos] = FromHexStringToDecInt(a, num_pos);
+				num_pos = 0;
+				groups_pos++;
+			}
+			else {
+				a[num_pos] = string[string_pos];
+				num_pos++;
+			}
+		}
+		a[num_pos] = '\0';
+		unsigned char subnetbits = atoi(a);
+		InitFromArray(groups, subnetbits);
 	}
 };
 int main() {
@@ -815,5 +850,11 @@ int main() {
 	group[0] = 0x1203;
 	group[1] = 0x890f;
 	group[2] = group[3] = group[4] = group[5] = group[6] = group[7] = 0x000;
-	IPv6 ip6(group, 16);
+	IPv6 ip6("1203:890f:0000:0000:0000:0000:0000:0000/16");
 }
+/*
+00010010000000111000100100001111000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+11111111111111110000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+00010010000000110000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+0
+*/
