@@ -661,6 +661,23 @@ std::ostream& operator<<(std::ostream& stream, L<T>& list) { // cannot pass List
 	return stream;
 }
 
+unsigned short ToHexDigit(char hex_digit) {
+	if (hex_digit >= '0' && hex_digit <= '9') return (hex_digit - '0');
+	if (hex_digit >= 'a' && hex_digit <= 'f') return (hex_digit - 'a' + 10);
+	if (hex_digit >= 'A' && hex_digit <= 'F') return (hex_digit - 'A' + 10);
+	exit(5);
+}
+int FromHexStringToDecInt(const char* hex) {
+	size_t size = strlen(hex);
+	int result = 0;
+	int multiplier = 1;
+	for (short i = size - 1; i >= 0; i--) {
+		result += multiplier * ToHexDigit(hex[i]);
+		multiplier *= 16;
+	}
+	return result;
+}
+
 template<unsigned char BITS, unsigned char NUMBER_OF_GROUPS>
 class IP {
 protected:
@@ -694,6 +711,26 @@ protected:
 		Init_Net_and_Subnet_Mask();
 		std::cout << m_mask << "\n" << m_net_mask << "\n" << m_subnet_mask << "\n" << m_is_subnet << "\n------------------\n";
 	}
+	void InitFromString(const char* string, const char separetor, int(*convert_group_from_string_func)(const char*)) { // from string
+		unsigned short groups[NUMBER_OF_GROUPS];
+		unsigned char string_pos = 0, num_pos = 0, groups_pos = 0;
+		char a[5];
+		for (; string[string_pos] != '\0'; string_pos++) {
+			if (string[string_pos] == separetor || string[string_pos] == '/') {
+				a[num_pos] = '\0';
+				groups[groups_pos] = convert_group_from_string_func(a);
+				num_pos = 0;
+				groups_pos++;
+			}
+			else {
+				a[num_pos] = string[string_pos];
+				num_pos++;
+			}
+		}
+		a[num_pos] = '\0';
+		unsigned char subnetbits = atoi(a);
+		InitFromArray(groups, subnetbits);
+	}
 public:
 	char GetSubnetBits() {
 		return m_subnet_bits;
@@ -711,44 +748,13 @@ class IPv4 : public IP<32, 4> {
 public:
 	IPv4() = delete;
 	IPv4(const char* string) { // from string
-		unsigned short octet[4];
-		unsigned char string_pos = 0, num_pos = 0, octet_pos = 0;
-		char a[4];
-		for (; string[string_pos] != '\0'; string_pos++) {
-			if (string[string_pos] == '.' || string[string_pos] == '/') {
-				a[num_pos] = '\0';
-				num_pos = 0;
-				octet[octet_pos] = atoi(a);
-				octet_pos++;
-			}
-			else {
-				a[num_pos] = string[string_pos];
-				num_pos++;
-			}
-		}
-		a[num_pos] = '\0';
-		unsigned char subnetbits = atoi(a);
-		InitFromArray(octet, subnetbits);
+		InitFromString(string, '.', atoi);
 	}
 	IPv4(unsigned short octet[4], unsigned char subnet_bits) {
 		InitFromArray(octet, subnet_bits);
 	}
 };
-unsigned short ToHexDigit(char hex_digit) {
-	if (hex_digit >= '0' && hex_digit <= '9') return (hex_digit - '0');
-	if (hex_digit >= 'a' && hex_digit <= 'f') return (hex_digit - 'a');
-	if (hex_digit >= 'A' && hex_digit <= 'F') return (hex_digit - 'A');
-	exit(5);
-}
-unsigned short FromHexStringToDecInt(const char* hex, unsigned short size) {
-	unsigned short result = 0;
-	unsigned short multiplier = 1;
-	for (short i = size - 1; i >= 0; i--) {
-		result += multiplier * ToHexDigit(hex[i]);
-		multiplier *= 16;
-	}
-	return result;
-}
+
 class IPv6 : public IP<128, 8> {
 public:
 	IPv6() = delete;
@@ -756,26 +762,8 @@ public:
 	IPv6(unsigned short groups[8], unsigned char subnet_bits) {
 		InitFromArray(groups, subnet_bits);
 	}
-	
 	IPv6(const char* string) { // from string
-		unsigned short groups[8];
-		unsigned char string_pos = 0, num_pos = 0, groups_pos = 0;
-		char a[5];
-		for (; string[string_pos] != '\0'; string_pos++) {
-			if (string[string_pos] == ':' || string[string_pos] == '/') {
-				a[num_pos] = '\0';
-				groups[groups_pos] = FromHexStringToDecInt(a, num_pos);
-				num_pos = 0;
-				groups_pos++;
-			}
-			else {
-				a[num_pos] = string[string_pos];
-				num_pos++;
-			}
-		}
-		a[num_pos] = '\0';
-		unsigned char subnetbits = atoi(a);
-		InitFromArray(groups, subnetbits);
+		InitFromString(string, ':', FromHexStringToDecInt);
 	}
 };
 int main() {
@@ -826,12 +814,7 @@ int main() {
 	list.Erase(0);
 	std::cout << list;
 	list.Free();
-	/*unsigned short octet[4];
-	octet[0] = 192;
-	octet[1] = 168;
-	octet[2] = 0;
-	octet[3] = 15;*/
-	IPv4 ip4("192.168.0.15/24"); //192.168.0.15
+	IPv4 ip4("192.168.0.15/24");
 	unsigned short subnet_octet[4];
 	subnet_octet[0] = 192;
 	subnet_octet[1] = 168;
@@ -839,22 +822,13 @@ int main() {
 	subnet_octet[3] = 0;
 	IPv4 subnet(subnet_octet, 24);
 	std::cout << ip4.IsInSubnet(subnet) << "\n---------------------------\n";
-	unsigned short octet2[4];
-	octet2[0] = 192;
-	octet2[1] = 168;
-	octet2[2] = 2;
-	octet2[3] = 0;
-	IPv4 ip41(octet2, 24);
+	IPv4 ip41("192.168.2.0/24");
 	std::cout << ip41.IsInSubnet(subnet) << "\n---------------------------\n";
 	unsigned short group[8];
 	group[0] = 0x1203;
 	group[1] = 0x890f;
 	group[2] = group[3] = group[4] = group[5] = group[6] = group[7] = 0x000;
-	IPv6 ip6("1203:890f:0000:0000:0000:0000:0000:0000/16");
+	IPv6 ip6_subnet(group, 32); // 1203:890f:0000:0000:0000:0000:0000:0000/32
+	IPv6 ip6("1203:890f:1000:0000:0030:0000:0ff0:0000/32");
+	std::cout << ip6.IsInSubnet(ip6_subnet) << "\n---------------------------\n";
 }
-/*
-00010010000000111000100100001111000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
-11111111111111110000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
-00010010000000110000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
-0
-*/
