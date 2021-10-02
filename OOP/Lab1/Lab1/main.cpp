@@ -6,7 +6,7 @@
 #include<ctime>
 #include <bitset>
 #include <cstdlib>
-enum quick_sort_mode { STANDART, RANDOM_PIVOT, MEDIAN_OF_THREE }; // don't know enum classes yet
+enum quick_sort_mode { STANDARD, RANDOM_PIVOT, MEDIAN_OF_THREE }; // don't know enum classes yet
 enum sort_mode { HEAPSORT, MERGESORT, LIBSORT, QUICKSORT_STANDARD, QUICKSORT_RANDOM, QUICKSORT_MEDIAN, LISTMERGESORT };
 // abstract interface class
 template<typename T>
@@ -19,10 +19,15 @@ public:
 	virtual void Insert(const size_t pos, const T& value) = 0;
 	virtual void Erase(const size_t pos) = 0;
 	virtual void Print() const = 0;
+	virtual void Sort() = 0;
 	virtual void Free() {
 		// do nothing (for library realizations)
 	};
 	virtual void Clear() = 0;
+	/*friend std::ostream& operator<<(std::ostream& stream, List<T>& list) {
+		list.Print();
+		return stream;
+	}*/
 };
 
 template<typename array_type, typename T>
@@ -32,9 +37,13 @@ protected:
 	size_t m_size = 0;
 public:
 	virtual size_t Size() const = 0;
+	virtual const T& operator[] (size_t index) const = 0;
+	virtual size_t upper_bound(T key) = 0;
+	virtual T& operator[] (size_t index) = 0;
 private:
 	virtual void Replace_buffer(T* buffer) = 0;
 public:
+	
 	void HeapSort(int begin_pos, int end_pos)
 	{
 		if (begin_pos < 0 || end_pos > Size()) exit(1);
@@ -130,7 +139,8 @@ private:
 				std::swap(m_array[r], m_array[mid]);
 			break;
 		}
-		int pivot = m_array[r], left_border = l - 1, right_border = r; // a[l...left_border] = a[right_border...r] = pivot
+		T pivot = m_array[r];
+		int left_border = l - 1, right_border = r; // a[l...left_border] = a[right_border...r] = pivot
 		while (true) {
 			do {
 				i++;
@@ -191,7 +201,7 @@ public:
 				list.LibSort(from, to);
 				break;
 			case QUICKSORT_STANDARD:
-				list.QuickSort(from, to, STANDART);
+				list.QuickSort(from, to, STANDARD);
 				break;
 			case QUICKSORT_RANDOM:
 				list.QuickSort(from, to, RANDOM_PIVOT);
@@ -213,6 +223,7 @@ public:
 		list.Free();
 		return true;
 	}
+	
 };
 
 template<typename T>
@@ -225,7 +236,21 @@ public:
 	ArrayList() {
 		Reallocate(2);
 	}
-
+	ArrayList& operator=(const ArrayList& other)
+	{
+		// Guard self assignment
+		if (this == &other)
+			return *this;
+		m_capacity = other.m_capacity;
+		this->m_size = other.m_size;
+		this->m_array = other.m_array;
+		return *this;
+	}
+	ArrayList(const ArrayList& other) {
+		m_capacity = other.m_capacity;
+		this->m_size = other.m_size;
+		this->m_array = other.m_array;
+	}
 	ArrayList(size_t n) {
 		Reallocate(n);
 		this->m_size = n;
@@ -249,6 +274,14 @@ public:
 		}
 		std::cout << "---------------------------------\n";
 	}
+
+	void Sort() override {
+		this->QuickSort(0, this->m_size, STANDARD);
+	}
+
+	size_t upper_bound(T key) {
+		return (std::upper_bound(this->m_array, this->m_array + this->m_size, key) - this->m_array);
+	}
 private:
 
 	void Replace_buffer(T* buffer) override {
@@ -263,6 +296,7 @@ private:
 	void Reallocate(size_t new_size) { // new_size > m_size
 		if (new_size <= this->m_size) return;
 		T* new_array = new T[new_size];
+		//int* new_array = new int[new_size];
 		for (size_t i = 0; i < this->m_size; i++) {
 			new_array[i] = (this->m_array)[i];
 		}
@@ -289,7 +323,7 @@ public:
 		(this->m_size)--;
 	}
 	
-	T& operator[] (size_t index) /*override*/ {
+	T& operator[] (size_t index) override {
 		return (this->m_array)[index];
 	}
 
@@ -349,6 +383,10 @@ public:
 		std::cout << "---------------------------------\n";
 	}
 
+	void Sort() override {
+		this->QuickSort(0, this->m_size, STANDARD);
+	}
+
 private:
 	void Replace_buffer(T* buffer) override {
 		for (size_t i = 0; i < this->m_size; i++) {
@@ -371,7 +409,7 @@ private:
 		return index < this->m_size;
 	}
 public:
-	T& operator[] (size_t index) /*override*/{
+	T& operator[] (size_t index) override{
 		if (!check_access(index)) {
 			exit(3);
 		}
@@ -397,6 +435,10 @@ public:
 
 	void LibSort(size_t begin_pos, size_t end_pos/*, bool(*comp)(const T& x, const T& y)*/) override {
 		std::sort((this->m_array).begin() + begin_pos, (this->m_array).begin() + end_pos/*, comp*/);
+	}
+
+	size_t upper_bound(T key) {
+		return (std::upper_bound((this->m_array).begin(), (this->m_array).begin() + this->m_size, key) - (this->m_array).begin());
 	}
 };
 
@@ -540,6 +582,9 @@ public:
 	void Clear() override {
 		Free();
 	}
+	void Sort() override {
+		MergeSort(&m_last_node, m_size);
+	}
 private:
 	/*void Split(Node* source, Node** front_ptr, Node** back_ptr)
 	{
@@ -678,12 +723,13 @@ int FromHexStringToDecInt(const char* hex) {
 	return result;
 }
 
-template<unsigned char BITS, unsigned char NUMBER_OF_GROUPS>
+template<unsigned char BITS, unsigned char NUMBER_OF_GROUPS, char SEPARATOR>
 class IP {
 protected:
 	std::bitset<BITS> m_mask;
 	std::bitset<BITS> m_net_mask;
 	std::bitset<BITS> m_subnet_mask;
+	unsigned short m_groups[NUMBER_OF_GROUPS];
 	unsigned char m_subnet_bits;
 	bool m_is_subnet;
 	const unsigned char NUMBER_OF_BITS_IN_GROUP = BITS / NUMBER_OF_GROUPS;
@@ -694,13 +740,14 @@ protected:
 		}
 		m_subnet_mask = (m_mask & m_net_mask);
 	}
-	void InitFromArray(unsigned short int octet[NUMBER_OF_GROUPS], unsigned char subnet_bits) {
+	void InitFromArray(unsigned short int groups[NUMBER_OF_GROUPS], unsigned char subnet_bits) {
+		for (unsigned char i = 0; i < NUMBER_OF_GROUPS; i++) m_groups[i] = groups[i];
 		m_subnet_bits = subnet_bits;
 		unsigned char cur_bit = 0, host_bits = BITS - subnet_bits;
 		m_is_subnet = true;
 		// find mask
 		for (int i = NUMBER_OF_GROUPS - 1; i >= 0; i--) {
-			unsigned short int dec = octet[i];
+			unsigned short int dec = groups[i];
 			for (unsigned char j = 0; j < NUMBER_OF_BITS_IN_GROUP; dec /= 2, cur_bit++, j++) { // write in bitset in reverse order - because bitset handles it(cout)
 				m_mask[cur_bit] = dec % 2;
 				if (m_mask[cur_bit] && cur_bit < host_bits) {
@@ -711,12 +758,12 @@ protected:
 		Init_Net_and_Subnet_Mask();
 		std::cout << m_mask << "\n" << m_net_mask << "\n" << m_subnet_mask << "\n" << m_is_subnet << "\n------------------\n";
 	}
-	void InitFromString(const char* string, const char separetor, int(*convert_group_from_string_func)(const char*)) { // from string
+	void InitFromString(const char* string, /*const char separetor,*/ int(*convert_group_from_string_func)(const char*)) { // from string
 		unsigned short groups[NUMBER_OF_GROUPS];
 		unsigned char string_pos = 0, num_pos = 0, groups_pos = 0;
 		char a[5];
 		for (; string[string_pos] != '\0'; string_pos++) {
-			if (string[string_pos] == separetor || string[string_pos] == '/') {
+			if (string[string_pos] == SEPARATOR || string[string_pos] == '/') {
 				a[num_pos] = '\0';
 				groups[groups_pos] = convert_group_from_string_func(a);
 				num_pos = 0;
@@ -732,40 +779,136 @@ protected:
 		InitFromArray(groups, subnetbits);
 	}
 public:
+	std::bitset<BITS> GetMask() {
+		return m_mask;
+	}
+	std::bitset<BITS> GetNetMask() {
+		return m_net_mask;
+	}
+	std::bitset<BITS> GetSubnetMask() {
+		return m_subnet_mask;
+	}
 	char GetSubnetBits() {
 		return m_subnet_bits;
 	}
 	bool IsSubnet() {
 		return m_is_subnet;
 	}
-	bool IsInSubnet(IP<BITS, NUMBER_OF_GROUPS> subnet) {
+	bool IsInSubnet(IP<BITS, NUMBER_OF_GROUPS, SEPARATOR> subnet) {
 		if (!subnet.IsSubnet()) exit(4);
 		return ((m_subnet_bits == subnet.GetSubnetBits()) && (m_subnet_mask == subnet.m_mask));
 	}
+	friend std::ostream& operator<<(std::ostream& stream, IP<BITS, NUMBER_OF_GROUPS, SEPARATOR>& ip) { // << for IP using IP.Print()
+		for (unsigned char i = 0; i < NUMBER_OF_GROUPS; i++) {
+			stream << ip.m_groups[i] << SEPARATOR;
+		}
+		stream << '/' << (int) ip.m_subnet_bits;
+		return stream;
+	}
+	friend inline bool operator< (const IP& lhs, const IP& rhs) {
+		if (lhs.m_subnet_bits > rhs.m_subnet_bits) return false;
+		if (lhs.m_subnet_bits < rhs.m_subnet_bits) return true;
+		for (int i = BITS - 1; i >= 0; i--) {
+			if (lhs.m_mask[i] > rhs.m_mask[i]) return false;
+			if (lhs.m_mask[i] < rhs.m_mask[i]) return true;
+		}
+		return false;
+	}
+	inline bool operator< (const IP& other) {
+		if (m_subnet_bits > other.m_subnet_bits) return false;
+		if (m_subnet_bits < other.m_subnet_bits) return true;
+		for (int i = BITS - 1; i >= 0; i--) {
+			if (m_mask[i] > other.m_mask[i]) return false;
+			if (m_mask[i] < other.m_mask[i]) return true;
+		}
+		return false;
+	}
+	inline bool operator== (const IP& other) {
+		if (m_subnet_bits != other.m_subnet_bits) return false;
+		for (int i = BITS - 1; i >= 0; i--) {
+			if (m_mask[i] > other.m_mask[i] || m_mask[i] < other.m_mask[i]) return false;
+		}
+		return true;
+	}
+	inline bool operator> (const IP& other) {
+		if (m_subnet_bits < other.m_subnet_bits) return false;
+		if (m_subnet_bits > other.m_subnet_bits) return true;
+		for (int i = BITS - 1; i >= 0; i--) {
+			if (m_mask[i] > other.m_mask[i]) return true;
+			if (m_mask[i] < other.m_mask[i]) return false;
+		}
+		return false;
+	}
+	IP() {
+
+	}
+	IP(const IP& other) {
+		m_mask = other.m_mask;
+		m_net_mask = other.m_net_mask;
+		m_subnet_mask = other.m_subnet_mask;
+		m_subnet_bits = other.m_subnet_bits;
+		m_is_subnet = other.m_is_subnet;
+		for (unsigned char i = 0; i < NUMBER_OF_GROUPS; i++) {
+			m_groups[i] = other.m_groups[i];
+		}
+	}
+	IP& operator=(const IP& other)
+	{
+		// Guard self assignment
+		if (this == &other)
+			return *this;
+		m_mask = other.m_mask;
+		m_net_mask = other.m_net_mask;
+		m_subnet_mask = other.m_subnet_mask;
+		m_subnet_bits = other.m_subnet_bits;
+		m_is_subnet = other.m_is_subnet;
+		for (unsigned char i = 0; i < NUMBER_OF_GROUPS; i++) {
+			m_groups[i] = other.m_groups[i];
+		}
+		return *this;
+	}
 };
 
-class IPv4 : public IP<32, 4> {
+class IPv4 : public IP<32, 4, '.'> {
 public:
-	IPv4() = delete;
+	IPv4() {
+
+	}
 	IPv4(const char* string) { // from string
-		InitFromString(string, '.', atoi);
+		InitFromString(string,/* '.', */atoi);
 	}
 	IPv4(unsigned short octet[4], unsigned char subnet_bits) {
 		InitFromArray(octet, subnet_bits);
 	}
 };
 
-class IPv6 : public IP<128, 8> {
+class IPv6 : public IP<128, 8, ':'> {
 public:
-	IPv6() = delete;
-
+	
 	IPv6(unsigned short groups[8], unsigned char subnet_bits) {
 		InitFromArray(groups, subnet_bits);
 	}
 	IPv6(const char* string) { // from string
-		InitFromString(string, ':', FromHexStringToDecInt);
+		InitFromString(string, /*':',*/ FromHexStringToDecInt);
+	}
+	IPv6() {
+
 	}
 };
+
+template<class IP, typename array_type>
+ArrayList<IP> FindFreeIPRange(ArrayBasedList<array_type, IP>& list, IP subnet, bool is_sorted) {
+	if (!subnet.IsSubnet()) exit(4);
+	ArrayList<IP> result;
+	size_t size = list.Size();
+	if (!is_sorted) list.QuickSort(0, size, STANDARD);
+	size_t index = list.upper_bound(subnet);
+	result.PushBack(subnet);
+	for (size_t i = index; i < size && subnet.GetSubnetMask() == list[i].GetSubnetMask(); i++) {
+		result.PushBack(list[i]);
+	}
+	return result;
+}
 int main() {
 	if (CircularLinkedList<int>::CheckSort(1000, 1000)) std::cout << "CircularLinkedList.MergeSort() - Ok\n";
 	else std::cout << "CircularLinkedList.MergeSort() - Error\n";
@@ -793,6 +936,7 @@ int main() {
 	else std::cout << "StdVectorList.QuickSort(RANDOM_PIVOT) - Error\n";
 	if (StdVectorList<int>::CheckSort<StdVectorList>(1000, QUICKSORT_MEDIAN, 1000)) std::cout << "StdVectorList.QuickSort(MEDIAN_OF_THREE) - Ok\n";
 	else std::cout << "StdVectorList.QuickSort(MEDIAN_OF_THREE) - Error\n";
+	
 	CircularLinkedList<std::string> list;
 	list.PushBack("6");
 	list.PushBack("55");
@@ -806,6 +950,7 @@ int main() {
 	list.Insert(list.Size() - 1, "200");
 	std::cout << list;
 	list.MergeSort(list.GetLastNodePtr(), list.Size());
+	//list.QuickSort(0, list.Size(), STANDARD);
 	std::cout << list;
 	list.PopBack();
 	std::cout << list;
@@ -825,10 +970,30 @@ int main() {
 	IPv4 ip41("192.168.2.0/24");
 	std::cout << ip41.IsInSubnet(subnet) << "\n---------------------------\n";
 	unsigned short group[8];
-	group[0] = 0x1203;
+	/*group[0] = 0x1203;
 	group[1] = 0x890f;
 	group[2] = group[3] = group[4] = group[5] = group[6] = group[7] = 0x000;
 	IPv6 ip6_subnet(group, 32); // 1203:890f:0000:0000:0000:0000:0000:0000/32
 	IPv6 ip6("1203:890f:1000:0000:0030:0000:0ff0:0000/32");
-	std::cout << ip6.IsInSubnet(ip6_subnet) << "\n---------------------------\n";
+	std::cout << ip6.IsInSubnet(ip6_subnet) << "\n---------------------------\n";*/
+	ArrayList<IPv4> ip_list;
+	ip_list.PushBack(ip4);
+	//ip_list.PushBack(subnet);
+	ip_list.PushBack("192.168.2.9/24");
+	ip_list.PushBack("192.168.0.230/24");
+	ip_list.PushBack("192.168.0.9/12");
+	ip_list.PushBack("192.168.0.230/30");
+	ip_list.PushBack("192.168.0.1/24");
+	//std::vector< std::pair<IPv4, IPv4> >* free_range_ptr = FindFreeIPRange<IPv4>(list);
+	//std::vector< std::pair<IPv4, IPv4> > free_range = *free_range_ptr;
+	std::cout << ip_list;
+	//ip_list.QuickSort(0, 1, STANDARD);
+	//std::cout << ip_list;
+	//ArrayList<IPv4> ip_list2 = ip_list;
+	//ArrayList<IPv4>* free_range_ptr = FindFreeIPRange<IPv4, IPv4*>(ip_list, subnet, true);
+	//ArrayList<IPv4> free_range = *(free_range_ptr);
+	ArrayList<IPv4> free_range = FindFreeIPRange<IPv4, IPv4*>(ip_list, subnet, false);
+	std::cout << ip_list;
+	std::cout << free_range;
 }
+// fix print, fix assign
