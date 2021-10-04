@@ -20,6 +20,7 @@ public:
 	virtual void Erase(const size_t pos) = 0;
 	virtual void Print() const = 0;
 	virtual void Sort() = 0;
+	virtual void Sort(bool(*is_lesser)(const T& x, const T& y)) = 0;
 	virtual void Free() {
 		// do nothing (for library realizations)
 	};
@@ -76,15 +77,18 @@ private:
 	}
 public:
 	void MergeSort(int begin_pos, int end_pos) {
+		MergeSort(begin_pos, end_pos, [](const T& x, const T& y) { return x < y;  });
+	}
+	void MergeSort(int begin_pos, int end_pos, bool(*is_lesser)(const T& x, const T& y)) {
 		if (end_pos - begin_pos < 2) return;
 		int mid = (end_pos - begin_pos - 1) / 2 + begin_pos;
 		MergeSort(begin_pos, mid + 1);
 		MergeSort(mid + 1, end_pos);
-		Merge(begin_pos, end_pos, mid + 1);
+		Merge(begin_pos, end_pos, mid + 1, is_lesser);
 	}
 
 private:
-	void Merge(int begin_pos, int end_pos, int border) {
+	void Merge(int begin_pos, int end_pos, int border, bool(*is_lesser)(const T& x, const T& y)) {
 		T* new_array = new T[m_size];
 		size_t i;
 		for (i = 0; i < begin_pos; i++) {
@@ -92,7 +96,7 @@ private:
 		}
 		int a_p = begin_pos, b_p = border;
 		for (i = begin_pos; a_p < border && b_p < end_pos; i++) {
-			if (m_array[a_p] < m_array[b_p]) {
+			if (/*m_array[a_p] < m_array[b_p]*/is_lesser(m_array[a_p], m_array[b_p])) {
 				new_array[i] = m_array[a_p];
 				a_p++;
 			}
@@ -115,16 +119,22 @@ private:
 public:
 	// 3-way quick-sort using Hoare’s partition
 	void QuickSort(int l, int r, quick_sort_mode mode) {
+		QuickSort(l, r, mode, [](const T& x, const T& y) { return x < y;  });
+	}
+	void QuickSort(int l, int r) {
+		QuickSort(l, r, STANDARD, [](const T& x, const T& y) { return x < y;  });
+	}
+	void QuickSort(int l, int r, quick_sort_mode mode, bool(*is_lesser)(const T& x, const T& y)) {
 		if (r <= l)
 			return;
 		int i, j;
-		partition( l, r, i, j, mode);
+		partition( l, r, i, j, mode, is_lesser);
 		QuickSort(l, j, mode);
 		QuickSort(i, r, mode);
 	}
 private:
 	// Hoare’s partition
-	void partition(int l, int r, int& i, int& j, quick_sort_mode mode)   
+	void partition(int l, int r, int& i, int& j, quick_sort_mode mode, bool(*is_lesser)(const T& x, const T& y))
 	{
 		i = l - 1, j = r;
 		switch (mode) {
@@ -133,11 +143,11 @@ private:
 			break;
 		case MEDIAN_OF_THREE:
 			int mid = (l + r) / 2;
-			if (m_array[l] > m_array[mid])
+			if (/*m_array[l] > m_array[mid]*/is_lesser(m_array[mid], m_array[l]))
 				std::swap(m_array[l], m_array[mid]);
-			if (m_array[r] < m_array[l])
+			if (/*m_array[r] < m_array[l]*/is_lesser(m_array[r], m_array[l]))
 				std::swap(m_array[r], m_array[l]);
-			if (m_array[mid] < m_array[r])
+			if (/*m_array[mid] < m_array[r]*/is_lesser(m_array[mid], m_array[r]))
 				std::swap(m_array[r], m_array[mid]);
 			break;
 		}
@@ -146,10 +156,10 @@ private:
 		while (true) {
 			do {
 				i++;
-			} while (m_array[i] < pivot);
+			} while (/*m_array[i] < pivot*/is_lesser(m_array[i], pivot));
 			do {
 				j--;
-			} while (j > l && pivot < m_array[j]);
+			} while (j > l && /*pivot < m_array[j]*/is_lesser(pivot, m_array[j]));
 			if (i >= j)
 				break;
 			std::swap(m_array[i], m_array[j]);
@@ -173,15 +183,17 @@ private:
 		}
 	}
 public:
-	virtual void LibSort(size_t begin_pos, size_t end_pos/*, bool(*comp)(const T& x, const T& y)*/) = 0;
-
-	bool IsSorted(int from, int to) {
+	virtual void LibSort(size_t begin_pos, size_t end_pos, bool(*is_lesser)(const T& x, const T& y)) = 0;
+	virtual void LibSort(size_t begin_pos, size_t end_pos) = 0;
+	bool IsSorted(int from, int to, bool(*is_lesser)(const T& x, const T& y)) {
 		for (int i = from + 1; i < to; i++) {
-			if (m_array[i] < m_array[i - 1]) return false;
+			if (/*m_array[i] < m_array[i - 1]*/is_lesser(m_array[i], m_array[i - 1])) return false;
 		}
 		return true;
 	}
-
+	bool IsSorted(int from, int to) {
+		return IsSorted(from, to, [](const T& x, const T& y) { return x < y;  });
+	}
 	template<template<typename> class list_type>
 	static bool CheckSort(int size, sort_mode sort, int number_of_tests) {
 		list_type<int> list;
@@ -277,10 +289,12 @@ public:
 		std::cout << "---------------------------------\n";
 	}
 
-	void Sort() override {
-		this->QuickSort(0, this->m_size, STANDARD);
+	void Sort(bool(*is_lesser)(const T& x, const T& y)) override {
+		this->QuickSort(0, this->m_size, STANDARD, is_lesser);
 	}
-
+	void Sort() override {
+		Sort([](const T& x, const T& y) { return x < y;  });
+	}
 	size_t upper_bound(T key) {
 		return (std::upper_bound(this->m_array, this->m_array + this->m_size, key) - this->m_array);
 	}
@@ -352,8 +366,12 @@ public:
 		PopBack();
 	}
 
-	void LibSort(size_t begin_pos, size_t end_pos/*, bool(*comp)(const T& x, const T& y)*/) override {
-		std::sort((this->m_array) + begin_pos, (this->m_array) + end_pos/*, comp*/);
+	void LibSort(size_t begin_pos, size_t end_pos, bool(*is_lesser)(const T& x, const T& y)) override {
+		std::sort((this->m_array) + begin_pos, (this->m_array) + end_pos, is_lesser);
+	}
+
+	void LibSort(size_t begin_pos, size_t end_pos) override {
+		LibSort(begin_pos, end_pos, [](const T& x, const T& y) { return x < y;  });
 	}
 };
 
@@ -384,9 +402,11 @@ public:
 		}
 		std::cout << "---------------------------------\n";
 	}
-
+	void Sort(bool(*is_lesser)(const T& x, const T& y)) override {
+		this->QuickSort(0, this->m_size, STANDARD, is_lesser);
+	}
 	void Sort() override {
-		this->QuickSort(0, this->m_size, STANDARD);
+		Sort([](const T& x, const T& y) { return x < y;  });
 	}
 
 private:
@@ -435,8 +455,12 @@ public:
 		(this->m_size)--;
 	}
 
-	void LibSort(size_t begin_pos, size_t end_pos/*, bool(*comp)(const T& x, const T& y)*/) override {
-		std::sort((this->m_array).begin() + begin_pos, (this->m_array).begin() + end_pos/*, comp*/);
+	void LibSort(size_t begin_pos, size_t end_pos, bool(*is_lesser)(const T& x, const T& y)) override {
+		std::sort((this->m_array).begin() + begin_pos, (this->m_array).begin() + end_pos, is_lesser);
+	}
+
+	void LibSort(size_t begin_pos, size_t end_pos) override {
+		LibSort(begin_pos, end_pos, [](const T& x, const T& y) { return x < y;  });
 	}
 
 	size_t upper_bound(T key) {
@@ -584,31 +608,13 @@ public:
 	void Clear() override {
 		Free();
 	}
+	void Sort(bool(*is_lesser)(const T& x, const T& y)) override {
+		MergeSort(&m_last_node, m_size, is_lesser);
+	}
 	void Sort() override {
-		MergeSort(&m_last_node, m_size);
+		Sort([](const T& x, const T& y) { return x < y;  });
 	}
 private:
-	/*void Split(Node* source, Node** front_ptr, Node** back_ptr)
-	{
-		Node* fast;
-		Node* slow;
-		slow = source;
-		fast = source->next;
-
-		while (fast != NULL) {
-			fast = fast->next;
-			if (fast != NULL) {
-				slow = slow->next;
-				fast = fast->next;
-			}
-		}
-
-		/* 'slow' is before the midpoint in the list, so split it in two
-		at that point. 
-		*front_ptr = source;
-		*back_ptr = slow->next;
-		slow->next = NULL;
-	}*/
 	void Split(Node* source_last, Node** front_last_ptr, Node** mid_last_ptr)
 	{
 		Node* fast;
@@ -628,23 +634,23 @@ private:
 		fast->next = slow->next;
 		slow->next = first;
 	}
-	Node* MergeStep(Node* front, size_t front_size, Node* mid, size_t mid_size) {
+	Node* MergeStep(Node* front, size_t front_size, Node* mid, size_t mid_size, bool(*is_lesser)(const T& x, const T& y)) {
 		Node* result = nullptr;
 		if (front_size == 0) return mid;
 		if (mid_size == 0) return front;
-		if (front->data < mid->data) {
+		if (/*front->data < mid->data*/ is_lesser(front->data, mid->data)) {
 			result = front;
-			result->next = MergeStep(front->next, front_size - 1, mid, mid_size);
+			result->next = MergeStep(front->next, front_size - 1, mid, mid_size, is_lesser);
 		}
 		else {
 			result = mid;
-			result->next = MergeStep(front, front_size, mid->next, mid_size - 1);
+			result->next = MergeStep(front, front_size, mid->next, mid_size - 1, is_lesser);
 		}
 		return result;
 	}
-	Node* Merge(Node* front_last, size_t front_size, Node* mid_last, size_t mid_size)
+	Node* Merge(Node* front_last, size_t front_size, Node* mid_last, size_t mid_size, bool(*is_lesser)(const T& x, const T& y))
 	{
-		Node* result_head = MergeStep(front_last->next, front_size, mid_last->next, mid_size);
+		Node* result_head = MergeStep(front_last->next, front_size, mid_last->next, mid_size, is_lesser);
 		Node* result_tail = result_head;
 		for (size_t i = 0; i < front_size + mid_size - 1; i++) {
 			result_tail = result_tail->next;
@@ -653,7 +659,7 @@ private:
 		return result_tail;
 	}
 public:
-	void MergeSort(Node** last_ptr, size_t size)
+	void MergeSort(Node** last_ptr, size_t size, bool(*is_lesser)(const T& x, const T& y))
 	{
 		Node* last = *last_ptr;
 		Node* front_last;
@@ -663,24 +669,30 @@ public:
 		}
 		Split(last, &front_last, &mid_last);
 		size_t size_front = size / 2, size_mid = size - size_front;
-		MergeSort(&front_last, size_front);
-		MergeSort(&mid_last, size_mid);
-		*last_ptr = Merge(front_last, size_front, mid_last, size_mid);
+		MergeSort(&front_last, size_front, is_lesser);
+		MergeSort(&mid_last, size_mid, is_lesser);
+		*last_ptr = Merge(front_last, size_front, mid_last, size_mid, is_lesser);
+	}
+	void MergeSort(Node** last_ptr, size_t size) {
+		MergeSort(last_ptr, size, [](const T& x, const T& y) { return x < y;  });
 	}
 private:
-	bool is_sorted() {
+	bool is_sorted(bool(*is_lesser)(const T& x, const T& y)) {
 		if (m_size < 2) {
 			return true;
 		}
 		Node* cur_node = m_last_node->next, * next_node = cur_node->next;
 		do {
-			if (next_node->data < cur_node->data) {
+			if (/*next_node->data < cur_node->data*/ is_lesser(next_node->data, cur_node->data)) {
 				return false;
 			}
 			cur_node = cur_node->next;
 			next_node = cur_node->next;
 		} while (next_node != m_last_node->next);
 		return true;
+	}
+	bool is_sorted() {
+		return is_sorted([](const T& x, const T& y) { return x < y;  });
 	}
 public:
 	static bool CheckSort(size_t size, size_t number_of_tests) {
@@ -903,7 +915,7 @@ ArrayList<IP> FindFreeIPRange(ArrayBasedList<array_type, IP>& list, IP subnet, b
 	if (!subnet.IsSubnet()) exit(4);
 	ArrayList<IP> result;
 	size_t size = list.Size();
-	if (!is_sorted) list.QuickSort(0, size, STANDARD); // if one not sorted element could find place for it and insert but it would also take n*log(n), and I think with all optimizations to quick sort, quick sort could be even faster
+	if (!is_sorted) list.QuickSort(0, size); // if one not sorted element could find place for it and insert but it would also take n*log(n), and I think with all optimizations to quick sort, quick sort could be even faster
 	size_t index = list.upper_bound(subnet);
 	result.PushBack(subnet);
 	for (size_t i = index; i < size && subnet.GetSubnetMask() == list[i].GetSubnetMask(); i++) {
