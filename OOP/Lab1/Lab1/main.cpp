@@ -7,7 +7,7 @@
 #include <bitset>
 #include <cstdlib>
 enum quick_sort_mode { STANDARD, RANDOM_PIVOT, MEDIAN_OF_THREE }; // don't know enum classes yet
-enum sort_mode { HEAPSORT, MERGESORT, LIBSORT, QUICKSORT_STANDARD, QUICKSORT_RANDOM, QUICKSORT_MEDIAN, LISTMERGESORT };
+enum sort_mode { HEAPSORT, MERGESORT, LIBSORT, QUICKSORT_STANDARD, QUICKSORT_RANDOM, QUICKSORT_MEDIAN, LISTMERGESORT, LISTQUICKSORT};
 // abstract interface class
 template<typename T>
 class List {
@@ -695,14 +695,24 @@ private:
 		return is_sorted([](const T& x, const T& y) { return x < y;  });
 	}
 public:
-	static bool CheckSort(size_t size, size_t number_of_tests) {
+	static bool CheckSort(size_t size, size_t number_of_tests, sort_mode mode) {
 		CircularLinkedList<T> list;
 		while (number_of_tests--) {
 			srand(time(0));
 			for (size_t i = 0; i < size; i++) {
 				list.PushBack(rand());
 			}
-			list.MergeSort(&list.m_last_node, list.Size());
+			switch (mode)
+			{
+			case LISTMERGESORT:
+				list.MergeSort(&list.m_last_node, list.Size());
+				break;
+			case LISTQUICKSORT:
+				list.QuickSort();
+				break;
+			default:
+				break;
+			}
 			if (!list.is_sorted()) {
 				std::cout << "Wrong sort\n";
 				list.Print();
@@ -712,10 +722,77 @@ public:
 		}
 		return true;
 	}
+
+	Node* Partition(Node* end, Node** newEnd, bool(*is_lesser)(const T& x, const T& y))
+	{
+		if (end->next == end) { // size 1
+			*newEnd = end;
+			return end;
+		}
+		Node* pivot = end, * newHead = nullptr, * prev = nullptr, * cur = end->next, * tail = pivot;
+		while (cur != pivot) {
+			if (/*cur->data < pivot->data*/ is_lesser(cur->data, pivot->data)) {
+				if (newHead == nullptr)
+					newHead = cur;
+
+				prev = cur;
+				cur = cur->next;
+			}
+			else
+			{
+				if (prev != nullptr)
+					prev->next = cur->next;
+				struct Node* tmp = cur->next;
+				cur->next = pivot;
+				tail->next = cur;
+				tail = cur;
+				cur = tmp;
+			}
+		}
+		if (newHead == nullptr)
+			newHead = pivot;
+		if (pivot == tail) newEnd = nullptr;
+		else {
+			tail->next = pivot->next;
+			(*newEnd) = tail;
+		}
+		pivot->next = newHead;
+		return pivot;
+	}
+	Node* QuickSortRecur(Node* end, bool(*is_lesser)(const T& x, const T& y))
+	{
+		if (end == nullptr || end->next == end) return end;
+		Node* newEnd = nullptr;
+		Node* pivot	= Partition(end, &newEnd, is_lesser);
+		Node* newHead = pivot->next;
+		if (newHead != pivot) {
+			Node* newHeadTail = newHead;
+			while (newHeadTail->next != pivot)
+				newHeadTail = newHeadTail->next;
+			newHeadTail->next = newHead;
+			newHeadTail = QuickSortRecur(newHeadTail, is_lesser);
+			newHead = newHeadTail->next;
+			newHeadTail->next = pivot;
+		}
+		if (newEnd == nullptr) newEnd = pivot;
+		else {
+			newEnd = QuickSortRecur(newEnd, is_lesser);
+			pivot->next = newEnd->next;
+		}
+		newEnd->next = newHead;
+		return newEnd;
+	}
+	void QuickSort(bool(*is_lesser)(const T& x, const T& y))
+	{
+		m_last_node = QuickSortRecur(m_last_node, is_lesser);
+	}
+	void QuickSort() {
+		QuickSort([](const T& x, const T& y) { return x < y;  });
+	}
 };
 
 template<typename T, template<typename> class L>
-std::ostream& operator<<(std::ostream& stream, L<T>& list) { // cannot pass List because it's abstract - tso there is no polymorphism for interaces? Tried List<T>& list
+std::ostream& operator<<(std::ostream& stream, L<T>& list) { // cannot pass List<T>& list . Why?
 	list.Print();
 	return stream;
 }
@@ -924,8 +1001,10 @@ ArrayList<IP> FindFreeIPRange(ArrayBasedList<array_type, IP>& list, IP subnet, b
 	return result;
 }
 int main() {
-	if (CircularLinkedList<int>::CheckSort(1000, 1000)) std::cout << "CircularLinkedList.MergeSort() - Ok\n";
+	if (CircularLinkedList<int>::CheckSort(1000, 1000, LISTMERGESORT)) std::cout << "CircularLinkedList.MergeSort() - Ok\n";
 	else std::cout << "CircularLinkedList.MergeSort() - Error\n";
+	if (CircularLinkedList<int>::CheckSort(1000, 1000, LISTQUICKSORT)) std::cout << "CircularLinkedList.QuickSort() - Ok\n";
+	else std::cout << "CircularLinkedList.QuickSort() - Error\n";
 	if (ArrayList<int>::CheckSort<ArrayList>(1000, LIBSORT, 1000)) std::cout << "ArrayList.LibSort() - Ok\n";
 	else std::cout << "ArrayList.LibSort() - Error\n";
 	if (ArrayList<int>::CheckSort<ArrayList>(1000, HEAPSORT, 1000)) std::cout << "ArrayList.HeapSort() - Ok\n";
@@ -950,7 +1029,6 @@ int main() {
 	else std::cout << "StdVectorList.QuickSort(RANDOM_PIVOT) - Error\n";
 	if (StdVectorList<int>::CheckSort<StdVectorList>(1000, QUICKSORT_MEDIAN, 1000)) std::cout << "StdVectorList.QuickSort(MEDIAN_OF_THREE) - Ok\n";
 	else std::cout << "StdVectorList.QuickSort(MEDIAN_OF_THREE) - Error\n";
-	
 	CircularLinkedList<std::string> list;
 	list.PushBack("6");
 	list.PushBack("55");
