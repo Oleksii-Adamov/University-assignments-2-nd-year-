@@ -43,33 +43,35 @@ public:
 private:
 	virtual void Replace_buffer(T* buffer) = 0;
 public:
-	
-	void HeapSort(int begin_pos, int end_pos)
+	void HeapSort(int begin_pos, int end_pos) {
+		HeapSort(begin_pos, end_pos, [](const T& x, const T& y) { return x < y; });
+	}
+	void HeapSort(int begin_pos, int end_pos, bool(*is_lesser)(const T& x, const T& y))
 	{
 		if (begin_pos < 0 || end_pos > Size()) exit(1);
 		for (int i = (end_pos - begin_pos) / 2 + begin_pos - 1; i >= begin_pos; i--)
-			Heapify(end_pos - begin_pos, i - begin_pos, begin_pos);
+			Heapify(end_pos - begin_pos, i - begin_pos, begin_pos, is_lesser);
 		for (int i = end_pos - 1; i >= begin_pos; i--)
 		{
 			std::swap(m_array[begin_pos], m_array[i]);
-			Heapify(i - begin_pos, 0, begin_pos);
+			Heapify(i - begin_pos, 0, begin_pos, is_lesser);
 		}
 	}
 private:
-	void Heapify(int end_pos, int root, int begin_pos)
+	void Heapify(int end_pos, int root, int begin_pos, bool(*is_lesser)(const T& x, const T& y))
 	{
 		int largest = root;
 		int l = 2 * root + 1;
 		int r = 2 * root + 2;
-		if (l < end_pos && m_array[l + begin_pos] > m_array[largest + begin_pos])
+		if (l < end_pos && /*m_array[l + begin_pos] > m_array[largest + begin_pos]*/ is_lesser(m_array[largest + begin_pos], m_array[l + begin_pos]))
 			largest = l;
 
-		if (r < end_pos && m_array[r + begin_pos] > m_array[largest + begin_pos])
+		if (r < end_pos && /*m_array[r + begin_pos] > m_array[largest + begin_pos]*/ is_lesser(m_array[largest + begin_pos], m_array[r + begin_pos]))
 			largest = r;
 		if (largest != root)
 		{
 			std::swap(m_array[root + begin_pos], m_array[largest + begin_pos]);
-			Heapify(end_pos, largest, begin_pos);
+			Heapify(end_pos, largest, begin_pos, is_lesser);
 		}
 	}
 public:
@@ -901,7 +903,7 @@ ArrayList<IP> FindFreeIPRange(ArrayBasedList<array_type, IP>& list, IP subnet, b
 	if (!subnet.IsSubnet()) exit(4);
 	ArrayList<IP> result;
 	size_t size = list.Size();
-	if (!is_sorted) list.QuickSort(0, size, STANDARD);
+	if (!is_sorted) list.QuickSort(0, size, STANDARD); // if one not sorted element could find place for it and insert but it would also take n*log(n), and I think with all optimizations to quick sort, quick sort could be even faster
 	size_t index = list.upper_bound(subnet);
 	result.PushBack(subnet);
 	for (size_t i = index; i < size && subnet.GetSubnetMask() == list[i].GetSubnetMask(); i++) {
