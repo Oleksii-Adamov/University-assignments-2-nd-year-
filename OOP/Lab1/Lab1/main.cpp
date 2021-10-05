@@ -23,12 +23,8 @@ public:
 	virtual void Sort(bool(*is_lesser)(const T& x, const T& y)) = 0;
 	virtual void Free() {
 		// do nothing (for library realizations)
-	};
+	}
 	virtual void Clear() = 0;
-	/*friend std::ostream& operator<<(std::ostream& stream, List<T>& list) {
-		list.Print();
-		return stream;
-	}*/
 };
 
 template<typename array_type, typename T>
@@ -39,8 +35,13 @@ protected:
 public:
 	virtual size_t Size() const = 0;
 	virtual const T& operator[] (size_t index) const = 0;
-	virtual size_t upper_bound(T key) = 0;
 	virtual T& operator[] (size_t index) = 0;
+	virtual size_t upper_bound(T key) = 0;
+	virtual void PushBack(const T& value) = 0;
+	virtual void PopBack() = 0;
+	virtual void Insert(const size_t pos, const T& value) = 0;
+	virtual void Erase(const size_t pos) = 0;
+	virtual void Print() const = 0;
 private:
 	virtual void Replace_buffer(T* buffer) = 0;
 public:
@@ -64,10 +65,10 @@ private:
 		int largest = root;
 		int l = 2 * root + 1;
 		int r = 2 * root + 2;
-		if (l < end_pos && /*m_array[l + begin_pos] > m_array[largest + begin_pos]*/ is_lesser(m_array[largest + begin_pos], m_array[l + begin_pos]))
+		if (l < end_pos && is_lesser(m_array[largest + begin_pos], m_array[l + begin_pos]))
 			largest = l;
 
-		if (r < end_pos && /*m_array[r + begin_pos] > m_array[largest + begin_pos]*/ is_lesser(m_array[largest + begin_pos], m_array[r + begin_pos]))
+		if (r < end_pos && is_lesser(m_array[largest + begin_pos], m_array[r + begin_pos]))
 			largest = r;
 		if (largest != root)
 		{
@@ -96,7 +97,7 @@ private:
 		}
 		int a_p = begin_pos, b_p = border;
 		for (i = begin_pos; a_p < border && b_p < end_pos; i++) {
-			if (/*m_array[a_p] < m_array[b_p]*/is_lesser(m_array[a_p], m_array[b_p])) {
+			if (is_lesser(m_array[a_p], m_array[b_p])) {
 				new_array[i] = m_array[a_p];
 				a_p++;
 			}
@@ -143,11 +144,11 @@ private:
 			break;
 		case MEDIAN_OF_THREE:
 			int mid = (l + r) / 2;
-			if (/*m_array[l] > m_array[mid]*/is_lesser(m_array[mid], m_array[l]))
+			if (is_lesser(m_array[mid], m_array[l]))
 				std::swap(m_array[l], m_array[mid]);
-			if (/*m_array[r] < m_array[l]*/is_lesser(m_array[r], m_array[l]))
+			if (is_lesser(m_array[r], m_array[l]))
 				std::swap(m_array[r], m_array[l]);
-			if (/*m_array[mid] < m_array[r]*/is_lesser(m_array[mid], m_array[r]))
+			if (is_lesser(m_array[mid], m_array[r]))
 				std::swap(m_array[r], m_array[mid]);
 			break;
 		}
@@ -156,10 +157,10 @@ private:
 		while (true) {
 			do {
 				i++;
-			} while (/*m_array[i] < pivot*/is_lesser(m_array[i], pivot));
+			} while (is_lesser(m_array[i], pivot));
 			do {
 				j--;
-			} while (j > l && /*pivot < m_array[j]*/is_lesser(pivot, m_array[j]));
+			} while (j > l && is_lesser(pivot, m_array[j]));
 			if (i >= j)
 				break;
 			std::swap(m_array[i], m_array[j]);
@@ -187,7 +188,7 @@ public:
 	virtual void LibSort(size_t begin_pos, size_t end_pos) = 0;
 	bool IsSorted(int from, int to, bool(*is_lesser)(const T& x, const T& y)) {
 		for (int i = from + 1; i < to; i++) {
-			if (/*m_array[i] < m_array[i - 1]*/is_lesser(m_array[i], m_array[i - 1])) return false;
+			if (is_lesser(m_array[i], m_array[i - 1])) return false;
 		}
 		return true;
 	}
@@ -270,7 +271,7 @@ public:
 		this->m_size = n;
 	}
 
-	~ArrayList() { // need to manage memory by your own because otherwise it won't be possible to pass it into functions
+	~ArrayList() { // need to manage memory by your own because otherwise it won't be possible to pass it into functions (Free method)
 		// do nothing
 	}
 
@@ -312,7 +313,6 @@ private:
 	void Reallocate(size_t new_size) { // new_size > m_size
 		if (new_size <= this->m_size) return;
 		T* new_array = new T[new_size];
-		//int* new_array = new int[new_size];
 		for (size_t i = 0; i < this->m_size; i++) {
 			new_array[i] = (this->m_array)[i];
 		}
@@ -514,6 +514,9 @@ public:
 	const T& operator[] (size_t index) const override {
 		return (GetNode(index))->data;
 	}
+	~CircularLinkedList() { // need to manually call Free
+		// do nothing
+	}
 private:
 	void InsertInEmpty(const T& value)
 	{
@@ -609,10 +612,10 @@ public:
 		Free();
 	}
 	void Sort(bool(*is_lesser)(const T& x, const T& y)) override {
-		MergeSort(&m_last_node, m_size, is_lesser);
+		MergeSort(is_lesser);
 	}
 	void Sort() override {
-		Sort([](const T& x, const T& y) { return x < y;  });
+		MergeSort();
 	}
 private:
 	void Split(Node* source_last, Node** front_last_ptr, Node** mid_last_ptr)
@@ -638,7 +641,7 @@ private:
 		Node* result = nullptr;
 		if (front_size == 0) return mid;
 		if (mid_size == 0) return front;
-		if (/*front->data < mid->data*/ is_lesser(front->data, mid->data)) {
+		if (is_lesser(front->data, mid->data)) {
 			result = front;
 			result->next = MergeStep(front->next, front_size - 1, mid, mid_size, is_lesser);
 		}
@@ -676,6 +679,12 @@ public:
 	void MergeSort(Node** last_ptr, size_t size) {
 		MergeSort(last_ptr, size, [](const T& x, const T& y) { return x < y;  });
 	}
+	void MergeSort() {
+		MergeSort(&m_last_node, m_size);
+	}
+	void MergeSort(bool(*is_lesser)(const T& x, const T& y)) {
+		MergeSort(&m_last_node, m_size, is_lesser);
+	}
 private:
 	bool is_sorted(bool(*is_lesser)(const T& x, const T& y)) {
 		if (m_size < 2) {
@@ -683,7 +692,7 @@ private:
 		}
 		Node* cur_node = m_last_node->next, * next_node = cur_node->next;
 		do {
-			if (/*next_node->data < cur_node->data*/ is_lesser(next_node->data, cur_node->data)) {
+			if (is_lesser(next_node->data, cur_node->data)) {
 				return false;
 			}
 			cur_node = cur_node->next;
@@ -731,7 +740,7 @@ public:
 		}
 		Node* pivot = end, * newHead = nullptr, * prev = nullptr, * cur = end->next, * tail = pivot;
 		while (cur != pivot) {
-			if (/*cur->data < pivot->data*/ is_lesser(cur->data, pivot->data)) {
+			if (is_lesser(cur->data, pivot->data)) {
 				if (newHead == nullptr)
 					newHead = cur;
 
@@ -847,9 +856,9 @@ protected:
 			}
 		}
 		Init_Net_and_Subnet_Mask();
-		std::cout << m_mask << "\n" << m_net_mask << "\n" << m_subnet_mask << "\n" << m_is_subnet << "\n------------------\n";
+		//std::cout << m_mask << "\n" << m_net_mask << "\n" << m_subnet_mask << "\n" << m_is_subnet << "\n------------------\n";
 	}
-	void InitFromString(const char* string, /*const char separetor,*/ int(*convert_group_from_string_func)(const char*)) { // from string
+	void InitFromString(const char* string, int(*convert_group_from_string_func)(const char*)) { // from string
 		unsigned short groups[NUMBER_OF_GROUPS];
 		unsigned char string_pos = 0, num_pos = 0, groups_pos = 0;
 		char a[5];
@@ -888,13 +897,6 @@ public:
 	bool IsInSubnet(IP<BITS, NUMBER_OF_GROUPS, SEPARATOR> subnet) {
 		if (!subnet.IsSubnet()) exit(4);
 		return ((m_subnet_bits == subnet.GetSubnetBits()) && (m_subnet_mask == subnet.m_mask));
-	}
-	friend std::ostream& operator<<(std::ostream& stream, IP<BITS, NUMBER_OF_GROUPS, SEPARATOR>& ip) { // << for IP using IP.Print()
-		for (unsigned char i = 0; i < NUMBER_OF_GROUPS; i++) {
-			stream << ip.m_groups[i] << SEPARATOR;
-		}
-		stream << '/' << (int) ip.m_subnet_bits;
-		return stream;
 	}
 	friend inline bool operator< (const IP& lhs, const IP& rhs) {
 		if (lhs.m_subnet_bits > rhs.m_subnet_bits) return false;
@@ -966,10 +968,17 @@ public:
 
 	}
 	IPv4(const char* string) { // from string
-		InitFromString(string,/* '.', */atoi);
+		InitFromString(string, atoi);
 	}
 	IPv4(unsigned short octet[4], unsigned char subnet_bits) {
 		InitFromArray(octet, subnet_bits);
+	}
+	friend std::ostream& operator<<(std::ostream& stream, const IPv4& ip) {
+		for (unsigned char i = 0; i < 4; i++) {
+			stream << ip.m_groups[i] << '.';
+		}
+		stream << '/' << (int)ip.m_subnet_bits;
+		return stream;
 	}
 };
 
@@ -980,27 +989,33 @@ public:
 		InitFromArray(groups, subnet_bits);
 	}
 	IPv6(const char* string) { // from string
-		InitFromString(string, /*':',*/ FromHexStringToDecInt);
+		InitFromString(string, FromHexStringToDecInt);
 	}
 	IPv6() {
 
 	}
+	friend std::ostream& operator<<(std::ostream& stream, const IPv6& ip) {
+		for (unsigned char i = 0; i < 8; i++) {
+			stream << std::hex << ip.m_groups[i] << ':';
+		}
+		stream << '/' << std::dec << (int)ip.m_subnet_bits;
+		return stream;
+	}
 };
 
 template<class IP, typename array_type>
-ArrayList<IP> FindFreeIPRange(ArrayBasedList<array_type, IP>& list, IP subnet, bool is_sorted) {
+void FindFreeIPRange(ArrayBasedList<array_type, IP>& list, IP subnet, bool is_sorted, ArrayBasedList<array_type, IP>& dest) {
 	if (!subnet.IsSubnet()) exit(4);
-	ArrayList<IP> result;
 	size_t size = list.Size();
-	if (!is_sorted) list.QuickSort(0, size); // if one not sorted element could find place for it and insert but it would also take n*log(n), and I think with all optimizations to quick sort, quick sort could be even faster
+	if (!is_sorted) list.QuickSort(0, size - 1); // if one not sorted element could find place for it and insert but it would also take n*log(n), and I think with all optimizations to quick sort, quick sort could be even faster
 	size_t index = list.upper_bound(subnet);
-	result.PushBack(subnet);
+	dest.PushBack(subnet);
 	for (size_t i = index; i < size && subnet.GetSubnetMask() == list[i].GetSubnetMask(); i++) {
-		result.PushBack(list[i]);
+		dest.PushBack(list[i]);
 	}
-	return result;
 }
-int main() {
+void CheckAllSorts() {
+	std::cout << "Checking sorts using random data\n";
 	if (CircularLinkedList<int>::CheckSort(1000, 1000, LISTMERGESORT)) std::cout << "CircularLinkedList.MergeSort() - Ok\n";
 	else std::cout << "CircularLinkedList.MergeSort() - Error\n";
 	if (CircularLinkedList<int>::CheckSort(1000, 1000, LISTQUICKSORT)) std::cout << "CircularLinkedList.QuickSort() - Ok\n";
@@ -1029,28 +1044,39 @@ int main() {
 	else std::cout << "StdVectorList.QuickSort(RANDOM_PIVOT) - Error\n";
 	if (StdVectorList<int>::CheckSort<StdVectorList>(1000, QUICKSORT_MEDIAN, 1000)) std::cout << "StdVectorList.QuickSort(MEDIAN_OF_THREE) - Ok\n";
 	else std::cout << "StdVectorList.QuickSort(MEDIAN_OF_THREE) - Error\n";
+}
+void DemoCircualar() {
 	CircularLinkedList<std::string> list;
+	std::cout << "----------------------------\nCircular Linked List with strings\n---------------------\nPushBack(6), PushBack(55), PushBack(444)\n";
 	list.PushBack("6");
 	list.PushBack("55");
 	list.PushBack("444");
 	std::cout << list;
-	std::cout << list;
+	std::cout << "Insert(0, \"1\")\n";
 	list.Insert(0, "1");
 	std::cout << list;
+	std::cout << "Insert(2, \"3\")\n";
 	list.Insert(2, "3");
 	std::cout << list;
+	std::cout << "Insert(list.Size() - 1, \"200\")\n";
 	list.Insert(list.Size() - 1, "200");
 	std::cout << list;
-	list.MergeSort(list.GetLastNodePtr(), list.Size());
-	//list.QuickSort(0, list.Size(), STANDARD);
+	std::cout << "QuickSort()\n";
+	list.QuickSort();
 	std::cout << list;
+	std::cout << "PopBack()\n";
 	list.PopBack();
 	std::cout << list;
+	std::cout << "Erase(2)\n";
 	list.Erase(2);
 	std::cout << list;
+	std::cout << "Erase(0)\n";
 	list.Erase(0);
 	std::cout << list;
 	list.Free();
+}
+void DemoIPv4() {
+	std::cout << "ArrayList for IPv4\n";
 	IPv4 ip4("192.168.0.15/24");
 	unsigned short subnet_octet[4];
 	subnet_octet[0] = 192;
@@ -1058,34 +1084,65 @@ int main() {
 	subnet_octet[2] = 0;
 	subnet_octet[3] = 0;
 	IPv4 subnet(subnet_octet, 24);
-	std::cout << ip4.IsInSubnet(subnet) << "\n---------------------------\n";
+	if (ip4.IsInSubnet(subnet)) {
+		std::cout << ip4 << " is in subnet " << subnet << "\n---------------------------\n";
+	}
 	IPv4 ip41("192.168.2.0/24");
-	std::cout << ip41.IsInSubnet(subnet) << "\n---------------------------\n";
-	unsigned short group[8];
-	/*group[0] = 0x1203;
-	group[1] = 0x890f;
-	group[2] = group[3] = group[4] = group[5] = group[6] = group[7] = 0x000;
-	IPv6 ip6_subnet(group, 32); // 1203:890f:0000:0000:0000:0000:0000:0000/32
-	IPv6 ip6("1203:890f:1000:0000:0030:0000:0ff0:0000/32");
-	std::cout << ip6.IsInSubnet(ip6_subnet) << "\n---------------------------\n";*/
+	if (!ip41.IsInSubnet(subnet)) {
+		std::cout << ip41 << " is NOT in subnet " << subnet << "\n---------------------------\n";
+	}
 	ArrayList<IPv4> ip_list;
 	ip_list.PushBack(ip4);
-	//ip_list.PushBack(subnet);
 	ip_list.PushBack("192.168.2.9/24");
 	ip_list.PushBack("192.168.0.230/24");
 	ip_list.PushBack("192.168.0.9/12");
 	ip_list.PushBack("192.168.0.230/30");
 	ip_list.PushBack("192.168.0.1/24");
-	//std::vector< std::pair<IPv4, IPv4> >* free_range_ptr = FindFreeIPRange<IPv4>(list);
-	//std::vector< std::pair<IPv4, IPv4> > free_range = *free_range_ptr;
+	std::cout << "IP list:\n";
 	std::cout << ip_list;
-	//ip_list.QuickSort(0, 1, STANDARD);
-	//std::cout << ip_list;
-	//ArrayList<IPv4> ip_list2 = ip_list;
-	//ArrayList<IPv4>* free_range_ptr = FindFreeIPRange<IPv4, IPv4*>(ip_list, subnet, true);
-	//ArrayList<IPv4> free_range = *(free_range_ptr);
-	ArrayList<IPv4> free_range = FindFreeIPRange<IPv4, IPv4*>(ip_list, subnet, false);
+	//ArrayList<IPv4> free_range = FindFreeIPRange<IPv4, IPv4*>(ip_list, subnet, false);
+	ArrayList<IPv4> free_range;
+	FindFreeIPRange<IPv4, IPv4*>(ip_list, subnet, false, free_range);
+	std::cout << "Sorted IP list\n";
 	std::cout << ip_list;
+	std::cout << "Free IP range of " << subnet << "\n";
 	std::cout << free_range;
+	ip_list.Free();
 }
-// fix print, fix assign
+void DemoIPv6() {
+	std::cout << "StdVectorList for IPv6\n";
+	IPv6 ip6("1203:890f:1000:0000:0030:0000:0ff0:0000/32");
+	IPv6 subnet("1203:890f:0000:0000:0000:0000:0000:0000/32");
+	if (ip6.IsInSubnet(subnet)) {
+		std::cout << ip6 << " is in subnet " << subnet << "\n---------------------------\n";
+	}
+	IPv6 ip61("1003:890f:1000:0000:0030:0000:0000:0000/32");
+	if (!ip61.IsInSubnet(subnet)) {
+		std::cout << ip61 << " is NOT in subnet " << subnet << "\n---------------------------\n";
+	}
+	StdVectorList<IPv6> ip_list;
+	ip_list.PushBack(ip6);
+	ip_list.PushBack(subnet);
+	ip_list.PushBack(ip61);
+	ip_list.PushBack("1000:000:0000:0000:0000:0000:0000:0000/15");
+	ip_list.PushBack("1203:890f:1f3c:0000:0000:3000:00f0:0000/66");
+	ip_list.PushBack("1203:890f:0000:0000:0000:ffff:0000:0000/32");
+	std::cout << "IP list:\n";
+	std::cout << ip_list;
+	//StdVectorList<IPv6> free_range = FindFreeIPRange<IPv6, std::vector<IPv6>>(ip_list, subnet, false);
+	StdVectorList<IPv6> free_range;
+	FindFreeIPRange<IPv6, std::vector<IPv6>>(ip_list, subnet, false, free_range);
+	std::cout << "Sorted IP list\n";
+	std::cout << ip_list;
+	std::cout << "Free IP range of " << subnet << "\n";
+	std::cout << free_range;
+	ip_list.Free();
+}
+int main() {
+	// check sorts
+	CheckAllSorts();
+	// demo
+	DemoCircualar();
+	DemoIPv4();
+	DemoIPv6();
+}
