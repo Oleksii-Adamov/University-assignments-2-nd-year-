@@ -19,6 +19,10 @@ public:
 private slots:
     void on_actionBack_triggered();
 
+    void on_pushButtonAdd_clicked();
+
+    void on_pushButtonStartTimer_clicked();
+
 private:
     Ui::ToDoListWindow *ui;
     QStringListModel *m_list_model;

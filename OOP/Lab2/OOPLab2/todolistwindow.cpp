@@ -10,7 +10,6 @@ ToDoListWindow::ToDoListWindow(QWidget *parent) :
     this->setWindowModality(Qt::WindowModal);
     this->setWindowState(Qt::WindowMaximized);
     this->setBackgroundRole(QPalette::Window);
-    this->setCentralWidget(ui->listView);
 }
 
 ToDoListWindow::~ToDoListWindow()
@@ -29,5 +28,17 @@ void ToDoListWindow::setList(QSharedPointer<QStringList> list) {
 void ToDoListWindow::on_actionBack_triggered()
 {
     this->close();
+}
+
+
+void ToDoListWindow::on_pushButtonAdd_clicked()
+{
+
+}
+
+
+void ToDoListWindow::on_pushButtonStartTimer_clicked()
+{
+
 }
 
