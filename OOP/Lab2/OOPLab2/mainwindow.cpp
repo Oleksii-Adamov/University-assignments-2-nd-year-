@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-
+#include "todolistwindow.h"
+#include <QSharedPointer>
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -23,7 +24,13 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_pushButton_today_clicked()
 {
-    // open today_window
+    // open todolistwindow with today list
+    QSharedPointer<QStringList> list = QSharedPointer<QStringList>(new QStringList);
+    list->append("OOP");
+    list->append("DB");
+    ToDoListWindow* new_window  = new ToDoListWindow(this);
+    new_window->setList(list);
+    new_window->show();
 }
 
 

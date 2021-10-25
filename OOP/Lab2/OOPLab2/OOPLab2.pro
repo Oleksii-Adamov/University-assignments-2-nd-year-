@@ -10,13 +10,16 @@ CONFIG += c++11
 
 SOURCES += \
     main.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    todolistwindow.cpp
 
 HEADERS += \
-    mainwindow.h
+    mainwindow.h \
+    todolistwindow.h
 
 FORMS += \
-    mainwindow.ui
+    mainwindow.ui \
+    todolistwindow.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

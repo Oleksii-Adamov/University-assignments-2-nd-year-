@@ -58,7 +58,7 @@
      <number>0</number>
     </property>
     <item>
-     <widget class="QPushButton" name="pushButton_2">
+     <widget class="QPushButton" name="pushButton_today">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
         <horstretch>0</horstretch>
@@ -66,12 +66,12 @@
        </sizepolicy>
       </property>
       <property name="text">
-       <string>PushButton</string>
+       <string>Today tasks</string>
       </property>
      </widget>
     </item>
     <item>
-     <widget class="QPushButton" name="pushButton_3">
+     <widget class="QPushButton" name="pushButton_tomorrow">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
         <horstretch>0</horstretch>
@@ -79,12 +79,12 @@
        </sizepolicy>
       </property>
       <property name="text">
-       <string>PushButton</string>
+       <string>Tomorrow tasks</string>
       </property>
      </widget>
     </item>
     <item>
-     <widget class="QPushButton" name="pushButton">
+     <widget class="QPushButton" name="pushButton_all_tasks">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
         <horstretch>0</horstretch>
@@ -92,7 +92,7 @@
        </sizepolicy>
       </property>
       <property name="text">
-       <string>PushButton</string>
+       <string>All tasks</string>
       </property>
      </widget>
     </item>

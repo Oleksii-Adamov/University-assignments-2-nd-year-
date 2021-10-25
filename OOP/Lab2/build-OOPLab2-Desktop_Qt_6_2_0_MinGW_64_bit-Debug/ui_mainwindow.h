@@ -24,9 +24,9 @@ class Ui_MainWindow
 public:
     QWidget *centralwidget;
     QVBoxLayout *verticalLayout;
-    QPushButton *pushButton_2;
-    QPushButton *pushButton_3;
-    QPushButton *pushButton;
+    QPushButton *pushButton_today;
+    QPushButton *pushButton_tomorrow;
+    QPushButton *pushButton_all_tasks;
     QMenuBar *menubar;
 
     void setupUi(QMainWindow *MainWindow)
@@ -49,26 +49,26 @@ public:
         verticalLayout->setObjectName(QString::fromUtf8("verticalLayout"));
         verticalLayout->setSizeConstraint(QLayout::SetDefaultConstraint);
         verticalLayout->setContentsMargins(0, 0, 0, 0);
-        pushButton_2 = new QPushButton(centralwidget);
-        pushButton_2->setObjectName(QString::fromUtf8("pushButton_2"));
-        sizePolicy.setHeightForWidth(pushButton_2->sizePolicy().hasHeightForWidth());
-        pushButton_2->setSizePolicy(sizePolicy);
+        pushButton_today = new QPushButton(centralwidget);
+        pushButton_today->setObjectName(QString::fromUtf8("pushButton_today"));
+        sizePolicy.setHeightForWidth(pushButton_today->sizePolicy().hasHeightForWidth());
+        pushButton_today->setSizePolicy(sizePolicy);
 
-        verticalLayout->addWidget(pushButton_2);
+        verticalLayout->addWidget(pushButton_today);
 
-        pushButton_3 = new QPushButton(centralwidget);
-        pushButton_3->setObjectName(QString::fromUtf8("pushButton_3"));
-        sizePolicy.setHeightForWidth(pushButton_3->sizePolicy().hasHeightForWidth());
-        pushButton_3->setSizePolicy(sizePolicy);
+        pushButton_tomorrow = new QPushButton(centralwidget);
+        pushButton_tomorrow->setObjectName(QString::fromUtf8("pushButton_tomorrow"));
+        sizePolicy.setHeightForWidth(pushButton_tomorrow->sizePolicy().hasHeightForWidth());
+        pushButton_tomorrow->setSizePolicy(sizePolicy);
 
-        verticalLayout->addWidget(pushButton_3);
+        verticalLayout->addWidget(pushButton_tomorrow);
 
-        pushButton = new QPushButton(centralwidget);
-        pushButton->setObjectName(QString::fromUtf8("pushButton"));
-        sizePolicy.setHeightForWidth(pushButton->sizePolicy().hasHeightForWidth());
-        pushButton->setSizePolicy(sizePolicy);
+        pushButton_all_tasks = new QPushButton(centralwidget);
+        pushButton_all_tasks->setObjectName(QString::fromUtf8("pushButton_all_tasks"));
+        sizePolicy.setHeightForWidth(pushButton_all_tasks->sizePolicy().hasHeightForWidth());
+        pushButton_all_tasks->setSizePolicy(sizePolicy);
 
-        verticalLayout->addWidget(pushButton);
+        verticalLayout->addWidget(pushButton_all_tasks);
 
         MainWindow->setCentralWidget(centralwidget);
         menubar = new QMenuBar(MainWindow);
@@ -84,9 +84,9 @@ public:
     void retranslateUi(QMainWindow *MainWindow)
     {
         MainWindow->setWindowTitle(QCoreApplication::translate("MainWindow", "MainWindow", nullptr));
-        pushButton_2->setText(QCoreApplication::translate("MainWindow", "PushButton", nullptr));
-        pushButton_3->setText(QCoreApplication::translate("MainWindow", "PushButton", nullptr));
-        pushButton->setText(QCoreApplication::translate("MainWindow", "PushButton", nullptr));
+        pushButton_today->setText(QCoreApplication::translate("MainWindow", "Today tasks", nullptr));
+        pushButton_tomorrow->setText(QCoreApplication::translate("MainWindow", "Tomorrow tasks", nullptr));
+        pushButton_all_tasks->setText(QCoreApplication::translate("MainWindow", "All tasks", nullptr));
     } // retranslateUi
 
 };
