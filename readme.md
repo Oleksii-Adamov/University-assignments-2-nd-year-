@@ -27,7 +27,7 @@ Parsing IPv4, IPv6.
 
 Demo, перевірка сортування.
 
-## OOPLab1: In progress
+## OOPLab2: In progress
 ### Application: Help with pomodoro time manegment
 #### Зараз реалізовано:
 Три To Do List з можливістю додавання, видалення, та редагування, з записом на жорсткий диск.
