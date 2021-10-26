@@ -10,17 +10,31 @@ ToDoListWindow::ToDoListWindow(QWidget *parent) :
     this->setWindowModality(Qt::WindowModal);
     this->setWindowState(Qt::WindowMaximized);
     this->setBackgroundRole(QPalette::Window);
+    setAttribute(Qt::WA_DeleteOnClose);
 }
-
-ToDoListWindow::~ToDoListWindow()
+ToDoListWindow::ToDoListWindow(QString file_name, QSharedPointer<std::vector<ToDoListData>> list, QWidget *parent)
+    : QMainWindow(parent), ui(new Ui::ToDoListWindow), m_file_name(file_name)
 {
-    delete ui;
-}
-void ToDoListWindow::setList(QSharedPointer<std::vector<ToDoListData>> list) {
+    ui->setupUi(this);
+    this->setWindowModality(Qt::WindowModal);
+    this->setWindowState(Qt::WindowMaximized);
+    this->setBackgroundRole(QPalette::Window);
+    setAttribute(Qt::WA_DeleteOnClose);
     m_data_list = list;
     for (size_t i = 0; i < m_data_list->size(); i++) {
         ui->listWidget->addItem(((*m_data_list)[i]).ToQString());
     }
+}
+ToDoListWindow::~ToDoListWindow()
+{
+    // write to file
+    QFile file(m_file_name);
+    file.open(QIODevice::WriteOnly);
+    QDataStream out(&file);
+    for (size_t i = 0; i < m_data_list->size(); i++) {
+        ((*m_data_list)[i]).write_to_binary(out);
+    }
+    delete ui;
 }
 void ToDoListWindow::on_actionBack_triggered()
 {
@@ -47,4 +61,3 @@ void ToDoListWindow::on_pushButtonEdit_clicked()
     new_dialog->setModal(true);
     new_dialog->show();
 }
-

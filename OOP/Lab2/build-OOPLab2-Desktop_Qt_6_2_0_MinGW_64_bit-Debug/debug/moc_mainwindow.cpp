@@ -23,7 +23,7 @@ QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_MainWindow_t {
     const uint offsetsAndSize[10];
-    char stringdata0[103];
+    char stringdata0[101];
 };
 #define QT_MOC_LITERAL(ofs, len) \
     uint(offsetof(qt_meta_stringdata_MainWindow_t, stringdata0) + ofs), len 
@@ -33,12 +33,12 @@ QT_MOC_LITERAL(0, 10), // "MainWindow"
 QT_MOC_LITERAL(11, 27), // "on_pushButton_today_clicked"
 QT_MOC_LITERAL(39, 0), // ""
 QT_MOC_LITERAL(40, 30), // "on_pushButton_tomorrow_clicked"
-QT_MOC_LITERAL(71, 31) // "on_pushButton_all_tasks_clicked"
+QT_MOC_LITERAL(71, 29) // "on_pushButton_someday_clicked"
 
     },
     "MainWindow\0on_pushButton_today_clicked\0"
     "\0on_pushButton_tomorrow_clicked\0"
-    "on_pushButton_all_tasks_clicked"
+    "on_pushButton_someday_clicked"
 };
 #undef QT_MOC_LITERAL
 
@@ -76,7 +76,7 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         switch (_id) {
         case 0: _t->on_pushButton_today_clicked(); break;
         case 1: _t->on_pushButton_tomorrow_clicked(); break;
-        case 2: _t->on_pushButton_all_tasks_clicked(); break;
+        case 2: _t->on_pushButton_someday_clicked(); break;
         default: ;
         }
     }

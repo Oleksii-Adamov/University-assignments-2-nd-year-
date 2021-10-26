@@ -19,7 +19,8 @@ public:
     ~ToDoListWindow();
     //void setList(QSharedPointer<QStringList> list);
     //void setList(QSharedPointer<QList<ToDoListData>> list);
-    void setList(QSharedPointer<std::vector<ToDoListData>> list);
+    //void setList(QSharedPointer<std::vector<ToDoListData>> list);
+    ToDoListWindow(QString file_name, QSharedPointer<std::vector<ToDoListData>> list, QWidget *parent = nullptr);
 private slots:
     void on_actionBack_triggered();
 
@@ -29,14 +30,9 @@ private slots:
 
     void on_pushButtonEdit_clicked();
 
-    void on_pushButtonEdit2_clicked();
-
-    void on_pushButton_clicked();
-
-    void on_pushButtonEdit3_clicked();
-
 private:
     Ui::ToDoListWindow *ui;
+    QString m_file_name;
     QSharedPointer<std::vector<ToDoListData>> m_data_list;
 };
 

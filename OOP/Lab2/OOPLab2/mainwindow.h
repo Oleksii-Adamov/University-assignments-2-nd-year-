@@ -16,11 +16,12 @@ public:
 
 private:
     Ui::MainWindow *ui;
+    void callToDoList(QString file_name);
 public slots:
   //  void onListItemDoubleClicked(QListWidgetItem*);
 private slots:
     void on_pushButton_today_clicked();
     void on_pushButton_tomorrow_clicked();
-    void on_pushButton_all_tasks_clicked();
+    void on_pushButton_someday_clicked();
 };
 #endif // MAINWINDOW_H

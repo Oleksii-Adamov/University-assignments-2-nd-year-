@@ -31,6 +31,7 @@ AddToToDoList::AddToToDoList(QWidget *parent, QSharedPointer<std::vector<ToDoLis
         ui->pushButtonCreate->setText("Apply");
         int index = m_parent_list_widget->indexFromItem(m_parent_list_widget->currentItem()).row();
         ui->spinBox->setValue((*m_parent_data_list)[index].predicted);
+        ui->lineEditNameofTask->setText((*m_parent_data_list)[index].name);
     }
 }
 

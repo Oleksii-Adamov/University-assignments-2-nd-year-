@@ -3,8 +3,8 @@
 #include "todolistwindow.h"
 #include <QSharedPointer>
 #include <QtCore>
-#include "todolistdata.h"
 #include <vector>
+#include<QMessageBox>
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -23,30 +23,36 @@ MainWindow::~MainWindow()
 /*void MainWindow::onListItemDoubleClicked(QListWidgetItem* item) {
     //item->setBackground(Qt::yellow);
 }*/
-
-
-void MainWindow::on_pushButton_today_clicked()
-{
-    // open todolistwindow with today list
+// open todolistwindow
+void MainWindow::callToDoList(QString file_name) {
     QSharedPointer<std::vector<ToDoListData>> list = QSharedPointer<std::vector<ToDoListData>>(new std::vector<ToDoListData>);
-    list->emplace_back("OOP", 5, 8);
-    list->emplace_back("DB", 7, 10);
-    ToDoListWindow* new_window  = new ToDoListWindow(this);
-    new_window->setList(list);
+    QFile file(file_name);
+    if (!file.exists()) {
+        file.open(QIODevice::NewOnly);
+        file.close();
+    }
+    file.open(QIODevice::ReadOnly);
+    QDataStream in(&file);
+    while(!in.atEnd()) {
+        list->emplace_back(in);
+    }
+    file.close();
+    ToDoListWindow* new_window  = new ToDoListWindow(/*this,*/ file_name, list);
     new_window->show();
 }
-
-
+// open todolistwindow with today list
+void MainWindow::on_pushButton_today_clicked()
+{
+    callToDoList("Today.bin");
+}
 
 void MainWindow::on_pushButton_tomorrow_clicked()
 {
-
+    callToDoList("Tomorrow.bin");
 }
 
-
-
-void MainWindow::on_pushButton_all_tasks_clicked()
+void MainWindow::on_pushButton_someday_clicked()
 {
-
+    callToDoList("Someday.bin");
 }
 
