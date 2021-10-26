@@ -11,10 +11,12 @@ CONFIG += c++11
 SOURCES += \
     main.cpp \
     mainwindow.cpp \
+    todolistdata.cpp \
     todolistwindow.cpp
 
 HEADERS += \
     mainwindow.h \
+    todolistdata.h \
     todolistwindow.h
 
 FORMS += \

@@ -2,7 +2,9 @@
 #define TODOLISTWINDOW_H
 
 #include <QMainWindow>
-#include<QtGui>
+#include <QtGui>
+#include "todolistdata.h"
+#include <vector>
 
 namespace Ui {
 class ToDoListWindow;
@@ -15,7 +17,9 @@ class ToDoListWindow : public QMainWindow
 public:
     explicit ToDoListWindow(QWidget *parent = nullptr);
     ~ToDoListWindow();
-    void setList(QSharedPointer<QStringList> list);
+    //void setList(QSharedPointer<QStringList> list);
+    //void setList(QSharedPointer<QList<ToDoListData>> list);
+    void setList(QSharedPointer<std::vector<ToDoListData>> list);
 private slots:
     void on_actionBack_triggered();
 
@@ -26,7 +30,9 @@ private slots:
 private:
     Ui::ToDoListWindow *ui;
     QStringListModel *m_list_model;
-    QSharedPointer<QStringList> m_list;
+    QStringList m_string_list;
+    //QSharedPointer<QList<ToDoListData>> m_data_list;
+    QSharedPointer<std::vector<ToDoListData>> m_data_list;
     QWidget* m_parent;
 };
 
