@@ -29,9 +29,10 @@ public:
     QAction *actionBack;
     QWidget *centralwidget;
     QGridLayout *gridLayout;
-    QPushButton *pushButtonAdd;
-    QPushButton *pushButtonStartTimer;
     QListWidget *listWidget;
+    QPushButton *pushButtonStartTimer;
+    QPushButton *pushButtonAdd;
+    QPushButton *pushButtonEdit;
     QMenuBar *menubar;
     QStatusBar *statusbar;
     QToolBar *toolBar;
@@ -47,27 +48,32 @@ public:
         centralwidget->setObjectName(QString::fromUtf8("centralwidget"));
         gridLayout = new QGridLayout(centralwidget);
         gridLayout->setObjectName(QString::fromUtf8("gridLayout"));
-        pushButtonAdd = new QPushButton(centralwidget);
-        pushButtonAdd->setObjectName(QString::fromUtf8("pushButtonAdd"));
-        QSizePolicy sizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
-        sizePolicy.setHorizontalStretch(0);
-        sizePolicy.setVerticalStretch(0);
-        sizePolicy.setHeightForWidth(pushButtonAdd->sizePolicy().hasHeightForWidth());
-        pushButtonAdd->setSizePolicy(sizePolicy);
-
-        gridLayout->addWidget(pushButtonAdd, 2, 0, 1, 1);
-
-        pushButtonStartTimer = new QPushButton(centralwidget);
-        pushButtonStartTimer->setObjectName(QString::fromUtf8("pushButtonStartTimer"));
-        sizePolicy.setHeightForWidth(pushButtonStartTimer->sizePolicy().hasHeightForWidth());
-        pushButtonStartTimer->setSizePolicy(sizePolicy);
-
-        gridLayout->addWidget(pushButtonStartTimer, 2, 1, 1, 1);
-
         listWidget = new QListWidget(centralwidget);
         listWidget->setObjectName(QString::fromUtf8("listWidget"));
 
         gridLayout->addWidget(listWidget, 1, 0, 1, 2);
+
+        pushButtonStartTimer = new QPushButton(centralwidget);
+        pushButtonStartTimer->setObjectName(QString::fromUtf8("pushButtonStartTimer"));
+        QSizePolicy sizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
+        sizePolicy.setHorizontalStretch(0);
+        sizePolicy.setVerticalStretch(0);
+        sizePolicy.setHeightForWidth(pushButtonStartTimer->sizePolicy().hasHeightForWidth());
+        pushButtonStartTimer->setSizePolicy(sizePolicy);
+
+        gridLayout->addWidget(pushButtonStartTimer, 3, 0, 1, 2);
+
+        pushButtonAdd = new QPushButton(centralwidget);
+        pushButtonAdd->setObjectName(QString::fromUtf8("pushButtonAdd"));
+        sizePolicy.setHeightForWidth(pushButtonAdd->sizePolicy().hasHeightForWidth());
+        pushButtonAdd->setSizePolicy(sizePolicy);
+
+        gridLayout->addWidget(pushButtonAdd, 2, 1, 1, 1);
+
+        pushButtonEdit = new QPushButton(centralwidget);
+        pushButtonEdit->setObjectName(QString::fromUtf8("pushButtonEdit"));
+
+        gridLayout->addWidget(pushButtonEdit, 2, 0, 1, 1);
 
         ToDoListWindow->setCentralWidget(centralwidget);
         menubar = new QMenuBar(ToDoListWindow);
@@ -92,8 +98,9 @@ public:
     {
         ToDoListWindow->setWindowTitle(QCoreApplication::translate("ToDoListWindow", "MainWindow", nullptr));
         actionBack->setText(QCoreApplication::translate("ToDoListWindow", "Back", nullptr));
-        pushButtonAdd->setText(QCoreApplication::translate("ToDoListWindow", "Add", nullptr));
         pushButtonStartTimer->setText(QCoreApplication::translate("ToDoListWindow", "Start timer", nullptr));
+        pushButtonAdd->setText(QCoreApplication::translate("ToDoListWindow", "Add", nullptr));
+        pushButtonEdit->setText(QCoreApplication::translate("ToDoListWindow", "Edit", nullptr));
         toolBar->setWindowTitle(QCoreApplication::translate("ToDoListWindow", "toolBar", nullptr));
     } // retranslateUi
 

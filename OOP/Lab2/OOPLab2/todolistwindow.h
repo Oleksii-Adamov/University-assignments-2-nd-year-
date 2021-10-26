@@ -27,13 +27,17 @@ private slots:
 
     void on_pushButtonStartTimer_clicked();
 
+    void on_pushButtonEdit_clicked();
+
+    void on_pushButtonEdit2_clicked();
+
+    void on_pushButton_clicked();
+
+    void on_pushButtonEdit3_clicked();
+
 private:
     Ui::ToDoListWindow *ui;
-    //QStringListModel *m_list_model;
-    //QStringList m_string_list;
-    //QSharedPointer<QList<ToDoListData>> m_data_list;
     QSharedPointer<std::vector<ToDoListData>> m_data_list;
-    //QWidget* m_parent;
 };
 
 #endif // TODOLISTWINDOW_H
