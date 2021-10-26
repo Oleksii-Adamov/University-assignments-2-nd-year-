@@ -28,9 +28,6 @@ MainWindow::~MainWindow()
 void MainWindow::on_pushButton_today_clicked()
 {
     // open todolistwindow with today list
-    //QSharedPointer<QStringList> list = QSharedPointer<QStringList>(new QStringList);
-    //QSharedPointer<QList<QPair<QString, int>>> list = QSharedPointer<QList<QPair<QString, int>>>(new QList<QPair<QString, int>>());
-    //QSharedPointer<QList<ToDoListData>> list = QSharedPointer<QList<ToDoListData>>(new QList<ToDoListData>);
     QSharedPointer<std::vector<ToDoListData>> list = QSharedPointer<std::vector<ToDoListData>>(new std::vector<ToDoListData>);
     list->emplace_back("OOP", 5, 8);
     list->emplace_back("DB", 7, 10);

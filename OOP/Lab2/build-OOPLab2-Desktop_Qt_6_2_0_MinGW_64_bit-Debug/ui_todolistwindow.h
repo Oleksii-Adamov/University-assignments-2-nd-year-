@@ -13,7 +13,7 @@
 #include <QtGui/QAction>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QGridLayout>
-#include <QtWidgets/QListView>
+#include <QtWidgets/QListWidget>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenuBar>
 #include <QtWidgets/QPushButton>
@@ -31,7 +31,7 @@ public:
     QGridLayout *gridLayout;
     QPushButton *pushButtonAdd;
     QPushButton *pushButtonStartTimer;
-    QListView *listView;
+    QListWidget *listWidget;
     QMenuBar *menubar;
     QStatusBar *statusbar;
     QToolBar *toolBar;
@@ -64,10 +64,10 @@ public:
 
         gridLayout->addWidget(pushButtonStartTimer, 2, 1, 1, 1);
 
-        listView = new QListView(centralwidget);
-        listView->setObjectName(QString::fromUtf8("listView"));
+        listWidget = new QListWidget(centralwidget);
+        listWidget->setObjectName(QString::fromUtf8("listWidget"));
 
-        gridLayout->addWidget(listView, 0, 0, 1, 2);
+        gridLayout->addWidget(listWidget, 1, 0, 1, 2);
 
         ToDoListWindow->setCentralWidget(centralwidget);
         menubar = new QMenuBar(ToDoListWindow);

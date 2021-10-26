@@ -29,11 +29,11 @@ private slots:
 
 private:
     Ui::ToDoListWindow *ui;
-    QStringListModel *m_list_model;
-    QStringList m_string_list;
+    //QStringListModel *m_list_model;
+    //QStringList m_string_list;
     //QSharedPointer<QList<ToDoListData>> m_data_list;
     QSharedPointer<std::vector<ToDoListData>> m_data_list;
-    QWidget* m_parent;
+    //QWidget* m_parent;
 };
 
 #endif // TODOLISTWINDOW_H

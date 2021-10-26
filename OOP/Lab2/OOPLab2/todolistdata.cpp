@@ -1,9 +1,5 @@
 #include "todolistdata.h"
 
-/*ToDoListData::ToDoListData(QObject *parent) : QObject(parent)
-{
-
-}*/
 QString ToDoListData::ToQString() {
     QString ret = name;
     ret += " " + QString::number(done) + "/" + QString::number(predicted) + "pomodoro";
