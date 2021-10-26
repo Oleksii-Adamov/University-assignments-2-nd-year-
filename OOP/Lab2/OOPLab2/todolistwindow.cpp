@@ -61,3 +61,14 @@ void ToDoListWindow::on_pushButtonEdit_clicked()
     new_dialog->setModal(true);
     new_dialog->show();
 }
+
+void ToDoListWindow::on_pushButtonDelete_clicked()
+{
+     if (ui->listWidget->count() > 0) {
+         int index = ui->listWidget->indexFromItem(ui->listWidget->currentItem()).row();
+         ui->listWidget->takeItem(index);
+         std::vector<ToDoListData>::iterator iter = m_data_list->begin();
+         m_data_list->erase(iter + index);
+     }
+}
+

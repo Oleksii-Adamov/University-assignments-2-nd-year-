@@ -30,6 +30,8 @@ private slots:
 
     void on_pushButtonEdit_clicked();
 
+    void on_pushButtonDelete_clicked();
+
 private:
     Ui::ToDoListWindow *ui;
     QString m_file_name;
