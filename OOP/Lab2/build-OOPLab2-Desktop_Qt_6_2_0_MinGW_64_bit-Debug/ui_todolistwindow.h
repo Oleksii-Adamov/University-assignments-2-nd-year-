@@ -45,6 +45,9 @@ public:
         ToDoListWindow->resize(708, 363);
         actionBack = new QAction(ToDoListWindow);
         actionBack->setObjectName(QString::fromUtf8("actionBack"));
+        QFont font;
+        font.setPointSize(20);
+        actionBack->setFont(font);
         centralwidget = new QWidget(ToDoListWindow);
         centralwidget->setObjectName(QString::fromUtf8("centralwidget"));
         gridLayout = new QGridLayout(centralwidget);

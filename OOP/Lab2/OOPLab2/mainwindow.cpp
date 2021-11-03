@@ -23,19 +23,13 @@ MainWindow::MainWindow(QWidget *parent)
         new_button->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding));
         connect(new_button, SIGNAL(clicked()), this, SLOT(on_projectButton_clicked()));
     }
-    //ui->listWidget->addItem("Today");
-   // ui->listWidget->addItem("Tomorrow");
-    //ui->listWidget->addItem("All");
-   // connect(ui->listWidget, SIGNAL(itemDoubleClicked(QListWidgetItem*)), this, SLOT(onListItemDoubleClicked(QListWidgetItem*)));
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
 }
-/*void MainWindow::onListItemDoubleClicked(QListWidgetItem* item) {
-    //item->setBackground(Qt::yellow);
-}*/
+
 // open todolistwindow
 void MainWindow::callToDoList(QString file_name) {
     QSharedPointer<std::vector<ToDoListData>> list = QSharedPointer<std::vector<ToDoListData>>(new std::vector<ToDoListData>);
@@ -50,7 +44,7 @@ void MainWindow::callToDoList(QString file_name) {
         list->emplace_back(in);
     }
     file.close();
-    ToDoListWindow* new_window  = new ToDoListWindow(/*this,*/ file_name, list);
+    ToDoListWindow* new_window  = new ToDoListWindow(file_name, list);
     new_window->show();
 }
 
@@ -60,19 +54,15 @@ void MainWindow::on_projectButton_clicked() {
 }
 
 
-// open todolistwindow with today list
-/*void MainWindow::on_pushButton_today_clicked()
+
+void MainWindow::on_actionNew_triggered()
 {
-    callToDoList("Today.bin");
+
 }
 
-void MainWindow::on_pushButton_tomorrow_clicked()
-{
-    callToDoList("Tomorrow.bin");
-}
 
-void MainWindow::on_pushButton_someday_clicked()
+void MainWindow::on_actionDelete_triggered()
 {
-    callToDoList("Someday.bin");
-}*/
+
+}
 
