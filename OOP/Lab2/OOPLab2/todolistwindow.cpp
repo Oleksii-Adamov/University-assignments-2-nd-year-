@@ -20,10 +20,17 @@ ToDoListWindow::ToDoListWindow(QString file_name, QSharedPointer<std::vector<ToD
     this->setWindowState(Qt::WindowMaximized);
     this->setBackgroundRole(QPalette::Window);
     setAttribute(Qt::WA_DeleteOnClose);
+    QFont list_item_font;
+    list_item_font.setPointSize(30);
     m_data_list = list;
+    ui->listWidget->setFont(list_item_font);
     for (size_t i = 0; i < m_data_list->size(); i++) {
         ui->listWidget->addItem(((*m_data_list)[i]).ToQString());
+        //ui->listWidget->item(i)->setTextAlignment(Qt::AlignJustify);
     }
+    if (ui->listWidget->count() > 0)
+        ui->listWidget->setCurrentRow(0);
+    ui->listWidget->setHorizontalScrollMode(QAbstractItemView::ScrollPerPixel);
 }
 ToDoListWindow::~ToDoListWindow()
 {
@@ -57,9 +64,11 @@ void ToDoListWindow::on_pushButtonStartTimer_clicked()
 
 void ToDoListWindow::on_pushButtonEdit_clicked()
 {
-    AddToToDoList* new_dialog = new AddToToDoList(this, m_data_list, ui->listWidget, ToDoList::mode::Edit);
-    new_dialog->setModal(true);
-    new_dialog->show();
+    if (ui->listWidget->count() > 0) {
+        AddToToDoList* new_dialog = new AddToToDoList(this, m_data_list, ui->listWidget, ToDoList::mode::Edit);
+        new_dialog->setModal(true);
+        new_dialog->show();
+    }
 }
 
 void ToDoListWindow::on_pushButtonDelete_clicked()
