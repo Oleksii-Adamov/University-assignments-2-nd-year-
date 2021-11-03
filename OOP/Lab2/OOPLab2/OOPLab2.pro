@@ -12,12 +12,14 @@ SOURCES += \
     addtotodolist.cpp \
     main.cpp \
     mainwindow.cpp \
+    projectbutton.cpp \
     todolistdata.cpp \
     todolistwindow.cpp
 
 HEADERS += \
     addtotodolist.h \
     mainwindow.h \
+    projectbutton.h \
     todolistdata.h \
     todolistwindow.h
 

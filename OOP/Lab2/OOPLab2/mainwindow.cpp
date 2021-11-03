@@ -4,12 +4,25 @@
 #include <QSharedPointer>
 #include <QtCore>
 #include <vector>
-#include<QMessageBox>
+#include <QMessageBox>
+#include <QPushButton>
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    QStringList project_list;
+    project_list.append("Today");
+    project_list.append("Tomorrow");
+    project_list.append("Someday");
+    project_list.append("Comleted");
+    for (qsizetype i = 0; i < project_list.size(); i++) {
+        QPushButton* new_button = new QPushButton(project_list[i], this);
+        ui->verticalLayout->addWidget(new_button);
+        new_button->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding));
+        connect(new_button, SIGNAL(clicked()), this, SLOT(on_projectButton_clicked()));
+    }
     //ui->listWidget->addItem("Today");
    // ui->listWidget->addItem("Tomorrow");
     //ui->listWidget->addItem("All");
@@ -40,8 +53,15 @@ void MainWindow::callToDoList(QString file_name) {
     ToDoListWindow* new_window  = new ToDoListWindow(/*this,*/ file_name, list);
     new_window->show();
 }
+
+void MainWindow::on_projectButton_clicked() {
+    QPushButton* _sender = (QPushButton*) sender();
+    callToDoList(_sender->text() + ".bin");
+}
+
+
 // open todolistwindow with today list
-void MainWindow::on_pushButton_today_clicked()
+/*void MainWindow::on_pushButton_today_clicked()
 {
     callToDoList("Today.bin");
 }
@@ -54,5 +74,5 @@ void MainWindow::on_pushButton_tomorrow_clicked()
 void MainWindow::on_pushButton_someday_clicked()
 {
     callToDoList("Someday.bin");
-}
+}*/
 

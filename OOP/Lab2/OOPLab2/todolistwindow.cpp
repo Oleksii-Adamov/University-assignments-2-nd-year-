@@ -26,7 +26,6 @@ ToDoListWindow::ToDoListWindow(QString file_name, QSharedPointer<std::vector<ToD
     ui->listWidget->setFont(list_item_font);
     for (size_t i = 0; i < m_data_list->size(); i++) {
         ui->listWidget->addItem(((*m_data_list)[i]).ToQString());
-        //ui->listWidget->item(i)->setTextAlignment(Qt::AlignJustify);
     }
     if (ui->listWidget->count() > 0)
         ui->listWidget->setCurrentRow(0);

@@ -1,0 +1,10 @@
+debug/addtotodolist.o
+debug/main.o
+debug/mainwindow.o
+debug/projectbutton.o
+debug/todolistdata.o
+debug/todolistwindow.o
+debug/moc_addtotodolist.o
+debug/moc_mainwindow.o
+debug/moc_projectbutton.o
+debug/moc_todolistwindow.o
