@@ -17,9 +17,12 @@ public:
 private:
     Ui::MainWindow *ui;
     void callToDoList(QString file_name);
+    QStringList m_project_list;
 public slots:
 
 private slots:
     void on_projectButton_clicked();
+    void on_actionNew_triggered();
+    void on_actionDelete_triggered();
 };
 #endif // MAINWINDOW_H

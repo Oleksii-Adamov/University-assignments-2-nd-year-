@@ -6,19 +6,33 @@
 #include <vector>
 #include <QMessageBox>
 #include <QPushButton>
+#include <QDebug>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    QStringList project_list;
-    project_list.append("Today");
-    project_list.append("Tomorrow");
-    project_list.append("Someday");
-    project_list.append("Comleted");
-    for (qsizetype i = 0; i < project_list.size(); i++) {
-        QPushButton* new_button = new QPushButton(project_list[i], this);
+    QDir dir;
+    qDebug() << dir.mkdir("./UserData");
+    qDebug() << dir.mkdir("./UserProjects");
+    QFile file("./UserData/project_list.bin");
+    if (!file.exists()) {
+        file.open(QIODevice::WriteOnly);
+        QDataStream out(&file);
+        out << QString("Today") << QString("Tomorrow") << QString("Someday") << QString("Comleted");
+        file.close();
+    }
+    file.open(QIODevice::ReadOnly);
+    QDataStream in(&file);
+    while(!in.atEnd()) {
+        QString input;
+        in >> input;
+        m_project_list.append(input);
+    }
+    file.close();
+    for (qsizetype i = 0; i < m_project_list.size(); i++) {
+        QPushButton* new_button = new QPushButton(m_project_list[i], this);
         ui->verticalLayout->addWidget(new_button);
         new_button->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding));
         connect(new_button, SIGNAL(clicked()), this, SLOT(on_projectButton_clicked()));
@@ -38,19 +52,21 @@ void MainWindow::callToDoList(QString file_name) {
         file.open(QIODevice::NewOnly);
         file.close();
     }
-    file.open(QIODevice::ReadOnly);
-    QDataStream in(&file);
-    while(!in.atEnd()) {
-        list->emplace_back(in);
+    else {
+        file.open(QIODevice::ReadOnly);
+        QDataStream in(&file);
+        while(!in.atEnd()) {
+            list->emplace_back(in);
+        }
+        file.close();
     }
-    file.close();
     ToDoListWindow* new_window  = new ToDoListWindow(file_name, list);
     new_window->show();
 }
 
 void MainWindow::on_projectButton_clicked() {
     QPushButton* _sender = (QPushButton*) sender();
-    callToDoList(_sender->text() + ".bin");
+    callToDoList("./UserProjects/" + _sender->text() + ".bin");
 }
 
 
