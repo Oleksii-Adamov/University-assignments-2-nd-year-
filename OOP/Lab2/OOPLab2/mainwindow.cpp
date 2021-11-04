@@ -7,6 +7,7 @@
 #include <QMessageBox>
 #include <QPushButton>
 #include <QDebug>
+#include "addnewprojectdialog.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -14,8 +15,6 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     QDir dir;
-    qDebug() << dir.mkdir("./UserData");
-    qDebug() << dir.mkdir("./UserProjects");
     QFile file("./UserData/project_list.bin");
     if (!file.exists()) {
         file.open(QIODevice::WriteOnly);
@@ -41,6 +40,14 @@ MainWindow::MainWindow(QWidget *parent)
 
 MainWindow::~MainWindow()
 {
+    // writing to project_list.bin
+    QFile file("./UserData/project_list.bin");
+    file.open(QIODevice::WriteOnly);
+    QDataStream out(&file);
+    for (qsizetype i = 0; i < m_project_list.size(); i++) {
+        out << m_project_list[i];
+    }
+    file.close();
     delete ui;
 }
 
@@ -73,7 +80,9 @@ void MainWindow::on_projectButton_clicked() {
 
 void MainWindow::on_actionNew_triggered()
 {
-
+    AddNewProjectDialog* new_dialog  = new AddNewProjectDialog(this);
+    new_dialog->setModal(true);
+    new_dialog->show();
 }
 
 

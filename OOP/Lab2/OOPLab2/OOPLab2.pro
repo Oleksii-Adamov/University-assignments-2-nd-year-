@@ -9,6 +9,7 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    addnewprojectdialog.cpp \
     addtotodolist.cpp \
     main.cpp \
     mainwindow.cpp \
@@ -17,6 +18,7 @@ SOURCES += \
     todolistwindow.cpp
 
 HEADERS += \
+    addnewprojectdialog.h \
     addtotodolist.h \
     mainwindow.h \
     projectbutton.h \
@@ -24,6 +26,7 @@ HEADERS += \
     todolistwindow.h
 
 FORMS += \
+    addnewprojectdialog.ui \
     addtotodolist.ui \
     mainwindow.ui \
     todolistwindow.ui
