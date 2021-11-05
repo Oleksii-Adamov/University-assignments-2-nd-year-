@@ -1,5 +1,6 @@
 release/addnewprojectdialog.o
 release/addtotodolist.o
+release/filepath.o
 release/main.o
 release/mainwindow.o
 release/projectbutton.o

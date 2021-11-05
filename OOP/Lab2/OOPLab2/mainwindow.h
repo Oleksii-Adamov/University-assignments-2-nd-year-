@@ -18,7 +18,9 @@ private:
     Ui::MainWindow *ui;
     void callToDoList(QString file_name);
     QStringList m_project_list;
+    void add_button(QString name);
 public slots:
+    void create_project(QString file_name);
 
 private slots:
     void on_projectButton_clicked();

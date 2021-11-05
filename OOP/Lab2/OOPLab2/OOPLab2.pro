@@ -11,6 +11,7 @@ CONFIG += c++11
 SOURCES += \
     addnewprojectdialog.cpp \
     addtotodolist.cpp \
+    filepath.cpp \
     main.cpp \
     mainwindow.cpp \
     projectbutton.cpp \
@@ -20,6 +21,7 @@ SOURCES += \
 HEADERS += \
     addnewprojectdialog.h \
     addtotodolist.h \
+    filepath.h \
     mainwindow.h \
     projectbutton.h \
     todolistdata.h \
