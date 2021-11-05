@@ -14,7 +14,6 @@
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenuBar>
-#include <QtWidgets/QScrollBar>
 #include <QtWidgets/QToolBar>
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
@@ -27,7 +26,6 @@ public:
     QAction *actionNew;
     QWidget *centralwidget;
     QVBoxLayout *verticalLayout;
-    QScrollBar *verticalScrollBar;
     QMenuBar *menubar;
     QToolBar *toolBar;
 
@@ -56,12 +54,6 @@ public:
         verticalLayout->setObjectName(QString::fromUtf8("verticalLayout"));
         verticalLayout->setSizeConstraint(QLayout::SetDefaultConstraint);
         verticalLayout->setContentsMargins(0, 0, 0, 0);
-        verticalScrollBar = new QScrollBar(centralwidget);
-        verticalScrollBar->setObjectName(QString::fromUtf8("verticalScrollBar"));
-        verticalScrollBar->setOrientation(Qt::Vertical);
-
-        verticalLayout->addWidget(verticalScrollBar);
-
         MainWindow->setCentralWidget(centralwidget);
         menubar = new QMenuBar(MainWindow);
         menubar->setObjectName(QString::fromUtf8("menubar"));
