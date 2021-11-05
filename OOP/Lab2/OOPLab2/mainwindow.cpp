@@ -18,7 +18,24 @@ MainWindow::MainWindow(QWidget *parent)
     QDir dir;
     dir.mkdir(get_project_dir());
     dir.mkdir(get_user_data_dir());
-    QFile file(get_project_list_path());
+    dir.cd(get_project_dir());
+    // creating buttons with standard projects
+    add_button("Today");
+    add_button("Tomorrow");
+    add_button("Someday");
+    // creating projects buttons based on user projects dir
+    foreach(QFileInfo file_info, dir.entryInfoList()) {
+        QString file_name = file_info.fileName();
+        // if file is .bin
+        if (file_name.length() > 4 && file_name.right(3) == "bin") {
+            // write into project list
+            file_name.remove(file_name.length() - 4, 4);
+            if (file_name != "Today" && file_name != "Tomorrow" && file_name != "Someday" && file_name != "Comleted")
+                   add_button(file_name);
+        }
+    }
+    add_button("Comleted");
+    /*QFile file(get_project_list_path());
     if (!file.exists()) {
         // recovering data / creating new
         file.open(QIODevice::WriteOnly);
@@ -57,13 +74,13 @@ MainWindow::MainWindow(QWidget *parent)
     file.close();
     for (qsizetype i = 0; i < m_project_list.size(); i++) {
         add_button(m_project_list[i]);
-    }
+    }*/
 }
 
 MainWindow::~MainWindow()
 {
     // writing to project_list.bin
-    QDir dir;
+    /*QDir dir;
     dir.mkdir(get_user_data_dir());
     QFile file(get_project_list_path());
     file.open(QIODevice::WriteOnly);
@@ -71,7 +88,7 @@ MainWindow::~MainWindow()
     for (qsizetype i = 0; i < m_project_list.size(); i++) {
         out << m_project_list[i];
     }
-    file.close();
+    file.close();*/
     delete ui;
 }
 
@@ -111,7 +128,7 @@ void MainWindow::on_projectButton_clicked() {
 
 void MainWindow::create_project(QString file_name) {
     // adding to m_project_list
-    m_project_list.append(file_name);
+    //m_project_list.append(file_name);
     // creating new file in user projects directory
     QFile file(get_project_path(file_name));
     file.open(QIODevice::NewOnly);
