@@ -22,8 +22,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_MainWindow_t {
-    const uint offsetsAndSize[18];
-    char stringdata0[138];
+    const uint offsetsAndSize[22];
+    char stringdata0[150];
 };
 #define QT_MOC_LITERAL(ofs, len) \
     uint(offsetof(qt_meta_stringdata_MainWindow_t, stringdata0) + ofs), len 
@@ -35,15 +35,18 @@ QT_MOC_LITERAL(26, 0), // ""
 QT_MOC_LITERAL(27, 9), // "file_name"
 QT_MOC_LITERAL(37, 21), // "delete_project_button"
 QT_MOC_LITERAL(59, 4), // "name"
-QT_MOC_LITERAL(64, 24), // "on_projectButton_clicked"
-QT_MOC_LITERAL(89, 22), // "on_actionNew_triggered"
-QT_MOC_LITERAL(112, 25) // "on_actionDelete_triggered"
+QT_MOC_LITERAL(64, 19), // "edit_project_button"
+QT_MOC_LITERAL(84, 8), // "old_name"
+QT_MOC_LITERAL(93, 8), // "new_name"
+QT_MOC_LITERAL(102, 24), // "on_projectButton_clicked"
+QT_MOC_LITERAL(127, 22) // "on_actionNew_triggered"
 
     },
     "MainWindow\0create_project\0\0file_name\0"
     "delete_project_button\0name\0"
+    "edit_project_button\0old_name\0new_name\0"
     "on_projectButton_clicked\0"
-    "on_actionNew_triggered\0on_actionDelete_triggered"
+    "on_actionNew_triggered"
 };
 #undef QT_MOC_LITERAL
 
@@ -63,14 +66,14 @@ static const uint qt_meta_data_MainWindow[] = {
  // slots: name, argc, parameters, tag, flags, initial metatype offsets
        1,    1,   44,    2, 0x0a,    1 /* Public */,
        4,    1,   47,    2, 0x0a,    3 /* Public */,
-       6,    0,   50,    2, 0x08,    5 /* Private */,
-       7,    0,   51,    2, 0x08,    6 /* Private */,
-       8,    0,   52,    2, 0x08,    7 /* Private */,
+       6,    2,   50,    2, 0x0a,    5 /* Public */,
+       9,    0,   55,    2, 0x08,    8 /* Private */,
+      10,    0,   56,    2, 0x08,    9 /* Private */,
 
  // slots: parameters
     QMetaType::Void, QMetaType::QString,    3,
     QMetaType::Void, QMetaType::QString,    5,
-    QMetaType::Void,
+    QMetaType::Void, QMetaType::QString, QMetaType::QString,    7,    8,
     QMetaType::Void,
     QMetaType::Void,
 
@@ -83,11 +86,11 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         auto *_t = static_cast<MainWindow *>(_o);
         (void)_t;
         switch (_id) {
-        case 0: _t->create_project((*reinterpret_cast< QString(*)>(_a[1]))); break;
-        case 1: _t->delete_project_button((*reinterpret_cast< QString(*)>(_a[1]))); break;
-        case 2: _t->on_projectButton_clicked(); break;
-        case 3: _t->on_actionNew_triggered(); break;
-        case 4: _t->on_actionDelete_triggered(); break;
+        case 0: _t->create_project((*reinterpret_cast< const QString(*)>(_a[1]))); break;
+        case 1: _t->delete_project_button((*reinterpret_cast< const QString(*)>(_a[1]))); break;
+        case 2: _t->edit_project_button((*reinterpret_cast< const QString(*)>(_a[1])),(*reinterpret_cast< const QString(*)>(_a[2]))); break;
+        case 3: _t->on_projectButton_clicked(); break;
+        case 4: _t->on_actionNew_triggered(); break;
         default: ;
         }
     }
@@ -101,7 +104,7 @@ const QMetaObject MainWindow::staticMetaObject = { {
     nullptr,
 qt_incomplete_metaTypeArray<qt_meta_stringdata_MainWindow_t
 , QtPrivate::TypeAndForceComplete<MainWindow, std::true_type>
-, QtPrivate::TypeAndForceComplete<void, std::false_type>, QtPrivate::TypeAndForceComplete<QString, std::false_type>, QtPrivate::TypeAndForceComplete<void, std::false_type>, QtPrivate::TypeAndForceComplete<QString, std::false_type>, QtPrivate::TypeAndForceComplete<void, std::false_type>, QtPrivate::TypeAndForceComplete<void, std::false_type>, QtPrivate::TypeAndForceComplete<void, std::false_type>
+, QtPrivate::TypeAndForceComplete<void, std::false_type>, QtPrivate::TypeAndForceComplete<const QString &, std::false_type>, QtPrivate::TypeAndForceComplete<void, std::false_type>, QtPrivate::TypeAndForceComplete<const QString &, std::false_type>, QtPrivate::TypeAndForceComplete<void, std::false_type>, QtPrivate::TypeAndForceComplete<const QString &, std::false_type>, QtPrivate::TypeAndForceComplete<const QString &, std::false_type>, QtPrivate::TypeAndForceComplete<void, std::false_type>, QtPrivate::TypeAndForceComplete<void, std::false_type>
 
 
 >,

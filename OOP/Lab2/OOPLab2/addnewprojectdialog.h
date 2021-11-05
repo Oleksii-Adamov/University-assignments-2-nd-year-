@@ -2,6 +2,12 @@
 #define ADDNEWPROJECTDIALOG_H
 #include <QDialog>
 #include "mainwindow.h"
+namespace project {
+    enum mode {
+        Add,
+        Edit
+    };
+}
 namespace Ui {
 class AddNewProjectDialog;
 }
@@ -11,12 +17,12 @@ class AddNewProjectDialog : public QDialog
     Q_OBJECT
 
 public:
-    explicit AddNewProjectDialog(QWidget *parent);
+    explicit AddNewProjectDialog(QWidget *parent, project::mode mode = project::mode::Add);
     ~AddNewProjectDialog();
 
 signals:
-   void create_project(QString file_path);
-
+   void create_project(const QString& file_path);
+   void edit_project(const QString& new_name);
 
 private slots:
     void on_pushButton_Cancel_clicked();
@@ -27,7 +33,7 @@ private slots:
 
 private:
     Ui::AddNewProjectDialog *ui;
-    QStringList* m_parent_project_list;
+    project::mode m_mode;
 };
 
 #endif // ADDNEWPROJECTDIALOG_H

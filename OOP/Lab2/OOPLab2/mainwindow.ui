@@ -80,21 +80,10 @@
     <bool>false</bool>
    </attribute>
    <addaction name="actionNew"/>
-   <addaction name="actionDelete"/>
   </widget>
   <action name="actionNew">
    <property name="text">
     <string>New</string>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>20</pointsize>
-    </font>
-   </property>
-  </action>
-  <action name="actionDelete">
-   <property name="text">
-    <string>Delete</string>
    </property>
    <property name="font">
     <font>

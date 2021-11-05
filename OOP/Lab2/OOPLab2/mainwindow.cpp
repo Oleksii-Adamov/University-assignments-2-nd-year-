@@ -118,7 +118,8 @@ void MainWindow::callToDoList(QString file_name) {
         file.close();
     }
     ToDoListWindow* new_window  = new ToDoListWindow(file_name, list);
-    connect(new_window, SIGNAL(delete_project_button(QString)), this, SLOT(delete_project_button(QString)));
+    connect(new_window, SIGNAL(delete_project_button(const QString&)), this, SLOT(delete_project_button(const QString&)));
+    connect(new_window, SIGNAL(edit_project_button(const QString&, const QString&)), this, SLOT(edit_project_button(const QString&, const QString&)));
     new_window->show();
 }
 
@@ -127,7 +128,7 @@ void MainWindow::on_projectButton_clicked() {
     callToDoList(/*"./UserProjects/" + _sender->text() + ".bin"*/get_project_path(_sender->text()));
 }
 
-void MainWindow::create_project(QString file_name) {
+void MainWindow::create_project(const QString& file_name) {
     // adding to m_project_list
     //m_project_list.append(file_name);
     // creating new file in user projects directory
@@ -141,23 +142,29 @@ void MainWindow::create_project(QString file_name) {
 void MainWindow::on_actionNew_triggered()
 {
     AddNewProjectDialog* new_dialog  = new AddNewProjectDialog(this);
-    connect(new_dialog, SIGNAL(create_project(QString)), this, SLOT(create_project(QString)));
+    connect(new_dialog, SIGNAL(create_project(const QString&)), this, SLOT(create_project(const QString&)));
     new_dialog->setModal(true);
     new_dialog->show();
 }
 
-void MainWindow::delete_project_button(QString name) {
+void MainWindow::delete_project_button(const QString& name) {
     for(qsizetype i = 0; i < ui->verticalLayout->count(); i++){
         QPushButton *button = qobject_cast<QPushButton*>(ui->verticalLayout->itemAt(i)->widget());
         if(button->text() == name){
             button->hide();
             delete button;
+            break;
         }
     }
 }
 
-void MainWindow::on_actionDelete_triggered()
-{
-
+void MainWindow::edit_project_button(const QString& old_name, const QString& new_name) {
+    for(qsizetype i = 0; i < ui->verticalLayout->count(); i++){
+        QPushButton *button = qobject_cast<QPushButton*>(ui->verticalLayout->itemAt(i)->widget());
+        if(button->text() == old_name){
+            button->setText(new_name);
+            break;
+        }
+    }
 }
 

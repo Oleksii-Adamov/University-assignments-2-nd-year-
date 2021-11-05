@@ -20,11 +20,11 @@ private:
     //QStringList m_project_list;
     void add_button(QString name);
 public slots:
-    void create_project(QString file_name);
-    void delete_project_button(QString name);
+    void create_project(const QString& file_name);
+    void delete_project_button(const QString& name);
+    void edit_project_button(const QString& old_name, const QString& new_name);
 private slots:
     void on_projectButton_clicked();
     void on_actionNew_triggered();
-    void on_actionDelete_triggered();
 };
 #endif // MAINWINDOW_H

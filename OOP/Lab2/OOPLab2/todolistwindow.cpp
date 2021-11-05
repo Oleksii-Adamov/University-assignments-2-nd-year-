@@ -2,6 +2,7 @@
 #include "ui_todolistwindow.h"
 #include "addtotodolist.h"
 #include "filepath.h"
+#include "addnewprojectdialog.h"
 
 ToDoListWindow::ToDoListWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -16,6 +17,11 @@ ToDoListWindow::ToDoListWindow(QWidget *parent) :
 ToDoListWindow::ToDoListWindow(QString file_name, QSharedPointer<std::vector<ToDoListData>> list, QWidget *parent)
     : QMainWindow(parent), ui(new Ui::ToDoListWindow), m_file_name(file_name)
 {
+    // getting project name out of file name
+    m_project_name = m_file_name;
+    if (!(change_to_file_name_without_extension_bin(m_project_name) && remove_path_from_project_file_name(m_project_name))) {
+        this->close();
+    }
     ui->setupUi(this);
     this->setWindowModality(Qt::WindowModal);
     this->setWindowState(Qt::WindowMaximized);
@@ -31,6 +37,11 @@ ToDoListWindow::ToDoListWindow(QString file_name, QSharedPointer<std::vector<ToD
     if (ui->listWidget->count() > 0)
         ui->listWidget->setCurrentRow(0);
     ui->listWidget->setHorizontalScrollMode(QAbstractItemView::ScrollPerPixel);
+    QFont title_font;
+    title_font.setPointSize(50);
+    title_font.setBold(true);
+    ui->label->setText(m_project_name);
+    ui->label->setFont(title_font);
 }
 ToDoListWindow::~ToDoListWindow()
 {
@@ -90,11 +101,32 @@ void ToDoListWindow::on_actionDelete_this_project_triggered()
     QFile file(m_file_name);
     file.remove();
     m_is_deleted = true;
-    // get button name
-    if (change_to_file_name_without_extension_bin(m_file_name) && remove_path_from_project_file_name(m_file_name)) {
-        // emit silgnal to delete button in MainWindow
-        emit delete_project_button(m_file_name);
-    }
+    // emit silgnal to delete button in MainWindow
+    emit delete_project_button(m_project_name);
     this->close();
+}
+
+void ToDoListWindow::edit_project(const QString& new_name) {
+    ui->label->setText(new_name);
+    QFile file(m_file_name);
+    m_file_name = get_project_path(new_name);
+    if (file.exists()) {
+        file.rename(m_file_name);
+    }
+    else {
+        file.setFileName(m_file_name);
+        file.open(QFile::NewOnly);
+        file.close();
+    }
+    emit edit_project_button(m_project_name, new_name);
+    m_project_name = new_name;
+}
+
+void ToDoListWindow::on_actionEditProject_triggered()
+{
+    AddNewProjectDialog* new_dialog  = new AddNewProjectDialog(this, project::mode::Edit);
+    connect(new_dialog, SIGNAL(edit_project(const QString&)), this, SLOT(edit_project(const QString&)));
+    new_dialog->setModal(true);
+    new_dialog->show();
 }
 
