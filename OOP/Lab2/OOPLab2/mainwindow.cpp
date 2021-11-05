@@ -27,9 +27,9 @@ MainWindow::MainWindow(QWidget *parent)
     foreach(QFileInfo file_info, dir.entryInfoList()) {
         QString file_name = file_info.fileName();
         // if file is .bin
-        if (file_name.length() > 4 && file_name.right(3) == "bin") {
+        if (/*file_name.length() > 4 && file_name.right(3) == "bin"*/change_to_file_name_without_extension_bin(file_name)) {
             // write into project list
-            file_name.remove(file_name.length() - 4, 4);
+            //file_name.remove(file_name.length() - 4, 4);
             if (file_name != "Today" && file_name != "Tomorrow" && file_name != "Someday" && file_name != "Comleted")
                    add_button(file_name);
         }
@@ -118,6 +118,7 @@ void MainWindow::callToDoList(QString file_name) {
         file.close();
     }
     ToDoListWindow* new_window  = new ToDoListWindow(file_name, list);
+    connect(new_window, SIGNAL(delete_project_button(QString)), this, SLOT(delete_project_button(QString)));
     new_window->show();
 }
 
@@ -145,6 +146,15 @@ void MainWindow::on_actionNew_triggered()
     new_dialog->show();
 }
 
+void MainWindow::delete_project_button(QString name) {
+    for(qsizetype i = 0; i < ui->verticalLayout->count(); i++){
+        QPushButton *button = qobject_cast<QPushButton*>(ui->verticalLayout->itemAt(i)->widget());
+        if(button->text() == name){
+            button->hide();
+            delete button;
+        }
+    }
+}
 
 void MainWindow::on_actionDelete_triggered()
 {

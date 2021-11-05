@@ -1,6 +1,7 @@
 #include "todolistwindow.h"
 #include "ui_todolistwindow.h"
 #include "addtotodolist.h"
+#include "filepath.h"
 
 ToDoListWindow::ToDoListWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -34,11 +35,13 @@ ToDoListWindow::ToDoListWindow(QString file_name, QSharedPointer<std::vector<ToD
 ToDoListWindow::~ToDoListWindow()
 {
     // write to file
-    QFile file(m_file_name);
-    file.open(QIODevice::WriteOnly);
-    QDataStream out(&file);
-    for (size_t i = 0; i < m_data_list->size(); i++) {
-        ((*m_data_list)[i]).write_to_binary(out);
+    if (!m_is_deleted) {
+        QFile file(m_file_name);
+        file.open(QIODevice::WriteOnly);
+        QDataStream out(&file);
+        for (size_t i = 0; i < m_data_list->size(); i++) {
+            ((*m_data_list)[i]).write_to_binary(out);
+        }
     }
     delete ui;
 }
@@ -78,5 +81,20 @@ void ToDoListWindow::on_pushButtonDelete_clicked()
          std::vector<ToDoListData>::iterator iter = m_data_list->begin();
          m_data_list->erase(iter + index);
      }
+}
+
+
+void ToDoListWindow::on_actionDelete_this_project_triggered()
+{
+    // delete file
+    QFile file(m_file_name);
+    file.remove();
+    m_is_deleted = true;
+    // get button name
+    if (change_to_file_name_without_extension_bin(m_file_name) && remove_path_from_project_file_name(m_file_name)) {
+        // emit silgnal to delete button in MainWindow
+        emit delete_project_button(m_file_name);
+    }
+    this->close();
 }
 

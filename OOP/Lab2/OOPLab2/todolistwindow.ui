@@ -80,10 +80,21 @@
     <bool>false</bool>
    </attribute>
    <addaction name="actionBack"/>
+   <addaction name="actionDelete_this_project"/>
   </widget>
   <action name="actionBack">
    <property name="text">
     <string>Back</string>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>20</pointsize>
+    </font>
+   </property>
+  </action>
+  <action name="actionDelete_this_project">
+   <property name="text">
+    <string>Delete this project</string>
    </property>
    <property name="font">
     <font>

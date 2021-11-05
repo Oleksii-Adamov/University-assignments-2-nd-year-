@@ -3,11 +3,9 @@ release/addtotodolist.o
 release/filepath.o
 release/main.o
 release/mainwindow.o
-release/projectbutton.o
 release/todolistdata.o
 release/todolistwindow.o
 release/moc_addnewprojectdialog.o
 release/moc_addtotodolist.o
 release/moc_mainwindow.o
-release/moc_projectbutton.o
 release/moc_todolistwindow.o

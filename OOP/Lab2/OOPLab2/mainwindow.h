@@ -21,7 +21,7 @@ private:
     void add_button(QString name);
 public slots:
     void create_project(QString file_name);
-
+    void delete_project_button(QString name);
 private slots:
     void on_projectButton_clicked();
     void on_actionNew_triggered();

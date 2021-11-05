@@ -27,6 +27,7 @@ class Ui_ToDoListWindow
 {
 public:
     QAction *actionBack;
+    QAction *actionDelete_this_project;
     QWidget *centralwidget;
     QGridLayout *gridLayout;
     QPushButton *pushButtonAdd;
@@ -48,6 +49,9 @@ public:
         QFont font;
         font.setPointSize(20);
         actionBack->setFont(font);
+        actionDelete_this_project = new QAction(ToDoListWindow);
+        actionDelete_this_project->setObjectName(QString::fromUtf8("actionDelete_this_project"));
+        actionDelete_this_project->setFont(font);
         centralwidget = new QWidget(ToDoListWindow);
         centralwidget->setObjectName(QString::fromUtf8("centralwidget"));
         gridLayout = new QGridLayout(centralwidget);
@@ -96,6 +100,7 @@ public:
         ToDoListWindow->addToolBar(Qt::TopToolBarArea, toolBar);
 
         toolBar->addAction(actionBack);
+        toolBar->addAction(actionDelete_this_project);
 
         retranslateUi(ToDoListWindow);
 
@@ -106,6 +111,7 @@ public:
     {
         ToDoListWindow->setWindowTitle(QCoreApplication::translate("ToDoListWindow", "MainWindow", nullptr));
         actionBack->setText(QCoreApplication::translate("ToDoListWindow", "Back", nullptr));
+        actionDelete_this_project->setText(QCoreApplication::translate("ToDoListWindow", "Delete this project", nullptr));
         pushButtonAdd->setText(QCoreApplication::translate("ToDoListWindow", "Add", nullptr));
         pushButtonEdit->setText(QCoreApplication::translate("ToDoListWindow", "Edit", nullptr));
         pushButtonDelete->setText(QCoreApplication::translate("ToDoListWindow", "Delete", nullptr));
