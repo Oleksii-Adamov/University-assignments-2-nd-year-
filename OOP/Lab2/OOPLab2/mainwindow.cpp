@@ -96,6 +96,9 @@ void MainWindow::add_button(QString name) {
     QPushButton* new_button = new QPushButton(name, this);
     ui->verticalLayout->addWidget(new_button);
     new_button->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding));
+    QFont button_font;
+    button_font.setPointSize(40);
+    new_button->setFont(button_font);
     connect(new_button, SIGNAL(clicked()), this, SLOT(on_projectButton_clicked()));
 }
 

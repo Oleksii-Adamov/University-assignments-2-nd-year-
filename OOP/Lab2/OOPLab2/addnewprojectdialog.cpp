@@ -11,10 +11,10 @@ AddNewProjectDialog::AddNewProjectDialog(QWidget *parent, project::mode mode) :
     m_mode(mode)
 {
     ui->setupUi(this);
-    QRegularExpression rx("^[a-zA-Z0-9_ -]+$");
+    QRegularExpression rx("^[a-zA-ZА-Яа-я0-9іїІЇ_ -]+$");
     QValidator* validator = new QRegularExpressionValidator(rx, this);
     ui->lineEdit->setValidator(validator);
-    ui->lineEdit->setMaxLength(50);
+    ui->lineEdit->setMaxLength(24);
     if (m_mode == project::mode::Edit) {
         ui->label->setText("New project name:");
         ui->pushButton_Create->setText("Edit");
