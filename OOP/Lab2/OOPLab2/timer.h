@@ -1,0 +1,32 @@
+#ifndef TIMER_H
+#define TIMER_H
+
+#include <QDialog>
+
+namespace Ui {
+class Timer;
+}
+
+class Timer : public QDialog
+{
+    Q_OBJECT
+
+public:
+    explicit Timer(QWidget *parent = nullptr);
+    ~Timer();
+
+private slots:
+    void on_pushButton_stop_skip_clicked();
+    void second_passed();
+
+private:
+    Ui::Timer *ui;
+    int m_duration_of_pomodoro_in_seconds;
+    int m_duration_of_break_in_seconds;
+    int m_seconds_passed = 0;
+    QTimer* m_timer;
+    bool m_is_break = false;
+    QString seconds_to_string(int seconds);
+};
+
+#endif // TIMER_H

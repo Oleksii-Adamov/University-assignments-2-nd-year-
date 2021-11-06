@@ -3,6 +3,7 @@
 #include "addtotodolist.h"
 #include "filepath.h"
 #include "addnewprojectdialog.h"
+#include "timer.h"
 
 ToDoListWindow::ToDoListWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -72,7 +73,11 @@ void ToDoListWindow::on_pushButtonAdd_clicked()
 
 void ToDoListWindow::on_pushButtonStartTimer_clicked()
 {
-
+    if (ui->listWidget->count() > 0) {
+        Timer* new_dialog = new Timer(this);
+        new_dialog->setModal(true);
+        new_dialog->show();
+    }
 }
 
 void ToDoListWindow::on_pushButtonEdit_clicked()

@@ -46,6 +46,7 @@ void AddToToDoList::on_pushButtonCreate_clicked()
     if (m_mode == ToDoList::mode::Add) {
         m_parent_data_list->emplace_back(ui->lineEditNameofTask->text(), 0, ui->spinBox->value());
         m_parent_list_widget->addItem(m_parent_data_list->back().ToQString());
+        m_parent_list_widget->setCurrentItem(m_parent_list_widget->item(m_parent_data_list->size() - 1));
     }
     this->close();
 }
