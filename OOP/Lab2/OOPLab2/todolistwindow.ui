@@ -15,10 +15,10 @@
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout">
-    <item row="2" column="1">
-     <widget class="QPushButton" name="pushButtonEdit">
+    <item row="3" column="0" colspan="3">
+     <widget class="QPushButton" name="pushButtonStartTimer">
       <property name="text">
-       <string>Edit</string>
+       <string>StartTimer</string>
       </property>
      </widget>
     </item>
@@ -32,27 +32,6 @@
       </property>
       <property name="resizeMode">
        <enum>QListView::Adjust</enum>
-      </property>
-     </widget>
-    </item>
-    <item row="3" column="0" colspan="3">
-     <widget class="QPushButton" name="pushButtonStartTimer">
-      <property name="text">
-       <string>StartTimer</string>
-      </property>
-     </widget>
-    </item>
-    <item row="2" column="2">
-     <widget class="QPushButton" name="pushButtonAdd">
-      <property name="text">
-       <string>Add</string>
-      </property>
-     </widget>
-    </item>
-    <item row="2" column="0">
-     <widget class="QPushButton" name="pushButtonDelete">
-      <property name="text">
-       <string>Delete</string>
       </property>
      </widget>
     </item>
@@ -72,6 +51,34 @@
       </property>
       <property name="alignment">
        <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="1">
+     <widget class="QPushButton" name="pushButtonEdit">
+      <property name="text">
+       <string>Edit</string>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="0">
+     <widget class="QPushButton" name="pushButtonDelete">
+      <property name="text">
+       <string>Delete</string>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="2">
+     <widget class="QPushButton" name="pushButtonAdd">
+      <property name="text">
+       <string>Add</string>
+      </property>
+     </widget>
+    </item>
+    <item row="4" column="0" colspan="3">
+     <widget class="QPushButton" name="pushButton_task_completed">
+      <property name="text">
+       <string>Task Comleted</string>
       </property>
      </widget>
     </item>

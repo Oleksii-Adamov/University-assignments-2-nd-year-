@@ -130,3 +130,24 @@ void ToDoListWindow::on_actionEditProject_triggered()
     new_dialog->show();
 }
 
+
+void ToDoListWindow::on_pushButton_task_completed_clicked()
+{
+    if (ui->listWidget->count() > 0) {
+        int index = ui->listWidget->indexFromItem(ui->listWidget->currentItem()).row();
+        // writing to Comleted prject
+        QFile file(get_project_path("Comleted"));
+        if (!file.exists()) {
+            file.open(QIODevice::NewOnly);
+            file.close();
+        }
+        file.open(QIODevice::Append);
+        QDataStream out(&file);
+        ((*m_data_list)[index]).write_to_binary(out);
+        // deleting from this project
+        ui->listWidget->takeItem(index);
+        std::vector<ToDoListData>::iterator iter = m_data_list->begin();
+        m_data_list->erase(iter + index);
+    }
+}
+

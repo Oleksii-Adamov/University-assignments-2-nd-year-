@@ -44,6 +44,8 @@ private slots:
 
     void on_actionEditProject_triggered();
 
+    void on_pushButton_task_completed_clicked();
+
 private:
     Ui::ToDoListWindow *ui;
     QString m_file_name;

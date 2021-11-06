@@ -32,12 +32,13 @@ public:
     QAction *actionEditProject;
     QWidget *centralwidget;
     QGridLayout *gridLayout;
-    QPushButton *pushButtonEdit;
-    QListWidget *listWidget;
     QPushButton *pushButtonStartTimer;
-    QPushButton *pushButtonAdd;
-    QPushButton *pushButtonDelete;
+    QListWidget *listWidget;
     QLabel *label;
+    QPushButton *pushButtonEdit;
+    QPushButton *pushButtonDelete;
+    QPushButton *pushButtonAdd;
+    QPushButton *pushButton_task_completed;
     QMenuBar *menubar;
     QStatusBar *statusbar;
     QToolBar *toolBar;
@@ -62,10 +63,10 @@ public:
         centralwidget->setObjectName(QString::fromUtf8("centralwidget"));
         gridLayout = new QGridLayout(centralwidget);
         gridLayout->setObjectName(QString::fromUtf8("gridLayout"));
-        pushButtonEdit = new QPushButton(centralwidget);
-        pushButtonEdit->setObjectName(QString::fromUtf8("pushButtonEdit"));
+        pushButtonStartTimer = new QPushButton(centralwidget);
+        pushButtonStartTimer->setObjectName(QString::fromUtf8("pushButtonStartTimer"));
 
-        gridLayout->addWidget(pushButtonEdit, 2, 1, 1, 1);
+        gridLayout->addWidget(pushButtonStartTimer, 3, 0, 1, 3);
 
         listWidget = new QListWidget(centralwidget);
         listWidget->setObjectName(QString::fromUtf8("listWidget"));
@@ -78,21 +79,6 @@ public:
 
         gridLayout->addWidget(listWidget, 1, 0, 1, 3);
 
-        pushButtonStartTimer = new QPushButton(centralwidget);
-        pushButtonStartTimer->setObjectName(QString::fromUtf8("pushButtonStartTimer"));
-
-        gridLayout->addWidget(pushButtonStartTimer, 3, 0, 1, 3);
-
-        pushButtonAdd = new QPushButton(centralwidget);
-        pushButtonAdd->setObjectName(QString::fromUtf8("pushButtonAdd"));
-
-        gridLayout->addWidget(pushButtonAdd, 2, 2, 1, 1);
-
-        pushButtonDelete = new QPushButton(centralwidget);
-        pushButtonDelete->setObjectName(QString::fromUtf8("pushButtonDelete"));
-
-        gridLayout->addWidget(pushButtonDelete, 2, 0, 1, 1);
-
         label = new QLabel(centralwidget);
         label->setObjectName(QString::fromUtf8("label"));
         QSizePolicy sizePolicy1(QSizePolicy::Preferred, QSizePolicy::Fixed);
@@ -104,6 +90,26 @@ public:
         label->setAlignment(Qt::AlignCenter);
 
         gridLayout->addWidget(label, 0, 0, 1, 3);
+
+        pushButtonEdit = new QPushButton(centralwidget);
+        pushButtonEdit->setObjectName(QString::fromUtf8("pushButtonEdit"));
+
+        gridLayout->addWidget(pushButtonEdit, 2, 1, 1, 1);
+
+        pushButtonDelete = new QPushButton(centralwidget);
+        pushButtonDelete->setObjectName(QString::fromUtf8("pushButtonDelete"));
+
+        gridLayout->addWidget(pushButtonDelete, 2, 0, 1, 1);
+
+        pushButtonAdd = new QPushButton(centralwidget);
+        pushButtonAdd->setObjectName(QString::fromUtf8("pushButtonAdd"));
+
+        gridLayout->addWidget(pushButtonAdd, 2, 2, 1, 1);
+
+        pushButton_task_completed = new QPushButton(centralwidget);
+        pushButton_task_completed->setObjectName(QString::fromUtf8("pushButton_task_completed"));
+
+        gridLayout->addWidget(pushButton_task_completed, 4, 0, 1, 3);
 
         ToDoListWindow->setCentralWidget(centralwidget);
         menubar = new QMenuBar(ToDoListWindow);
@@ -132,11 +138,12 @@ public:
         actionBack->setText(QCoreApplication::translate("ToDoListWindow", "Back", nullptr));
         actionDelete_this_project->setText(QCoreApplication::translate("ToDoListWindow", "Delete project", nullptr));
         actionEditProject->setText(QCoreApplication::translate("ToDoListWindow", "EditProject", nullptr));
-        pushButtonEdit->setText(QCoreApplication::translate("ToDoListWindow", "Edit", nullptr));
         pushButtonStartTimer->setText(QCoreApplication::translate("ToDoListWindow", "StartTimer", nullptr));
-        pushButtonAdd->setText(QCoreApplication::translate("ToDoListWindow", "Add", nullptr));
-        pushButtonDelete->setText(QCoreApplication::translate("ToDoListWindow", "Delete", nullptr));
         label->setText(QCoreApplication::translate("ToDoListWindow", "TextLabel", nullptr));
+        pushButtonEdit->setText(QCoreApplication::translate("ToDoListWindow", "Edit", nullptr));
+        pushButtonDelete->setText(QCoreApplication::translate("ToDoListWindow", "Delete", nullptr));
+        pushButtonAdd->setText(QCoreApplication::translate("ToDoListWindow", "Add", nullptr));
+        pushButton_task_completed->setText(QCoreApplication::translate("ToDoListWindow", "Task Comleted", nullptr));
         toolBar->setWindowTitle(QCoreApplication::translate("ToDoListWindow", "toolBar", nullptr));
     } // retranslateUi
 
