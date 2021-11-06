@@ -50,10 +50,7 @@ public:
         centralwidget->setSizeIncrement(QSize(0, 0));
         centralwidget->setBaseSize(QSize(6, 0));
         verticalLayout = new QVBoxLayout(centralwidget);
-        verticalLayout->setSpacing(0);
         verticalLayout->setObjectName(QString::fromUtf8("verticalLayout"));
-        verticalLayout->setSizeConstraint(QLayout::SetDefaultConstraint);
-        verticalLayout->setContentsMargins(0, 0, 0, 0);
         MainWindow->setCentralWidget(centralwidget);
         menubar = new QMenuBar(MainWindow);
         menubar->setObjectName(QString::fromUtf8("menubar"));

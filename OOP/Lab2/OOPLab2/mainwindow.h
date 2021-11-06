@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QLayout>
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
@@ -19,6 +20,8 @@ private:
     void callToDoList(QString file_name);
     //QStringList m_project_list;
     void add_button(QString name);
+    QVBoxLayout* m_button_layout;
+    QWidget* m_button_container;
 public slots:
     void create_project(const QString& file_name);
     void delete_project_button(const QString& name);

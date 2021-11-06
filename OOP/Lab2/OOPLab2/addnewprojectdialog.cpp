@@ -45,7 +45,7 @@ void AddNewProjectDialog::on_pushButton_Create_clicked()
         }
     }
     else { // Edit
-        // emmit signal to edit
+        // emmit signal to edit, ToDoListWindow catches
         emit edit_project(ui->lineEdit->text());
         this->close();
     }

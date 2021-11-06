@@ -9,12 +9,26 @@
 #include <QDebug>
 #include "addnewprojectdialog.h"
 #include "filepath.h"
+#include <QScrollArea>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    //QWidget* w = new QWidget(this);
+    //w->setLayout(ui->verticalLayout);
+    //ui->scrollArea->setWidget(w);
+    //ui->scrollArea->setLayout(ui->verticalLayout);
+    //QScrollArea* scroll = new QScrollArea(this);
+    //scroll->setWidget(ui->centralwidget);
+    //scroll->show();
+    auto * scrollArea = new QScrollArea(this);
+    scrollArea->setWidgetResizable( true );
+    ui->verticalLayout->addWidget( scrollArea );
+    m_button_container = new QWidget();
+    scrollArea->setWidget( m_button_container );
+    m_button_layout = new QVBoxLayout(m_button_container);
     QDir dir;
     dir.mkdir(get_project_dir());
     dir.mkdir(get_user_data_dir());
@@ -93,8 +107,11 @@ MainWindow::~MainWindow()
 }
 
 void MainWindow::add_button(QString name) {
-    QPushButton* new_button = new QPushButton(name, this);
-    ui->verticalLayout->addWidget(new_button);
+    //QPushButton* new_button = new QPushButton(name, this);
+    //ui->verticalLayout->addWidget(new_button);
+    QPushButton* new_button = new QPushButton(name, m_button_container);
+    m_button_layout->addWidget(new_button);
+    //ui->listWidget->addItem((QListWidgetItem*)(new_button));
     new_button->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding));
     QFont button_font;
     button_font.setPointSize(40);
@@ -151,8 +168,8 @@ void MainWindow::on_actionNew_triggered()
 }
 
 void MainWindow::delete_project_button(const QString& name) {
-    for(qsizetype i = 0; i < ui->verticalLayout->count(); i++){
-        QPushButton *button = qobject_cast<QPushButton*>(ui->verticalLayout->itemAt(i)->widget());
+    for(qsizetype i = 0; i < /*ui->verticalLayout*/m_button_layout->count(); i++){
+        QPushButton *button = qobject_cast<QPushButton*>(/*ui->verticalLayout*/m_button_layout->itemAt(i)->widget());
         if(button->text() == name){
             button->hide();
             delete button;
@@ -162,8 +179,8 @@ void MainWindow::delete_project_button(const QString& name) {
 }
 
 void MainWindow::edit_project_button(const QString& old_name, const QString& new_name) {
-    for(qsizetype i = 0; i < ui->verticalLayout->count(); i++){
-        QPushButton *button = qobject_cast<QPushButton*>(ui->verticalLayout->itemAt(i)->widget());
+    for(qsizetype i = 0; i < /*ui->verticalLayout*/m_button_layout->count(); i++){
+        QPushButton *button = qobject_cast<QPushButton*>(/*ui->verticalLayout*/m_button_layout->itemAt(i)->widget());
         if(button->text() == old_name){
             button->setText(new_name);
             break;
