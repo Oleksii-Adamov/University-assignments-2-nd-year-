@@ -2,6 +2,7 @@
 #define TIMER_H
 
 #include <QDialog>
+#include <QMediaPlayer>
 
 namespace Ui {
 class Timer;
@@ -27,6 +28,7 @@ private:
     QTimer* m_timer;
     bool m_is_break = false;
     QString seconds_to_string(int seconds);
+    QMediaPlayer* m_player;
 };
 
 #endif // TIMER_H
