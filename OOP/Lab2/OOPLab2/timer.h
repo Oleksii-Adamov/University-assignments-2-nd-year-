@@ -16,6 +16,9 @@ public:
     explicit Timer(QWidget *parent = nullptr);
     ~Timer();
 
+signals:
+    void pomodoro_finished();
+
 private slots:
     void on_pushButton_stop_skip_start_clicked();
     void second_passed();
@@ -30,6 +33,7 @@ private:
     bool m_is_timer_counting = true;
     QString seconds_to_string(int seconds);
     QMediaPlayer* m_player;
+// need add signal
 };
 
 #endif // TIMER_H

@@ -75,6 +75,7 @@ void ToDoListWindow::on_pushButtonStartTimer_clicked()
 {
     if (ui->listWidget->count() > 0) {
         Timer* new_dialog = new Timer(this);
+        connect(new_dialog, SIGNAL(pomodoro_finished()), this, SLOT(increment_pomodoros()));
         new_dialog->setModal(true);
         new_dialog->show();
     }
@@ -156,3 +157,8 @@ void ToDoListWindow::on_pushButton_task_completed_clicked()
     }
 }
 
+void ToDoListWindow::increment_pomodoros() {
+    int index = ui->listWidget->indexFromItem(ui->listWidget->currentItem()).row();
+    (*m_data_list)[index].done += 1;
+    ui->listWidget->currentItem()->setData(Qt::EditRole, (*m_data_list)[index].ToQString());
+}

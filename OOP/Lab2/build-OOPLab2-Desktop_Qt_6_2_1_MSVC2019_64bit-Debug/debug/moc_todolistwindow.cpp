@@ -24,8 +24,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_ToDoListWindow_t {
-    const uint offsetsAndSize[32];
-    char stringdata0[335];
+    const uint offsetsAndSize[34];
+    char stringdata0[355];
 };
 #define QT_MOC_LITERAL(ofs, len) \
     uint(offsetof(qt_meta_stringdata_ToDoListWindow_t, stringdata0) + ofs), len 
@@ -39,19 +39,21 @@ QT_MOC_LITERAL(43, 19), // "edit_project_button"
 QT_MOC_LITERAL(63, 7), // "oldname"
 QT_MOC_LITERAL(71, 8), // "new_name"
 QT_MOC_LITERAL(80, 12), // "edit_project"
-QT_MOC_LITERAL(93, 23), // "on_actionBack_triggered"
-QT_MOC_LITERAL(117, 24), // "on_pushButtonAdd_clicked"
-QT_MOC_LITERAL(142, 31), // "on_pushButtonStartTimer_clicked"
-QT_MOC_LITERAL(174, 25), // "on_pushButtonEdit_clicked"
-QT_MOC_LITERAL(200, 27), // "on_pushButtonDelete_clicked"
-QT_MOC_LITERAL(228, 38), // "on_actionDelete_this_project_..."
-QT_MOC_LITERAL(267, 30), // "on_actionEditProject_triggered"
-QT_MOC_LITERAL(298, 36) // "on_pushButton_task_completed_..."
+QT_MOC_LITERAL(93, 19), // "increment_pomodoros"
+QT_MOC_LITERAL(113, 23), // "on_actionBack_triggered"
+QT_MOC_LITERAL(137, 24), // "on_pushButtonAdd_clicked"
+QT_MOC_LITERAL(162, 31), // "on_pushButtonStartTimer_clicked"
+QT_MOC_LITERAL(194, 25), // "on_pushButtonEdit_clicked"
+QT_MOC_LITERAL(220, 27), // "on_pushButtonDelete_clicked"
+QT_MOC_LITERAL(248, 38), // "on_actionDelete_this_project_..."
+QT_MOC_LITERAL(287, 30), // "on_actionEditProject_triggered"
+QT_MOC_LITERAL(318, 36) // "on_pushButton_task_completed_..."
 
     },
     "ToDoListWindow\0delete_project_button\0"
     "\0name\0edit_project_button\0oldname\0"
-    "new_name\0edit_project\0on_actionBack_triggered\0"
+    "new_name\0edit_project\0increment_pomodoros\0"
+    "on_actionBack_triggered\0"
     "on_pushButtonAdd_clicked\0"
     "on_pushButtonStartTimer_clicked\0"
     "on_pushButtonEdit_clicked\0"
@@ -68,7 +70,7 @@ static const uint qt_meta_data_ToDoListWindow[] = {
       10,       // revision
        0,       // classname
        0,    0, // classinfo
-      11,   14, // methods
+      12,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -76,19 +78,20 @@ static const uint qt_meta_data_ToDoListWindow[] = {
        2,       // signalCount
 
  // signals: name, argc, parameters, tag, flags, initial metatype offsets
-       1,    1,   80,    2, 0x06,    1 /* Public */,
-       4,    2,   83,    2, 0x06,    3 /* Public */,
+       1,    1,   86,    2, 0x06,    1 /* Public */,
+       4,    2,   89,    2, 0x06,    3 /* Public */,
 
  // slots: name, argc, parameters, tag, flags, initial metatype offsets
-       7,    1,   88,    2, 0x0a,    6 /* Public */,
-       8,    0,   91,    2, 0x08,    8 /* Private */,
-       9,    0,   92,    2, 0x08,    9 /* Private */,
-      10,    0,   93,    2, 0x08,   10 /* Private */,
-      11,    0,   94,    2, 0x08,   11 /* Private */,
-      12,    0,   95,    2, 0x08,   12 /* Private */,
-      13,    0,   96,    2, 0x08,   13 /* Private */,
-      14,    0,   97,    2, 0x08,   14 /* Private */,
-      15,    0,   98,    2, 0x08,   15 /* Private */,
+       7,    1,   94,    2, 0x0a,    6 /* Public */,
+       8,    0,   97,    2, 0x0a,    8 /* Public */,
+       9,    0,   98,    2, 0x08,    9 /* Private */,
+      10,    0,   99,    2, 0x08,   10 /* Private */,
+      11,    0,  100,    2, 0x08,   11 /* Private */,
+      12,    0,  101,    2, 0x08,   12 /* Private */,
+      13,    0,  102,    2, 0x08,   13 /* Private */,
+      14,    0,  103,    2, 0x08,   14 /* Private */,
+      15,    0,  104,    2, 0x08,   15 /* Private */,
+      16,    0,  105,    2, 0x08,   16 /* Private */,
 
  // signals: parameters
     QMetaType::Void, QMetaType::QString,    3,
@@ -96,6 +99,7 @@ static const uint qt_meta_data_ToDoListWindow[] = {
 
  // slots: parameters
     QMetaType::Void, QMetaType::QString,    6,
+    QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
@@ -117,14 +121,15 @@ void ToDoListWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _
         case 0: _t->delete_project_button((*reinterpret_cast< const QString(*)>(_a[1]))); break;
         case 1: _t->edit_project_button((*reinterpret_cast< const QString(*)>(_a[1])),(*reinterpret_cast< const QString(*)>(_a[2]))); break;
         case 2: _t->edit_project((*reinterpret_cast< const QString(*)>(_a[1]))); break;
-        case 3: _t->on_actionBack_triggered(); break;
-        case 4: _t->on_pushButtonAdd_clicked(); break;
-        case 5: _t->on_pushButtonStartTimer_clicked(); break;
-        case 6: _t->on_pushButtonEdit_clicked(); break;
-        case 7: _t->on_pushButtonDelete_clicked(); break;
-        case 8: _t->on_actionDelete_this_project_triggered(); break;
-        case 9: _t->on_actionEditProject_triggered(); break;
-        case 10: _t->on_pushButton_task_completed_clicked(); break;
+        case 3: _t->increment_pomodoros(); break;
+        case 4: _t->on_actionBack_triggered(); break;
+        case 5: _t->on_pushButtonAdd_clicked(); break;
+        case 6: _t->on_pushButtonStartTimer_clicked(); break;
+        case 7: _t->on_pushButtonEdit_clicked(); break;
+        case 8: _t->on_pushButtonDelete_clicked(); break;
+        case 9: _t->on_actionDelete_this_project_triggered(); break;
+        case 10: _t->on_actionEditProject_triggered(); break;
+        case 11: _t->on_pushButton_task_completed_clicked(); break;
         default: ;
         }
     } else if (_c == QMetaObject::IndexOfMethod) {
@@ -154,7 +159,7 @@ const QMetaObject ToDoListWindow::staticMetaObject = { {
     nullptr,
 qt_incomplete_metaTypeArray<qt_meta_stringdata_ToDoListWindow_t
 , QtPrivate::TypeAndForceComplete<ToDoListWindow, std::true_type>, QtPrivate::TypeAndForceComplete<void, std::false_type>, QtPrivate::TypeAndForceComplete<const QString &, std::false_type>, QtPrivate::TypeAndForceComplete<void, std::false_type>, QtPrivate::TypeAndForceComplete<const QString &, std::false_type>, QtPrivate::TypeAndForceComplete<const QString &, std::false_type>
-, QtPrivate::TypeAndForceComplete<void, std::false_type>, QtPrivate::TypeAndForceComplete<const QString &, std::false_type>, QtPrivate::TypeAndForceComplete<void, std::false_type>, QtPrivate::TypeAndForceComplete<void, std::false_type>, QtPrivate::TypeAndForceComplete<void, std::false_type>, QtPrivate::TypeAndForceComplete<void, std::false_type>, QtPrivate::TypeAndForceComplete<void, std::false_type>, QtPrivate::TypeAndForceComplete<void, std::false_type>, QtPrivate::TypeAndForceComplete<void, std::false_type>, QtPrivate::TypeAndForceComplete<void, std::false_type>
+, QtPrivate::TypeAndForceComplete<void, std::false_type>, QtPrivate::TypeAndForceComplete<const QString &, std::false_type>, QtPrivate::TypeAndForceComplete<void, std::false_type>, QtPrivate::TypeAndForceComplete<void, std::false_type>, QtPrivate::TypeAndForceComplete<void, std::false_type>, QtPrivate::TypeAndForceComplete<void, std::false_type>, QtPrivate::TypeAndForceComplete<void, std::false_type>, QtPrivate::TypeAndForceComplete<void, std::false_type>, QtPrivate::TypeAndForceComplete<void, std::false_type>, QtPrivate::TypeAndForceComplete<void, std::false_type>, QtPrivate::TypeAndForceComplete<void, std::false_type>
 
 
 >,
@@ -181,13 +186,13 @@ int ToDoListWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 11)
+        if (_id < 12)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 11;
+        _id -= 12;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 11)
+        if (_id < 12)
             *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType();
-        _id -= 11;
+        _id -= 12;
     }
     return _id;
 }

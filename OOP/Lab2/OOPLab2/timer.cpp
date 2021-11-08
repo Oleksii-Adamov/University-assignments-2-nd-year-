@@ -11,6 +11,7 @@ Timer::Timer(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::Timer)
 {
+    setAttribute(Qt::WA_DeleteOnClose);
     ui->setupUi(this);
     m_duration_of_pomodoro_in_seconds = 10;
     m_duration_of_break_in_seconds = 10;
@@ -73,6 +74,8 @@ void Timer::second_passed() {
         m_player->play();
         m_seconds_passed = 0;
         ui->pushButton_stop_skip_start->setText("Skip");
+        // emit signal to incerment number of pomodoros
+        emit pomodoro_finished();
     }
     else if (m_is_break && m_seconds_passed == m_duration_of_break_in_seconds) {
         ui->label_state->setText("Work. Try not to be distracted");

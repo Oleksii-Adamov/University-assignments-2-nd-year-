@@ -22,21 +22,23 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_Timer_t {
-    const uint offsetsAndSize[8];
-    char stringdata0[59];
+    const uint offsetsAndSize[10];
+    char stringdata0[77];
 };
 #define QT_MOC_LITERAL(ofs, len) \
     uint(offsetof(qt_meta_stringdata_Timer_t, stringdata0) + ofs), len 
 static const qt_meta_stringdata_Timer_t qt_meta_stringdata_Timer = {
     {
 QT_MOC_LITERAL(0, 5), // "Timer"
-QT_MOC_LITERAL(6, 37), // "on_pushButton_stop_skip_start..."
-QT_MOC_LITERAL(44, 0), // ""
-QT_MOC_LITERAL(45, 13) // "second_passed"
+QT_MOC_LITERAL(6, 17), // "pomodoro_finished"
+QT_MOC_LITERAL(24, 0), // ""
+QT_MOC_LITERAL(25, 37), // "on_pushButton_stop_skip_start..."
+QT_MOC_LITERAL(63, 13) // "second_passed"
 
     },
-    "Timer\0on_pushButton_stop_skip_start_clicked\0"
-    "\0second_passed"
+    "Timer\0pomodoro_finished\0\0"
+    "on_pushButton_stop_skip_start_clicked\0"
+    "second_passed"
 };
 #undef QT_MOC_LITERAL
 
@@ -46,16 +48,22 @@ static const uint qt_meta_data_Timer[] = {
       10,       // revision
        0,       // classname
        0,    0, // classinfo
-       2,   14, // methods
+       3,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
        0,       // flags
-       0,       // signalCount
+       1,       // signalCount
+
+ // signals: name, argc, parameters, tag, flags, initial metatype offsets
+       1,    0,   32,    2, 0x06,    1 /* Public */,
 
  // slots: name, argc, parameters, tag, flags, initial metatype offsets
-       1,    0,   26,    2, 0x08,    1 /* Private */,
-       3,    0,   27,    2, 0x08,    2 /* Private */,
+       3,    0,   33,    2, 0x08,    2 /* Private */,
+       4,    0,   34,    2, 0x08,    3 /* Private */,
+
+ // signals: parameters
+    QMetaType::Void,
 
  // slots: parameters
     QMetaType::Void,
@@ -70,9 +78,19 @@ void Timer::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void 
         auto *_t = static_cast<Timer *>(_o);
         (void)_t;
         switch (_id) {
-        case 0: _t->on_pushButton_stop_skip_start_clicked(); break;
-        case 1: _t->second_passed(); break;
+        case 0: _t->pomodoro_finished(); break;
+        case 1: _t->on_pushButton_stop_skip_start_clicked(); break;
+        case 2: _t->second_passed(); break;
         default: ;
+        }
+    } else if (_c == QMetaObject::IndexOfMethod) {
+        int *result = reinterpret_cast<int *>(_a[0]);
+        {
+            using _t = void (Timer::*)();
+            if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&Timer::pomodoro_finished)) {
+                *result = 0;
+                return;
+            }
         }
     }
     (void)_a;
@@ -85,7 +103,7 @@ const QMetaObject Timer::staticMetaObject = { {
     qt_static_metacall,
     nullptr,
 qt_incomplete_metaTypeArray<qt_meta_stringdata_Timer_t
-, QtPrivate::TypeAndForceComplete<Timer, std::true_type>
+, QtPrivate::TypeAndForceComplete<Timer, std::true_type>, QtPrivate::TypeAndForceComplete<void, std::false_type>
 , QtPrivate::TypeAndForceComplete<void, std::false_type>, QtPrivate::TypeAndForceComplete<void, std::false_type>
 
 
@@ -113,15 +131,21 @@ int Timer::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 2)
+        if (_id < 3)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 2;
+        _id -= 3;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 2)
+        if (_id < 3)
             *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType();
-        _id -= 2;
+        _id -= 3;
     }
     return _id;
+}
+
+// SIGNAL 0
+void Timer::pomodoro_finished()
+{
+    QMetaObject::activate(this, &staticMetaObject, 0, nullptr);
 }
 QT_WARNING_POP
 QT_END_MOC_NAMESPACE
