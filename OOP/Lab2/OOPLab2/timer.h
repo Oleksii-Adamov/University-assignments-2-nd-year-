@@ -17,7 +17,7 @@ public:
     ~Timer();
 
 private slots:
-    void on_pushButton_stop_skip_clicked();
+    void on_pushButton_stop_skip_start_clicked();
     void second_passed();
 
 private:
@@ -27,6 +27,7 @@ private:
     int m_seconds_passed = 0;
     QTimer* m_timer;
     bool m_is_break = false;
+    bool m_is_timer_counting = true;
     QString seconds_to_string(int seconds);
     QMediaPlayer* m_player;
 };

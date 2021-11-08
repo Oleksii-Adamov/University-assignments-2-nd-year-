@@ -45,9 +45,9 @@
     </widget>
    </item>
    <item>
-    <widget class="QPushButton" name="pushButton_stop_skip">
+    <widget class="QPushButton" name="pushButton_stop_skip_start">
      <property name="text">
-      <string>Stop/Skip</string>
+      <string>Stop/Skip/Start</string>
      </property>
     </widget>
    </item>

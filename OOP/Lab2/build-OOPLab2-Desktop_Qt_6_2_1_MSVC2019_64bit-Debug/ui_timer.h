@@ -24,7 +24,7 @@ public:
     QVBoxLayout *verticalLayout;
     QLabel *label_state;
     QLabel *label_time;
-    QPushButton *pushButton_stop_skip;
+    QPushButton *pushButton_stop_skip_start;
 
     void setupUi(QDialog *Timer)
     {
@@ -49,10 +49,10 @@ public:
 
         verticalLayout->addWidget(label_time);
 
-        pushButton_stop_skip = new QPushButton(Timer);
-        pushButton_stop_skip->setObjectName(QString::fromUtf8("pushButton_stop_skip"));
+        pushButton_stop_skip_start = new QPushButton(Timer);
+        pushButton_stop_skip_start->setObjectName(QString::fromUtf8("pushButton_stop_skip_start"));
 
-        verticalLayout->addWidget(pushButton_stop_skip);
+        verticalLayout->addWidget(pushButton_stop_skip_start);
 
 
         retranslateUi(Timer);
@@ -65,7 +65,7 @@ public:
         Timer->setWindowTitle(QCoreApplication::translate("Timer", "Dialog", nullptr));
         label_state->setText(QCoreApplication::translate("Timer", "State", nullptr));
         label_time->setText(QCoreApplication::translate("Timer", "Time left", nullptr));
-        pushButton_stop_skip->setText(QCoreApplication::translate("Timer", "Stop/Skip", nullptr));
+        pushButton_stop_skip_start->setText(QCoreApplication::translate("Timer", "Stop/Skip/Start", nullptr));
     } // retranslateUi
 
 };

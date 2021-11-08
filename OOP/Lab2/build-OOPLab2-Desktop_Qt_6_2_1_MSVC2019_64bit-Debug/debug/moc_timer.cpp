@@ -23,19 +23,19 @@ QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_Timer_t {
     const uint offsetsAndSize[8];
-    char stringdata0[53];
+    char stringdata0[59];
 };
 #define QT_MOC_LITERAL(ofs, len) \
     uint(offsetof(qt_meta_stringdata_Timer_t, stringdata0) + ofs), len 
 static const qt_meta_stringdata_Timer_t qt_meta_stringdata_Timer = {
     {
 QT_MOC_LITERAL(0, 5), // "Timer"
-QT_MOC_LITERAL(6, 31), // "on_pushButton_stop_skip_clicked"
-QT_MOC_LITERAL(38, 0), // ""
-QT_MOC_LITERAL(39, 13) // "second_passed"
+QT_MOC_LITERAL(6, 37), // "on_pushButton_stop_skip_start..."
+QT_MOC_LITERAL(44, 0), // ""
+QT_MOC_LITERAL(45, 13) // "second_passed"
 
     },
-    "Timer\0on_pushButton_stop_skip_clicked\0"
+    "Timer\0on_pushButton_stop_skip_start_clicked\0"
     "\0second_passed"
 };
 #undef QT_MOC_LITERAL
@@ -70,7 +70,7 @@ void Timer::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void 
         auto *_t = static_cast<Timer *>(_o);
         (void)_t;
         switch (_id) {
-        case 0: _t->on_pushButton_stop_skip_clicked(); break;
+        case 0: _t->on_pushButton_stop_skip_start_clicked(); break;
         case 1: _t->second_passed(); break;
         default: ;
         }
