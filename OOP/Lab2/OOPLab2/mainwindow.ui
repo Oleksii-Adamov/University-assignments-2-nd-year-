@@ -61,10 +61,21 @@
     <bool>false</bool>
    </attribute>
    <addaction name="actionNew"/>
+   <addaction name="actionSettings"/>
   </widget>
   <action name="actionNew">
    <property name="text">
     <string>New</string>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>20</pointsize>
+    </font>
+   </property>
+  </action>
+  <action name="actionSettings">
+   <property name="text">
+    <string>Settings</string>
    </property>
    <property name="font">
     <font>

@@ -24,6 +24,7 @@ class Ui_MainWindow
 {
 public:
     QAction *actionNew;
+    QAction *actionSettings;
     QWidget *centralwidget;
     QVBoxLayout *verticalLayout;
     QMenuBar *menubar;
@@ -39,6 +40,9 @@ public:
         QFont font;
         font.setPointSize(20);
         actionNew->setFont(font);
+        actionSettings = new QAction(MainWindow);
+        actionSettings->setObjectName(QString::fromUtf8("actionSettings"));
+        actionSettings->setFont(font);
         centralwidget = new QWidget(MainWindow);
         centralwidget->setObjectName(QString::fromUtf8("centralwidget"));
         QSizePolicy sizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
@@ -61,6 +65,7 @@ public:
         MainWindow->addToolBar(Qt::TopToolBarArea, toolBar);
 
         toolBar->addAction(actionNew);
+        toolBar->addAction(actionSettings);
 
         retranslateUi(MainWindow);
 
@@ -71,6 +76,7 @@ public:
     {
         MainWindow->setWindowTitle(QCoreApplication::translate("MainWindow", "MainWindow", nullptr));
         actionNew->setText(QCoreApplication::translate("MainWindow", "New", nullptr));
+        actionSettings->setText(QCoreApplication::translate("MainWindow", "Settings", nullptr));
         toolBar->setWindowTitle(QCoreApplication::translate("MainWindow", "toolBar", nullptr));
     } // retranslateUi
 

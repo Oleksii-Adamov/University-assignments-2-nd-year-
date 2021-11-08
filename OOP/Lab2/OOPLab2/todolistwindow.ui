@@ -108,6 +108,7 @@
    <addaction name="actionBack"/>
    <addaction name="actionDelete_this_project"/>
    <addaction name="actionEditProject"/>
+   <addaction name="actionSettings"/>
   </widget>
   <action name="actionBack">
    <property name="text">
@@ -132,6 +133,16 @@
   <action name="actionEditProject">
    <property name="text">
     <string>EditProject</string>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>20</pointsize>
+    </font>
+   </property>
+  </action>
+  <action name="actionSettings">
+   <property name="text">
+    <string>Settings</string>
    </property>
    <property name="font">
     <font>

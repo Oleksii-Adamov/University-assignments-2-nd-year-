@@ -29,5 +29,6 @@ public slots:
 private slots:
     void on_projectButton_clicked();
     void on_actionNew_triggered();
+    void on_actionSettings_triggered();
 };
 #endif // MAINWINDOW_H

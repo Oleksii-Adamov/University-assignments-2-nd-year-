@@ -10,6 +10,7 @@
 #include "addnewprojectdialog.h"
 #include "filepath.h"
 #include <QScrollArea>
+#include "settingsdialog.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -186,5 +187,13 @@ void MainWindow::edit_project_button(const QString& old_name, const QString& new
             break;
         }
     }
+}
+
+
+void MainWindow::on_actionSettings_triggered()
+{
+    SettingsDialog* new_dialog = new SettingsDialog(this);
+    new_dialog->setModal(true);
+    new_dialog->show();
 }
 

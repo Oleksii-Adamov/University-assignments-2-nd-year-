@@ -6,6 +6,8 @@
 #include <QAudioOutput>
 #include <QMediaDevices>
 #include <QAudioDevice>
+#include <QFile>
+#include "filepath.h"
 
 Timer::Timer(QWidget *parent) :
     QDialog(parent),
@@ -13,8 +15,24 @@ Timer::Timer(QWidget *parent) :
 {
     setAttribute(Qt::WA_DeleteOnClose);
     ui->setupUi(this);
-    m_duration_of_pomodoro_in_seconds = 10;
-    m_duration_of_break_in_seconds = 10;
+    // loading durations from setting
+    int pomodoro_duration_in_minutes, break_duration_in_minutes;
+    QFile file(get_settings_path());
+    if(file.exists()) {
+        file.open(QIODevice::ReadOnly);
+        QDataStream in(&file);
+        in >> pomodoro_duration_in_minutes >> break_duration_in_minutes;
+        file.close();
+    }
+    else { // setup default settings
+        pomodoro_duration_in_minutes = 20;
+        break_duration_in_minutes = 5;
+        file.open(QIODevice::WriteOnly);
+        QDataStream out(&file);
+        out << pomodoro_duration_in_minutes  << break_duration_in_minutes;
+    }
+    m_duration_of_pomodoro_in_seconds = pomodoro_duration_in_minutes * 60;
+    m_duration_of_break_in_seconds = break_duration_in_minutes * 60;
     ui->label_state->setText("Work. Try not to be distracted");
     ui->label_time->setText(seconds_to_string(m_duration_of_pomodoro_in_seconds));
     ui->pushButton_stop_skip_start->setText("Stop");

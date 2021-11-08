@@ -31,3 +31,7 @@ bool remove_path_from_project_file_name(QString& file_name) {
     }
     return false;
 }
+
+QString get_settings_path() {
+    return "./UserData/settings.bin";
+}

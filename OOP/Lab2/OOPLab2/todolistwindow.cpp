@@ -4,6 +4,7 @@
 #include "filepath.h"
 #include "addnewprojectdialog.h"
 #include "timer.h"
+#include "settingsdialog.h"
 
 ToDoListWindow::ToDoListWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -162,3 +163,11 @@ void ToDoListWindow::increment_pomodoros() {
     (*m_data_list)[index].done += 1;
     ui->listWidget->currentItem()->setData(Qt::EditRole, (*m_data_list)[index].ToQString());
 }
+
+void ToDoListWindow::on_actionSettings_triggered()
+{
+    SettingsDialog* new_dialog = new SettingsDialog(this);
+    new_dialog->setModal(true);
+    new_dialog->show();
+}
+

@@ -14,4 +14,6 @@ bool change_to_file_name_without_extension_bin(QString& file_name);
 
 bool remove_path_from_project_file_name(QString& file_name);
 
+QString get_settings_path();
+
 #endif // FILEPATH_H

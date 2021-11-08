@@ -24,8 +24,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_ToDoListWindow_t {
-    const uint offsetsAndSize[34];
-    char stringdata0[355];
+    const uint offsetsAndSize[36];
+    char stringdata0[383];
 };
 #define QT_MOC_LITERAL(ofs, len) \
     uint(offsetof(qt_meta_stringdata_ToDoListWindow_t, stringdata0) + ofs), len 
@@ -47,7 +47,8 @@ QT_MOC_LITERAL(194, 25), // "on_pushButtonEdit_clicked"
 QT_MOC_LITERAL(220, 27), // "on_pushButtonDelete_clicked"
 QT_MOC_LITERAL(248, 38), // "on_actionDelete_this_project_..."
 QT_MOC_LITERAL(287, 30), // "on_actionEditProject_triggered"
-QT_MOC_LITERAL(318, 36) // "on_pushButton_task_completed_..."
+QT_MOC_LITERAL(318, 36), // "on_pushButton_task_completed_..."
+QT_MOC_LITERAL(355, 27) // "on_actionSettings_triggered"
 
     },
     "ToDoListWindow\0delete_project_button\0"
@@ -60,7 +61,8 @@ QT_MOC_LITERAL(318, 36) // "on_pushButton_task_completed_..."
     "on_pushButtonDelete_clicked\0"
     "on_actionDelete_this_project_triggered\0"
     "on_actionEditProject_triggered\0"
-    "on_pushButton_task_completed_clicked"
+    "on_pushButton_task_completed_clicked\0"
+    "on_actionSettings_triggered"
 };
 #undef QT_MOC_LITERAL
 
@@ -70,7 +72,7 @@ static const uint qt_meta_data_ToDoListWindow[] = {
       10,       // revision
        0,       // classname
        0,    0, // classinfo
-      12,   14, // methods
+      13,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -78,20 +80,21 @@ static const uint qt_meta_data_ToDoListWindow[] = {
        2,       // signalCount
 
  // signals: name, argc, parameters, tag, flags, initial metatype offsets
-       1,    1,   86,    2, 0x06,    1 /* Public */,
-       4,    2,   89,    2, 0x06,    3 /* Public */,
+       1,    1,   92,    2, 0x06,    1 /* Public */,
+       4,    2,   95,    2, 0x06,    3 /* Public */,
 
  // slots: name, argc, parameters, tag, flags, initial metatype offsets
-       7,    1,   94,    2, 0x0a,    6 /* Public */,
-       8,    0,   97,    2, 0x0a,    8 /* Public */,
-       9,    0,   98,    2, 0x08,    9 /* Private */,
-      10,    0,   99,    2, 0x08,   10 /* Private */,
-      11,    0,  100,    2, 0x08,   11 /* Private */,
-      12,    0,  101,    2, 0x08,   12 /* Private */,
-      13,    0,  102,    2, 0x08,   13 /* Private */,
-      14,    0,  103,    2, 0x08,   14 /* Private */,
-      15,    0,  104,    2, 0x08,   15 /* Private */,
-      16,    0,  105,    2, 0x08,   16 /* Private */,
+       7,    1,  100,    2, 0x0a,    6 /* Public */,
+       8,    0,  103,    2, 0x0a,    8 /* Public */,
+       9,    0,  104,    2, 0x08,    9 /* Private */,
+      10,    0,  105,    2, 0x08,   10 /* Private */,
+      11,    0,  106,    2, 0x08,   11 /* Private */,
+      12,    0,  107,    2, 0x08,   12 /* Private */,
+      13,    0,  108,    2, 0x08,   13 /* Private */,
+      14,    0,  109,    2, 0x08,   14 /* Private */,
+      15,    0,  110,    2, 0x08,   15 /* Private */,
+      16,    0,  111,    2, 0x08,   16 /* Private */,
+      17,    0,  112,    2, 0x08,   17 /* Private */,
 
  // signals: parameters
     QMetaType::Void, QMetaType::QString,    3,
@@ -99,6 +102,7 @@ static const uint qt_meta_data_ToDoListWindow[] = {
 
  // slots: parameters
     QMetaType::Void, QMetaType::QString,    6,
+    QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
@@ -130,6 +134,7 @@ void ToDoListWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _
         case 9: _t->on_actionDelete_this_project_triggered(); break;
         case 10: _t->on_actionEditProject_triggered(); break;
         case 11: _t->on_pushButton_task_completed_clicked(); break;
+        case 12: _t->on_actionSettings_triggered(); break;
         default: ;
         }
     } else if (_c == QMetaObject::IndexOfMethod) {
@@ -159,7 +164,7 @@ const QMetaObject ToDoListWindow::staticMetaObject = { {
     nullptr,
 qt_incomplete_metaTypeArray<qt_meta_stringdata_ToDoListWindow_t
 , QtPrivate::TypeAndForceComplete<ToDoListWindow, std::true_type>, QtPrivate::TypeAndForceComplete<void, std::false_type>, QtPrivate::TypeAndForceComplete<const QString &, std::false_type>, QtPrivate::TypeAndForceComplete<void, std::false_type>, QtPrivate::TypeAndForceComplete<const QString &, std::false_type>, QtPrivate::TypeAndForceComplete<const QString &, std::false_type>
-, QtPrivate::TypeAndForceComplete<void, std::false_type>, QtPrivate::TypeAndForceComplete<const QString &, std::false_type>, QtPrivate::TypeAndForceComplete<void, std::false_type>, QtPrivate::TypeAndForceComplete<void, std::false_type>, QtPrivate::TypeAndForceComplete<void, std::false_type>, QtPrivate::TypeAndForceComplete<void, std::false_type>, QtPrivate::TypeAndForceComplete<void, std::false_type>, QtPrivate::TypeAndForceComplete<void, std::false_type>, QtPrivate::TypeAndForceComplete<void, std::false_type>, QtPrivate::TypeAndForceComplete<void, std::false_type>, QtPrivate::TypeAndForceComplete<void, std::false_type>
+, QtPrivate::TypeAndForceComplete<void, std::false_type>, QtPrivate::TypeAndForceComplete<const QString &, std::false_type>, QtPrivate::TypeAndForceComplete<void, std::false_type>, QtPrivate::TypeAndForceComplete<void, std::false_type>, QtPrivate::TypeAndForceComplete<void, std::false_type>, QtPrivate::TypeAndForceComplete<void, std::false_type>, QtPrivate::TypeAndForceComplete<void, std::false_type>, QtPrivate::TypeAndForceComplete<void, std::false_type>, QtPrivate::TypeAndForceComplete<void, std::false_type>, QtPrivate::TypeAndForceComplete<void, std::false_type>, QtPrivate::TypeAndForceComplete<void, std::false_type>, QtPrivate::TypeAndForceComplete<void, std::false_type>
 
 
 >,
@@ -186,13 +191,13 @@ int ToDoListWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 12)
+        if (_id < 13)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 12;
+        _id -= 13;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 12)
+        if (_id < 13)
             *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType();
-        _id -= 12;
+        _id -= 13;
     }
     return _id;
 }

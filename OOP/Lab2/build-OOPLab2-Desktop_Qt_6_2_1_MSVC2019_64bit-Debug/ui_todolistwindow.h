@@ -30,6 +30,7 @@ public:
     QAction *actionBack;
     QAction *actionDelete_this_project;
     QAction *actionEditProject;
+    QAction *actionSettings;
     QWidget *centralwidget;
     QGridLayout *gridLayout;
     QPushButton *pushButtonStartTimer;
@@ -59,6 +60,9 @@ public:
         actionEditProject = new QAction(ToDoListWindow);
         actionEditProject->setObjectName(QString::fromUtf8("actionEditProject"));
         actionEditProject->setFont(font);
+        actionSettings = new QAction(ToDoListWindow);
+        actionSettings->setObjectName(QString::fromUtf8("actionSettings"));
+        actionSettings->setFont(font);
         centralwidget = new QWidget(ToDoListWindow);
         centralwidget->setObjectName(QString::fromUtf8("centralwidget"));
         gridLayout = new QGridLayout(centralwidget);
@@ -126,6 +130,7 @@ public:
         toolBar->addAction(actionBack);
         toolBar->addAction(actionDelete_this_project);
         toolBar->addAction(actionEditProject);
+        toolBar->addAction(actionSettings);
 
         retranslateUi(ToDoListWindow);
 
@@ -138,6 +143,7 @@ public:
         actionBack->setText(QCoreApplication::translate("ToDoListWindow", "Back", nullptr));
         actionDelete_this_project->setText(QCoreApplication::translate("ToDoListWindow", "Delete project", nullptr));
         actionEditProject->setText(QCoreApplication::translate("ToDoListWindow", "EditProject", nullptr));
+        actionSettings->setText(QCoreApplication::translate("ToDoListWindow", "Settings", nullptr));
         pushButtonStartTimer->setText(QCoreApplication::translate("ToDoListWindow", "StartTimer", nullptr));
         label->setText(QCoreApplication::translate("ToDoListWindow", "TextLabel", nullptr));
         pushButtonEdit->setText(QCoreApplication::translate("ToDoListWindow", "Edit", nullptr));

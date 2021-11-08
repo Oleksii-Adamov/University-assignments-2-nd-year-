@@ -14,6 +14,7 @@ SOURCES += \
     filepath.cpp \
     main.cpp \
     mainwindow.cpp \
+    settingsdialog.cpp \
     timer.cpp \
     todolistdata.cpp \
     todolistwindow.cpp
@@ -23,6 +24,7 @@ HEADERS += \
     addtotodolist.h \
     filepath.h \
     mainwindow.h \
+    settingsdialog.h \
     timer.h \
     todolistdata.h \
     todolistwindow.h
@@ -31,6 +33,7 @@ FORMS += \
     addnewprojectdialog.ui \
     addtotodolist.ui \
     mainwindow.ui \
+    settingsdialog.ui \
     timer.ui \
     todolistwindow.ui
 
