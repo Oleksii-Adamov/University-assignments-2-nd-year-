@@ -7,23 +7,10 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
     ui(new Ui::SettingsDialog)
 {
     ui->setupUi(this);
-    QFile file(get_settings_path());
-    if(file.exists()) {
-        file.open(QIODevice::ReadOnly);
-        QDataStream in(&file);
-        int prev_pomodoro_duration, prev_break_duration;
-        in >> prev_pomodoro_duration >> prev_break_duration;
-        ui->spinBox_pomodoro->setValue(prev_pomodoro_duration);
-        ui->spinBox_break->setValue(prev_break_duration);
-        file.close();
-    }
-    else { // setup default settings
-        ui->spinBox_pomodoro->setValue(20);
-        ui->spinBox_break->setValue(5);
-        file.open(QIODevice::WriteOnly);
-        QDataStream out(&file);
-        out << 20  << 5;
-    }
+    int prev_break_duration;
+    read_settings(m_prev_pomodoro_duration, prev_break_duration);
+    ui->spinBox_pomodoro->setValue(m_prev_pomodoro_duration);
+    ui->spinBox_break->setValue(prev_break_duration);
 }
 
 SettingsDialog::~SettingsDialog()
@@ -44,6 +31,9 @@ void SettingsDialog::on_pushButton_apply_clicked()
     QDataStream out(&file);
     out << ui->spinBox_pomodoro->value() << ui->spinBox_break->value();
     file.close();
+    if (ui->spinBox_pomodoro->value() != m_prev_pomodoro_duration) { // emit signal to update predicted time in ToDoList
+        emit pomodoro_duration_changed();
+    }
     this->close();
 }
 

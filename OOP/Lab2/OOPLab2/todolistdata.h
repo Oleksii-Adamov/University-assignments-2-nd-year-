@@ -42,8 +42,8 @@ public:
     void write_to_binary(FILE* fptr);*/
     //void read_from_binary(QDataStream in);
     void write_to_binary(QDataStream& out);
-signals:
-
+private:
+    QString time_needed_to_finish();
 };
 //Q_DECLARE_METATYPE(ToDoListData);
 #endif // TODOLISTDATA_H

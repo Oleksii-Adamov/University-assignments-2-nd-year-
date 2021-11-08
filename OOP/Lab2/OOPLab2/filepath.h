@@ -16,4 +16,6 @@ bool remove_path_from_project_file_name(QString& file_name);
 
 QString get_settings_path();
 
+void read_settings(int& pomodoro_duration_in_minutes, int& break_duration_in_minutes);
+
 #endif // FILEPATH_H

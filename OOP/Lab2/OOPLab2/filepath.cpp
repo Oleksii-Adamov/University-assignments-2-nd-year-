@@ -1,5 +1,5 @@
 #include "filepath.h"
-
+#include <QFile>
 QString get_project_path(const QString& file_name) {
     return "./UserProjects/" + file_name + ".bin";
 }
@@ -34,4 +34,21 @@ bool remove_path_from_project_file_name(QString& file_name) {
 
 QString get_settings_path() {
     return "./UserData/settings.bin";
+}
+
+void read_settings(int& pomodoro_duration_in_minutes, int& break_duration_in_minutes) {
+    QFile file(get_settings_path());
+    if(file.exists()) {
+        file.open(QIODevice::ReadOnly);
+        QDataStream in(&file);
+        in >> pomodoro_duration_in_minutes >> break_duration_in_minutes;
+        file.close();
+    }
+    else { // setup default settings
+        pomodoro_duration_in_minutes = 20;
+        break_duration_in_minutes = 5;
+        file.open(QIODevice::WriteOnly);
+        QDataStream out(&file);
+        out << pomodoro_duration_in_minutes  << break_duration_in_minutes;
+    }
 }

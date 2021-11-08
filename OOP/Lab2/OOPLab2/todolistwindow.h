@@ -29,6 +29,7 @@ signals:
 public slots:
     void edit_project(const QString& new_name);
     void increment_pomodoros();
+    void update_list();
 
 private slots:
     void on_actionBack_triggered();

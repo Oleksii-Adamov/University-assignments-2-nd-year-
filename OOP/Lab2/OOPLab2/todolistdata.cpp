@@ -1,9 +1,8 @@
 #include "todolistdata.h"
+#include "filepath.h"
 
 QString ToDoListData::ToQString() {
-    QString ret = name;
-    ret += " " + QString::number(done) + "/" + QString::number(predicted) + " pomodoro";
-    return ret;
+    return name + " " + QString::number(done) + "/" + QString::number(predicted) + " pomodoro" + time_needed_to_finish();
 }
 
 ToDoListData::ToDoListData() {}
@@ -46,4 +45,13 @@ ToDoListData& ToDoListData::operator=(const ToDoListData &other) {
 void ToDoListData::write_to_binary(QDataStream& out) {
     out << name << done << predicted;
 }
-//ToDoListData ToDoListData::&operator=(const ToDoListData &other)
+
+QString ToDoListData::time_needed_to_finish() {
+    if (done > predicted) return "Prediction is wrong!";
+    int pomodoro_duration_in_minutes, break_duration_in_minutes;
+    read_settings(pomodoro_duration_in_minutes, break_duration_in_minutes);
+    int minutes = (predicted - done) * pomodoro_duration_in_minutes;
+    int hours = minutes / 60;
+    minutes = minutes % 60;
+    return " " + QString::number(hours) + "h " + QString::number(minutes) + "m";
+}
