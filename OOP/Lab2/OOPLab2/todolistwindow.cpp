@@ -7,17 +7,16 @@
 #include "settingsdialog.h"
 
 ToDoListWindow::ToDoListWindow(QWidget *parent) :
-    QMainWindow(parent),
+    QMainWindow/*QDialog*/(/*(QWidget*)*/ parent),
     ui(new Ui::ToDoListWindow)
 {
     ui->setupUi(this);
-    this->setWindowModality(Qt::WindowModal);
     this->setWindowState(Qt::WindowMaximized);
     this->setBackgroundRole(QPalette::Window);
     setAttribute(Qt::WA_DeleteOnClose);
 }
 ToDoListWindow::ToDoListWindow(QString file_name, QSharedPointer<std::vector<ToDoListData>> list, QWidget *parent)
-    : QMainWindow(parent), ui(new Ui::ToDoListWindow), m_file_name(file_name)
+    :  QMainWindow/*QDialog*/(/*(QWidget*)*/ parent), ui(new Ui::ToDoListWindow), m_file_name(file_name)
 {
     // getting project name out of file name
     m_project_name = m_file_name;
@@ -25,7 +24,6 @@ ToDoListWindow::ToDoListWindow(QString file_name, QSharedPointer<std::vector<ToD
         this->close();
     }
     ui->setupUi(this);
-    this->setWindowModality(Qt::WindowModal);
     this->setWindowState(Qt::WindowMaximized);
     this->setBackgroundRole(QPalette::Window);
     setAttribute(Qt::WA_DeleteOnClose);

@@ -2,6 +2,7 @@
 #define TODOLISTWINDOW_H
 
 #include <QMainWindow>
+//#include <QDialog>
 #include <QtGui>
 #include "todolistdata.h"
 #include <vector>
@@ -10,7 +11,7 @@ namespace Ui {
 class ToDoListWindow;
 }
 
-class ToDoListWindow : public QMainWindow
+class ToDoListWindow : public QMainWindow/*QDialog*/
 {
     Q_OBJECT
 
