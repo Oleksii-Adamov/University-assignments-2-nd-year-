@@ -122,7 +122,7 @@ void MainWindow::add_button(QString name) {
 
 // open todolistwindow
 void MainWindow::callToDoList(QString file_name) {
-    QSharedPointer<std::vector<ToDoListData>> list = QSharedPointer<std::vector<ToDoListData>>(new std::vector<ToDoListData>);
+    /*QSharedPointer<std::vector<ToDoListData>> list = QSharedPointer<std::vector<ToDoListData>>(new std::vector<ToDoListData>);
     QDir dir;
     dir.mkdir(get_project_dir());
     QFile file(file_name);
@@ -137,8 +137,8 @@ void MainWindow::callToDoList(QString file_name) {
             list->emplace_back(in);
         }
         file.close();
-    }
-    ToDoListWindow* new_window  = new ToDoListWindow(file_name, list, this);
+    }*/
+    ToDoListWindow* new_window  = new ToDoListWindow(file_name/*, list*/, this);
     connect(new_window, SIGNAL(delete_project_button(const QString&)), this, SLOT(delete_project_button(const QString&)));
     connect(new_window, SIGNAL(edit_project_button(const QString&, const QString&)), this, SLOT(edit_project_button(const QString&, const QString&)));
     new_window->setWindowModality(Qt::WindowModal);

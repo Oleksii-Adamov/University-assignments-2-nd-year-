@@ -31,6 +31,7 @@ AddToToDoList::AddToToDoList(QWidget *parent, QSharedPointer<std::vector<ToDoLis
         ui->pushButtonCreate->setText("Apply");
         int index = m_parent_list_widget->indexFromItem(m_parent_list_widget->currentItem()).row();
         ui->spinBox->setValue((*m_parent_data_list)[index].predicted);
+        ui->spinBox_priority->setValue((*m_parent_data_list)[index].priority);
         ui->lineEditNameofTask->setText((*m_parent_data_list)[index].name);
     }
 }
@@ -41,13 +42,15 @@ void AddToToDoList::on_pushButtonCreate_clicked()
         int index = m_parent_list_widget->indexFromItem(m_parent_list_widget->currentItem()).row();
         (*m_parent_data_list)[index].name = ui->lineEditNameofTask->text();
         (*m_parent_data_list)[index].predicted = ui->spinBox->value();
+        (*m_parent_data_list)[index].priority = ui->spinBox_priority->value();
         m_parent_list_widget->currentItem()->setData(Qt::EditRole, (*m_parent_data_list)[index].ToQString());
     }
     if (m_mode == ToDoList::mode::Add) {
-        m_parent_data_list->emplace_back(ui->lineEditNameofTask->text(), 0, ui->spinBox->value());
+        m_parent_data_list->emplace_back(ui->spinBox_priority->value(), ui->lineEditNameofTask->text(), 0, ui->spinBox->value());
         m_parent_list_widget->addItem(m_parent_data_list->back().ToQString());
         m_parent_list_widget->setCurrentItem(m_parent_list_widget->item(m_parent_data_list->size() - 1));
     }
+    std::sort(m_parent_data_list->begin(), m_parent_data_list->begin() + m_parent_data_list->size());
     this->close();
 }
 

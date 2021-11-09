@@ -142,7 +142,7 @@ public:
         ToDoListWindow->setWindowTitle(QCoreApplication::translate("ToDoListWindow", "MainWindow", nullptr));
         actionBack->setText(QCoreApplication::translate("ToDoListWindow", "Back", nullptr));
         actionDelete_this_project->setText(QCoreApplication::translate("ToDoListWindow", "Delete project", nullptr));
-        actionEditProject->setText(QCoreApplication::translate("ToDoListWindow", "EditProject", nullptr));
+        actionEditProject->setText(QCoreApplication::translate("ToDoListWindow", "Edit Project", nullptr));
         actionSettings->setText(QCoreApplication::translate("ToDoListWindow", "Settings", nullptr));
         pushButtonStartTimer->setText(QCoreApplication::translate("ToDoListWindow", "StartTimer", nullptr));
         label->setText(QCoreApplication::translate("ToDoListWindow", "TextLabel", nullptr));

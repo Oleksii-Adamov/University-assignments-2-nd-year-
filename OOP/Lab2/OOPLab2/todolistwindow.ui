@@ -132,7 +132,7 @@
   </action>
   <action name="actionEditProject">
    <property name="text">
-    <string>EditProject</string>
+    <string>Edit Project</string>
    </property>
    <property name="font">
     <font>

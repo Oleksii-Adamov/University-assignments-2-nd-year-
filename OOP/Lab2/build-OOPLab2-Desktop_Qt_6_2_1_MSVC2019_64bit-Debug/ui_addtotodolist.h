@@ -31,6 +31,9 @@ public:
     QHBoxLayout *horizontalLayout_2;
     QLabel *label_2;
     QSpinBox *spinBox;
+    QHBoxLayout *horizontalLayout_3;
+    QLabel *label_3;
+    QSpinBox *spinBox_priority;
     QPushButton *pushButtonCreate;
     QPushButton *pushButtonCancel;
 
@@ -71,6 +74,24 @@ public:
 
         verticalLayout->addLayout(horizontalLayout_2);
 
+        horizontalLayout_3 = new QHBoxLayout();
+        horizontalLayout_3->setObjectName(QString::fromUtf8("horizontalLayout_3"));
+        label_3 = new QLabel(AddToToDoList);
+        label_3->setObjectName(QString::fromUtf8("label_3"));
+        label_3->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
+
+        horizontalLayout_3->addWidget(label_3);
+
+        spinBox_priority = new QSpinBox(AddToToDoList);
+        spinBox_priority->setObjectName(QString::fromUtf8("spinBox_priority"));
+        spinBox_priority->setMinimum(1);
+        spinBox_priority->setMaximum(9);
+
+        horizontalLayout_3->addWidget(spinBox_priority);
+
+
+        verticalLayout->addLayout(horizontalLayout_3);
+
         pushButtonCreate = new QPushButton(AddToToDoList);
         pushButtonCreate->setObjectName(QString::fromUtf8("pushButtonCreate"));
 
@@ -92,6 +113,7 @@ public:
         AddToToDoList->setWindowTitle(QCoreApplication::translate("AddToToDoList", "Dialog", nullptr));
         label->setText(QCoreApplication::translate("AddToToDoList", "Name of the task:", nullptr));
         label_2->setText(QCoreApplication::translate("AddToToDoList", "Your prediction on number of pomodoros:", nullptr));
+        label_3->setText(QCoreApplication::translate("AddToToDoList", "Priority:", nullptr));
         pushButtonCreate->setText(QCoreApplication::translate("AddToToDoList", "Create", nullptr));
         pushButtonCancel->setText(QCoreApplication::translate("AddToToDoList", "Cancel", nullptr));
     } // retranslateUi

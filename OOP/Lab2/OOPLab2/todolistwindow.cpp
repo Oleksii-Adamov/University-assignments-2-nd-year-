@@ -5,7 +5,6 @@
 #include "addnewprojectdialog.h"
 #include "timer.h"
 #include "settingsdialog.h"
-
 ToDoListWindow::ToDoListWindow(QWidget *parent) :
     QMainWindow/*QDialog*/(/*(QWidget*)*/ parent),
     ui(new Ui::ToDoListWindow)
@@ -15,9 +14,26 @@ ToDoListWindow::ToDoListWindow(QWidget *parent) :
     this->setBackgroundRole(QPalette::Window);
     setAttribute(Qt::WA_DeleteOnClose);
 }
-ToDoListWindow::ToDoListWindow(QString file_name, QSharedPointer<std::vector<ToDoListData>> list, QWidget *parent)
+ToDoListWindow::ToDoListWindow(QString file_name, /*QSharedPointer<std::vector<ToDoListData>> list,*/ QWidget *parent)
     :  QMainWindow/*QDialog*/(/*(QWidget*)*/ parent), ui(new Ui::ToDoListWindow), m_file_name(file_name)
 {
+    // loading from file
+    m_data_list = QSharedPointer<std::vector<ToDoListData>>(new std::vector<ToDoListData>);
+    QDir dir;
+    dir.mkdir(get_project_dir());
+    QFile file(m_file_name);
+    if (!file.exists()) {
+        file.open(QIODevice::NewOnly);
+        file.close();
+    }
+    else {
+        file.open(QIODevice::ReadOnly);
+        QDataStream in(&file);
+        while(!in.atEnd()) {
+            m_data_list->emplace_back(in);
+        }
+        file.close();
+    }
     // getting project name out of file name
     m_project_name = m_file_name;
     if (!(change_to_file_name_without_extension_bin(m_project_name) && remove_path_from_project_file_name(m_project_name))) {
@@ -29,8 +45,9 @@ ToDoListWindow::ToDoListWindow(QString file_name, QSharedPointer<std::vector<ToD
     setAttribute(Qt::WA_DeleteOnClose);
     QFont list_item_font;
     list_item_font.setPointSize(30);
-    m_data_list = list;
+   // m_data_list = list;
     ui->listWidget->setFont(list_item_font);
+    ui->listWidget->setSortingEnabled(true);
     for (size_t i = 0; i < m_data_list->size(); i++) {
         ui->listWidget->addItem(((*m_data_list)[i]).ToQString());
     }
@@ -175,4 +192,3 @@ void ToDoListWindow::on_actionSettings_triggered()
     new_dialog->setModal(true);
     new_dialog->show();
 }
-

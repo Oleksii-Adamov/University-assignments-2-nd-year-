@@ -21,7 +21,7 @@ public:
     //void setList(QSharedPointer<QStringList> list);
     //void setList(QSharedPointer<QList<ToDoListData>> list);
     //void setList(QSharedPointer<std::vector<ToDoListData>> list);
-    ToDoListWindow(QString file_name, QSharedPointer<std::vector<ToDoListData>> list, QWidget *parent = nullptr);
+    ToDoListWindow(QString file_name, /*QSharedPointer<std::vector<ToDoListData>> list,*/ QWidget *parent = nullptr);
 
 signals:
     void delete_project_button(const QString& name);
@@ -54,7 +54,8 @@ private slots:
 private:
     Ui::ToDoListWindow *ui;
     QString m_file_name;
-    QSharedPointer<std::vector<ToDoListData>> m_data_list;
+    QSharedPointer<std::vector<ToDoListData>> m_data_list = QSharedPointer<std::vector<ToDoListData>>(new std::vector<ToDoListData>);
+    //std::vector<ToDoListData> m_data_list;
     bool m_is_deleted = false;
     QString m_project_name;
 };
