@@ -46,7 +46,7 @@ void ToDoListData::write_to_binary(QDataStream& out) {
 }
 
 QString ToDoListData::time_needed_to_finish() {
-    if (done > predicted) return "Prediction is wrong!";
+    if (done > predicted) return " Prediction is wrong!";
     int pomodoro_duration_in_minutes, break_duration_in_minutes;
     read_settings(pomodoro_duration_in_minutes, break_duration_in_minutes);
     int minutes = (predicted - done) * pomodoro_duration_in_minutes;

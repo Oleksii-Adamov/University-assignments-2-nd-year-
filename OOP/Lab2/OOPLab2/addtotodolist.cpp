@@ -17,7 +17,7 @@ AddToToDoList::~AddToToDoList()
     delete ui;
 }
 
-AddToToDoList::AddToToDoList(QWidget *parent, QSharedPointer<std::vector<ToDoListData>> parent_data_list,
+AddToToDoList::AddToToDoList(QWidget *parent, std::vector<ToDoListData>* parent_data_list,
                              QListWidget* parent_list_widget, ToDoList::mode mode)
     : QDialog(parent), ui(new Ui::AddToToDoList), m_parent_data_list(parent_data_list), m_parent_list_widget(parent_list_widget),
       m_mode(mode)

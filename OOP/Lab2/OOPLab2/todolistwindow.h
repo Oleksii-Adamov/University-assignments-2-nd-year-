@@ -54,8 +54,8 @@ private slots:
 private:
     Ui::ToDoListWindow *ui;
     QString m_file_name;
-    QSharedPointer<std::vector<ToDoListData>> m_data_list = QSharedPointer<std::vector<ToDoListData>>(new std::vector<ToDoListData>);
-    //std::vector<ToDoListData> m_data_list;
+   // QSharedPointer<std::vector<ToDoListData>> m_data_list = QSharedPointer<std::vector<ToDoListData>>(new std::vector<ToDoListData>);
+    std::vector<ToDoListData> m_data_list;
     bool m_is_deleted = false;
     QString m_project_name;
 };

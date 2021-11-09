@@ -18,7 +18,7 @@ ToDoListWindow::ToDoListWindow(QString file_name, /*QSharedPointer<std::vector<T
     :  QMainWindow/*QDialog*/(/*(QWidget*)*/ parent), ui(new Ui::ToDoListWindow), m_file_name(file_name)
 {
     // loading from file
-    m_data_list = QSharedPointer<std::vector<ToDoListData>>(new std::vector<ToDoListData>);
+    //m_data_list = QSharedPointer<std::vector<ToDoListData>>(new std::vector<ToDoListData>);
     QDir dir;
     dir.mkdir(get_project_dir());
     QFile file(m_file_name);
@@ -30,7 +30,7 @@ ToDoListWindow::ToDoListWindow(QString file_name, /*QSharedPointer<std::vector<T
         file.open(QIODevice::ReadOnly);
         QDataStream in(&file);
         while(!in.atEnd()) {
-            m_data_list->emplace_back(in);
+            m_data_list.emplace_back(in);
         }
         file.close();
     }
@@ -48,8 +48,8 @@ ToDoListWindow::ToDoListWindow(QString file_name, /*QSharedPointer<std::vector<T
    // m_data_list = list;
     ui->listWidget->setFont(list_item_font);
     ui->listWidget->setSortingEnabled(true);
-    for (size_t i = 0; i < m_data_list->size(); i++) {
-        ui->listWidget->addItem(((*m_data_list)[i]).ToQString());
+    for (size_t i = 0; i < m_data_list.size(); i++) {
+        ui->listWidget->addItem((m_data_list[i]).ToQString());
     }
     if (ui->listWidget->count() > 0)
         ui->listWidget->setCurrentRow(0);
@@ -67,8 +67,8 @@ ToDoListWindow::~ToDoListWindow()
         QFile file(m_file_name);
         file.open(QIODevice::WriteOnly);
         QDataStream out(&file);
-        for (size_t i = 0; i < m_data_list->size(); i++) {
-            ((*m_data_list)[i]).write_to_binary(out);
+        for (size_t i = 0; i < m_data_list.size(); i++) {
+            (m_data_list[i]).write_to_binary(out);
         }
     }
     delete ui;
@@ -81,7 +81,7 @@ void ToDoListWindow::on_actionBack_triggered()
 
 void ToDoListWindow::on_pushButtonAdd_clicked()
 {
-   AddToToDoList* new_dialog = new AddToToDoList(this, m_data_list, ui->listWidget, ToDoList::mode::Add);
+   AddToToDoList* new_dialog = new AddToToDoList(this, &m_data_list, ui->listWidget, ToDoList::mode::Add);
    new_dialog->setModal(true);
    new_dialog->show();
 }
@@ -100,7 +100,7 @@ void ToDoListWindow::on_pushButtonStartTimer_clicked()
 void ToDoListWindow::on_pushButtonEdit_clicked()
 {
     if (ui->listWidget->count() > 0) {
-        AddToToDoList* new_dialog = new AddToToDoList(this, m_data_list, ui->listWidget, ToDoList::mode::Edit);
+        AddToToDoList* new_dialog = new AddToToDoList(this, &m_data_list, ui->listWidget, ToDoList::mode::Edit);
         new_dialog->setModal(true);
         new_dialog->show();
     }
@@ -111,8 +111,8 @@ void ToDoListWindow::on_pushButtonDelete_clicked()
      if (ui->listWidget->count() > 0) {
          int index = ui->listWidget->indexFromItem(ui->listWidget->currentItem()).row();
          ui->listWidget->takeItem(index);
-         std::vector<ToDoListData>::iterator iter = m_data_list->begin();
-         m_data_list->erase(iter + index);
+         std::vector<ToDoListData>::iterator iter = m_data_list.begin();
+         m_data_list.erase(iter + index);
      }
 }
 
@@ -165,24 +165,26 @@ void ToDoListWindow::on_pushButton_task_completed_clicked()
         }
         file.open(QIODevice::Append);
         QDataStream out(&file);
-        ((*m_data_list)[index]).write_to_binary(out);
+        (m_data_list[index]).write_to_binary(out);
         // deleting from this project
         ui->listWidget->takeItem(index);
-        std::vector<ToDoListData>::iterator iter = m_data_list->begin();
-        m_data_list->erase(iter + index);
+        std::vector<ToDoListData>::iterator iter = m_data_list.begin();
+        m_data_list.erase(iter + index);
     }
 }
 
 void ToDoListWindow::increment_pomodoros() {
     int index = ui->listWidget->indexFromItem(ui->listWidget->currentItem()).row();
-    (*m_data_list)[index].done += 1;
-    ui->listWidget->currentItem()->setData(Qt::EditRole, (*m_data_list)[index].ToQString());
+    m_data_list[index].done += 1;
+    ui->listWidget->currentItem()->setData(Qt::EditRole, m_data_list[index].ToQString());
+    sort(m_data_list.begin(), m_data_list.end());
 }
 
 void ToDoListWindow::update_list() {
-    for (size_t i = 0; i < m_data_list->size(); i++) {
-        ui->listWidget->item(i)->setData(Qt::EditRole, ((*m_data_list)[i]).ToQString());
+    for (size_t i = 0; i < m_data_list.size(); i++) {
+        ui->listWidget->item(i)->setData(Qt::EditRole, (m_data_list[i]).ToQString());
     }
+    sort(m_data_list.begin(), m_data_list.end());
 }
 
 void ToDoListWindow::on_actionSettings_triggered()
