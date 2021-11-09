@@ -27,7 +27,7 @@ Parsing IPv4, IPv6.
 
 Demo, перевірка сортування.
 
-## OOPLab2: In progress
+## OOPLab2: Ready
 ### Application: Help with pomodoro time manegment
 #### Що планую реалізувати \(викреслене вже реалізовано\) :
 ##### Точно реалізую:
