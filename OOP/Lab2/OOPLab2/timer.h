@@ -33,7 +33,6 @@ private:
     bool m_is_timer_counting = true;
     QString seconds_to_string(int seconds);
     QMediaPlayer* m_player;
-// need add signal
 };
 
 #endif // TIMER_H

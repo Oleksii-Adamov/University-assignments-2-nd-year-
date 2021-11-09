@@ -14,25 +14,7 @@ ToDoListData::ToDoListData(qint8 priority, QString name, qint32 done, qint32 pre
 ToDoListData::ToDoListData(QDataStream& in) {
     in >> priority >> name >> done >> predicted;
 }
-/*ToDoListData::ToDoListData(QString q_name, int done, int predicted)
-    : done(done), predicted(predicted)
-{
-    for(int i = 0; i < name_size; i++) {
-        q_name[i] = name[i];
-    }
-}*/
-/*ToDoListData::ToDoListData(const ToDoListData & other) {
-    name = other.name;
-    done = other.done;
-    predicted = other.predicted;
-}*/
-/*ToDoListData::ToDoListData(const ToDoListData & other)
-        : name(other.name), done(other.done), predicted(other.predicted) {}*/
-/*noexcept ToDoListData::ToDoListData(const ToDoListData & other) {
-    name = other.name;
-    done = other.done;
-    predicted = other.predicted;
-}*/
+
 ToDoListData& ToDoListData::operator=(const ToDoListData &other) {
     if (this == &other) {
         return *this;

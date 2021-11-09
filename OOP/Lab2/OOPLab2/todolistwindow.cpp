@@ -6,7 +6,7 @@
 #include "timer.h"
 #include "settingsdialog.h"
 ToDoListWindow::ToDoListWindow(QWidget *parent) :
-    QMainWindow/*QDialog*/(/*(QWidget*)*/ parent),
+    QMainWindow(parent),
     ui(new Ui::ToDoListWindow)
 {
     ui->setupUi(this);
@@ -14,11 +14,10 @@ ToDoListWindow::ToDoListWindow(QWidget *parent) :
     this->setBackgroundRole(QPalette::Window);
     setAttribute(Qt::WA_DeleteOnClose);
 }
-ToDoListWindow::ToDoListWindow(QString file_name, /*QSharedPointer<std::vector<ToDoListData>> list,*/ QWidget *parent)
-    :  QMainWindow/*QDialog*/(/*(QWidget*)*/ parent), ui(new Ui::ToDoListWindow), m_file_name(file_name)
+ToDoListWindow::ToDoListWindow(QString file_name, QWidget *parent)
+    :  QMainWindow(parent), ui(new Ui::ToDoListWindow), m_file_name(file_name)
 {
     // loading from file
-    //m_data_list = QSharedPointer<std::vector<ToDoListData>>(new std::vector<ToDoListData>);
     QDir dir;
     dir.mkdir(get_project_dir());
     QFile file(m_file_name);
@@ -45,7 +44,6 @@ ToDoListWindow::ToDoListWindow(QString file_name, /*QSharedPointer<std::vector<T
     setAttribute(Qt::WA_DeleteOnClose);
     QFont list_item_font;
     list_item_font.setPointSize(30);
-   // m_data_list = list;
     ui->listWidget->setFont(list_item_font);
     ui->listWidget->setSortingEnabled(true);
     for (size_t i = 0; i < m_data_list.size(); i++) {

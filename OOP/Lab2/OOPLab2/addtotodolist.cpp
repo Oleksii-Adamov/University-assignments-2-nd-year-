@@ -47,8 +47,10 @@ void AddToToDoList::on_pushButtonCreate_clicked()
     }
     if (m_mode == ToDoList::mode::Add) {
         m_parent_data_list->emplace_back(ui->spinBox_priority->value(), ui->lineEditNameofTask->text(), 0, ui->spinBox->value());
-        m_parent_list_widget->addItem(m_parent_data_list->back().ToQString());
-        m_parent_list_widget->setCurrentItem(m_parent_list_widget->item(m_parent_data_list->size() - 1));
+        QListWidgetItem* new_item = new QListWidgetItem;
+        new_item->setData(Qt::EditRole, m_parent_data_list->back().ToQString());
+        m_parent_list_widget->addItem(new_item);
+        m_parent_list_widget->setCurrentItem(new_item);
     }
     std::sort(m_parent_data_list->begin(), m_parent_data_list->begin() + m_parent_data_list->size());
     this->close();
