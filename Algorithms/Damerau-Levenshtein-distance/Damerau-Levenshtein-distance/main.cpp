@@ -30,7 +30,7 @@ int main() {
 	end = std::chrono::high_resolution_clock::now();
 	out << "Optimal string alignment distance, or restricted edit distance:\n";
 	out << ans << "\n";
-	out << "Optimal string alignment distance, or restricted edit sequence:\n";
+	out << "Optimal string alignment edit sequence:\n";
 	for (size_t i = 0; i < edit_sequence.size(); i++) {
 		out << edit_sequence[i] << "\n";
 	}

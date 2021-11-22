@@ -42,12 +42,12 @@ long long damerau_levenshtein_dist(const std::string& s1, const std::string& s2,
 			if (s1[i - 1] == s2[j - 1]) {
 				last_pos_of_letter_in_s2 = j;
 			}
-			std::cout << dist[i][j] << " ";
 		}
-		std::cout << "\n";
 		last_pos_of_letter_in_s1[s1[i - 1] - 'a'] = i;
 	}
 	std::string cur_string = s1;
+	edited_strings.reserve(dist[s1_size][s2_size] + 1);
+	edit_sequence.reserve(dist[s1_size][s2_size]);
 	edited_strings.push_back(cur_string);
 	size_t i = s1_size, j = s2_size;
 	while (i > 0 || j > 0) {
