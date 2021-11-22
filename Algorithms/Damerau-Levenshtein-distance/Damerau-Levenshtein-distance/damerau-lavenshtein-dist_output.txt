@@ -1,0 +1,6 @@
+Damerau–Levenshtein distance (without restrictions):
+2
+Has been done for 0.007 milliseconds
+Optimal string alignment distance, or restricted edit distance:
+3
+Has been done for 0.003 milliseconds

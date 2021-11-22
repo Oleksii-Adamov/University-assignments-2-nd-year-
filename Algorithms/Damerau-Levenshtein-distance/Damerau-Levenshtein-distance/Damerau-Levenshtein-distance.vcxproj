@@ -144,10 +144,11 @@
   <ItemGroup>
     <ClInclude Include="damerau-lavenshtein-non-restr-dist.h" />
     <ClInclude Include="damerau-lavenshtein-restr-algo-dist.h" />
+    <ClInclude Include="util.h" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="damerau-lavenshtein-non-restr-dist_input.txt" />
-    <Text Include="damerau-lavenshtein-non-restr-dist_output.txt" />
+    <Text Include="damerau-lavenshtein-dist_input.txt" />
+    <Text Include="damerau-lavenshtein-dist_output.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
