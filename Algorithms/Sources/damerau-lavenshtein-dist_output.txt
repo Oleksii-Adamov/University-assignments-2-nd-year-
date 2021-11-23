@@ -1,0 +1,15 @@
+Damerau–Levenshtein distance (without restrictions):
+2
+Damerau–Levenshtein edit sequence(without restrictions):
+Transpose 1 and 2
+Insert after 1 b
+ca->ac->abc
+Has been done for 0.016 milliseconds
+Optimal string alignment distance, or restricted edit distance:
+3
+Optimal string alignment edit sequence:
+Substitute at position 2 to c
+Substitute at position 1 to b
+Insert after 0 a
+ca->cc->bc->abc
+Has been done for 0.004 milliseconds
