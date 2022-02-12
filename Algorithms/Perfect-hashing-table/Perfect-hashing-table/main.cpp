@@ -17,7 +17,7 @@ int main() {
 			}
 		}
 	}
-	/*hash_table table(m, arr, n);
+	hash_table table(m, arr, n);
 	table.visualize(arr, n, out);
 	for (int i = 0; i < q; i++) {
 		double value;
@@ -28,7 +28,8 @@ int main() {
 		else {
 			out << "Array/Hash table DOESN'T contain " << value << "\n";
 		}
-	}*/
+	}
+	
 	std::random_device rd;
 	std::seed_seq seed{ rd(), static_cast<unsigned int>(time(nullptr)) };
 	std::mt19937 gen(seed);
@@ -56,14 +57,24 @@ int main() {
 		std::cout << "\n";
 		hash_table table(m, arr, n);
 		std::cout << "Built\n";
+		bool stop = false;
 		for (size_t i = 0; i < n; i++) {
-			if (!table.contains(arr[i])) std::cout << "Doesn't contain arr[i]\n";
+			if (!table.contains(arr[i])) {
+				std::cout << "Doesn't contain arr[i]\n";
+				stop = true;
+				break;
+			}
 		}
 		for (size_t i = 0; i < n; i++) {
 			double value = real_dis(gen);
-			if (!(table.contains(value) == (std::find(arr, arr + n, value) != (arr + n)))) std::cout << "Doesn't match random\n";
+			if (!(table.contains(value) == (std::find(arr, arr + n, value) != (arr + n)))) {
+				std::cout << "Doesn't match random\n";
+				stop = true;
+				break;
+			}
 		}
 		delete[] arr;
+		if (stop) break;
 		std::cout << "Done\n\n";
 	}
 }
