@@ -11,11 +11,11 @@ int main() {
 	double* arr = new double[n];
 	for (int i = 0; i < n; i++) {
 		in >> arr[i];
-		for (size_t j = 0; j < i; j++) {
+		/*for (size_t j = 0; j < i; j++) {
 			if (abs(1e9 * arr[i] - 1e9 * arr[j]) < 1) {
 				std::cout << "Repeat " << arr[i] << " " << arr[j] << "\n";
 			}
-		}
+		}*/
 	}
 	hash_table table(m, arr, n);
 	table.visualize(arr, n, out);
@@ -29,7 +29,7 @@ int main() {
 			out << "Array/Hash table DOESN'T contain " << value << "\n";
 		}
 	}
-	
+	/*
 	std::random_device rd;
 	std::seed_seq seed{ rd(), static_cast<unsigned int>(time(nullptr)) };
 	std::mt19937 gen(seed);
@@ -76,5 +76,5 @@ int main() {
 		delete[] arr;
 		if (stop) break;
 		std::cout << "Done\n\n";
-	}
+	}*/
 }
