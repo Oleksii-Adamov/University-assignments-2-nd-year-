@@ -27,6 +27,9 @@
     <ClCompile Include="universal_hash_vector_double.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="read_and_write_vector.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="hash_table.h">
@@ -36,6 +39,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="universal_hash_vector_double.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="read_and_write_vector.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

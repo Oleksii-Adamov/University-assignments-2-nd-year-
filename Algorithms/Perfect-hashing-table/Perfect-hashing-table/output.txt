@@ -1,0 +1,21 @@
+# (9, 5) (99.999) # 
+# # (4.1) (0.07) 
+(0, 0, 0, 0) (-3.5, 4) # # 
+# (0) (43.2) # 
+(12.5, 3.7, 0.001) # # (6.7) 
+Array/Hash table contains (12.5, 3.7, 0.001)
+Array/Hash table contains (6.7)
+Array/Hash table contains (-3.5, 4)
+Array/Hash table contains (0.07)
+Array/Hash table contains (4.1)
+Array/Hash table contains (9, 5)
+Array/Hash table contains (99.999)
+Array/Hash table contains (43.2)
+Array/Hash table contains (0, 0, 0, 0)
+Array/Hash table contains (0)
+Array/Hash table DOESN'T contain (99.99)
+Array/Hash table DOESN'T contain (100)
+Array/Hash table DOESN'T contain (-2.2312)
+Array/Hash table DOESN'T contain (12.5, 3.7)
+Array/Hash table DOESN'T contain (4, -3.5)
+Array/Hash table DOESN'T contain (0, 0, 0)

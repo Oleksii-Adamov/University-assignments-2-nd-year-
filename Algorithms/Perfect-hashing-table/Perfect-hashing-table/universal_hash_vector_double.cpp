@@ -19,16 +19,18 @@ size_t universal_hash_vector_double::hash_int(unsigned long long num, unsigned l
 }
 size_t universal_hash_vector_double::hash(const std::vector<double>& vec, unsigned long long p, size_t m, unsigned long long k) {
 	unsigned long long sum = 0, mult = 1;
-	size_t n = vec.size();
-	for (size_t i = 0; i < n; i++) {
+	size_t vector_size = vec.size();
+	for (size_t i = 0; i < vector_size; i++) {
 		// interpreting one double as 4 unsigned 16bit integers
 		unsigned short* pt = (unsigned short*)(&(vec[i]));
+		// both 0+ and 0- counts as 0
+		if (!(vec[i] == 0.0)) {
+			pt[0] = 0;
+		}
 		for (size_t j = 0; j < 4; j++) {
-			// both 0+ and 0- counts as 0
-			if (!(vec[i] == 0.0)) {
-				sum += mult * pt[j];
-				sum %= p;
-			}
+			// add 1 so zero vectors hash correctly
+			sum += mult * (pt[j] + 1);
+			sum %= p;
 			mult *= k;
 			mult %= p;
 		}
