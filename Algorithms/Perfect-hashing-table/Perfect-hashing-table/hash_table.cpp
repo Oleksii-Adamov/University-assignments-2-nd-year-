@@ -33,8 +33,8 @@ unsigned long long hash_table::next_prime(unsigned long long num) {
 		if (is_prime(i)) return i;
 	}
 }
-void hash_table::init_p(double* arr, size_t array_size) {
-	unsigned long long maxi = 0;
+void hash_table::init_p(size_t hash_table_size, double* arr, size_t array_size) {
+	unsigned long long maxi = hash_table_size;
 	for (size_t i = 0; i < array_size; i++) {
 		unsigned short* pt = (unsigned short*)(&(arr[i]));
 		for (size_t j = 0; j < 4; j++) {
@@ -65,7 +65,7 @@ void hash_table::init_p(double* arr, size_t array_size) {
 }*/
 void hash_table::init(size_t hash_table_size, double* arr, size_t array_size) {
 	// initialization
-	init_p(arr, array_size);
+	init_p(hash_table_size, arr, array_size);
 	std::cout << p << "\n";
 	table_size = hash_table_size;
 	m_table = new double** [table_size];
@@ -79,10 +79,11 @@ void hash_table::init(size_t hash_table_size, double* arr, size_t array_size) {
 	std::mt19937 gen(seed);
 	std::uniform_int_distribution<> dis_a(1, p - 1);
 	std::uniform_int_distribution<> dis_b(0, p - 1);
+	unsigned long long k = dis_a(gen);
 	// experement_hash_table - simulation of hash table that contains number of collisions + 1 in each slot
 	size_t* experement_hash_table = new size_t[table_size];
 	// choosing the best hash function - that requires the least space
-	for (size_t k = 0; k < 100; k++) {
+	for (size_t t = 0; t < 100; t++) {
 		//size_t a = dis(gen), b = dis(gen),space = 0;
 		universal_hash_double temp;
 		temp.random(gen, dis_a, dis_b);

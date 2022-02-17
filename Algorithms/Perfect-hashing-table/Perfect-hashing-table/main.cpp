@@ -4,12 +4,12 @@
 #include <ctime>
 #include <iostream>
 int main() {
-	int n, m, q;
+	size_t n, m, q;
 	std::ifstream in("input.txt");
 	std::ofstream out("output.txt");
 	in >> n >> m >> q;
 	double* arr = new double[n];
-	for (int i = 0; i < n; i++) {
+	for (size_t i = 0; i < n; i++) {
 		in >> arr[i];
 		/*for (size_t j = 0; j < i; j++) {
 			if (abs(1e9 * arr[i] - 1e9 * arr[j]) < 1) {
@@ -19,7 +19,7 @@ int main() {
 	}
 	hash_table table(m, arr, n);
 	table.visualize(arr, n, out);
-	for (int i = 0; i < q; i++) {
+	for (size_t i = 0; i < q; i++) {
 		double value;
 		in >> value;
 		if (table.contains(value)) {
@@ -29,13 +29,13 @@ int main() {
 			out << "Array/Hash table DOESN'T contain " << value << "\n";
 		}
 	}
-	/*
+	
 	std::random_device rd;
 	std::seed_seq seed{ rd(), static_cast<unsigned int>(time(nullptr)) };
 	std::mt19937 gen(seed);
 	std::uniform_int_distribution<> size_dis(1, 1000);
 	std::uniform_real_distribution<> real_dis(0, 1000);
-	for (int t = 0; t < 1000; t++) {
+	for (int t = 0; t < 100; t++) {
 		n = size_dis(gen);
 		std::cout << n << "\n";
 		m = size_dis(gen);
@@ -76,5 +76,5 @@ int main() {
 		delete[] arr;
 		if (stop) break;
 		std::cout << "Done\n\n";
-	}*/
+	}
 }

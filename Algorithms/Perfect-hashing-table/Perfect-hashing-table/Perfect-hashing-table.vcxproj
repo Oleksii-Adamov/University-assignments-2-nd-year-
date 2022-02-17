@@ -142,10 +142,12 @@
     <ClCompile Include="universal_hash_double.cpp" />
     <ClCompile Include="hash_table.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="universal_hash_vector_double.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="universal_hash_double.h" />
     <ClInclude Include="hash_table.h" />
+    <ClInclude Include="universal_hash_vector_double.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="input.txt" />

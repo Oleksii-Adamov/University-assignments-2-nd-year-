@@ -15,8 +15,9 @@ private:
 	unsigned long long p;
 	//unsigned long long from_double_to_ull(double value);
 	unsigned long long next_prime(unsigned long long num);
+	// return the lesser prime number that is > num
 	bool is_prime(unsigned long long num);
-	void init_p(double* arr, size_t array_size);
+	void init_p(size_t hash_table_size, double* arr, size_t array_size);
 public:
 	void init(size_t hash_table_size, double* arr, size_t array_size);
 	hash_table(size_t hash_table_size, double* arr, size_t array_size);
