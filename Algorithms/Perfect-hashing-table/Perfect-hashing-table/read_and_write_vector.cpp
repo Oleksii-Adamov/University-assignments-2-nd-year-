@@ -12,12 +12,10 @@ void read_vector(std::vector<double>& dest, std::ifstream& in) {
 		double value;
 		in >> value;
 		dest.push_back(value);
-		std::cout << value << " ";
 		in >> c;
 		if (c == ')') break;
 	}
 	//in >> c;
-	std::cout << "\n";
 }
 
 void write_vector(const std::vector<double>& src, std::ofstream& out) {

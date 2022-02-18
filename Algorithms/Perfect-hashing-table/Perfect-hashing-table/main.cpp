@@ -56,20 +56,27 @@ int main() {
 		}
 		delete[] arr;
 	}
+	
 	{
 		std::random_device rd;
 		std::seed_seq seed{ rd(), static_cast<unsigned int>(time(nullptr)) };
 		std::mt19937 gen(seed);
-		std::uniform_int_distribution<> size_dis(1, 100);
+		std::uniform_int_distribution<> size_dis(1, 1000);
 		std::uniform_real_distribution<> real_dis(0, 1000);
-		for (int t = 0; t < 100; t++) {
+		for (int t = 0; t < 1000; t++) {
 			size_t n = size_dis(gen);
-			std::cout << n << "\n";
 			size_t m = size_dis(gen);
+			std::cout << n << " " << m << " " << "\n";
 			std::vector<double>* arr = new std::vector<double>[n];
 			for (size_t i = 0; i < n; i++) {
 				bool repeating_element = true;
+				int count = 0;
 				while (repeating_element) {
+					count++;
+					if (count > 1000) {
+						std::cout << "Cycle repeating element\n";
+						break;
+					}
 					//repeating_element = false;
 					size_t size = size_dis(gen);
 					//arr[i].clear();
@@ -91,12 +98,12 @@ int main() {
 					}
 				}
 				//std::cout << arr[i] << " ";
-				write_vector(arr[i], std::cout);
-				std::cout << " ";
+			//	write_vector(arr[i], std::cout);
+				//std::cout << " ";
 			}
-			std::cout << "\n";
+			//std::cout << "\n";
 			hash_table table(m, arr, n);
-			std::cout << "Built\n";
+			//std::cout << "Built\n";
 			bool stop = false;
 			for (size_t i = 0; i < n; i++) {
 				if (!table.contains(arr[i])) {
@@ -129,16 +136,10 @@ int main() {
 					stop = true;
 					break;
 				}
-				/*double value = real_dis(gen);
-				if (!(table.contains(value) == (std::find(arr, arr + n, value) != (arr + n)))) {
-					std::cout << "Doesn't match random\n";
-					stop = true;
-					break;
-				}*/
 			}
 			delete[] arr;
 			if (stop) break;
-			std::cout << "Done\n\n";
+			//std::cout << "Done\n\n";
 		}
 	}
 }

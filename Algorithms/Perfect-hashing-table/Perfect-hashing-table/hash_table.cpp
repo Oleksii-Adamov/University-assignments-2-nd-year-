@@ -85,14 +85,15 @@ void hash_table::init(size_t hash_table_size, std::vector<double>* arr, size_t a
 	std::mt19937 gen(seed);
 	std::uniform_int_distribution<> dis_a(1, p - 1);
 	std::uniform_int_distribution<> dis_b(0, p - 1);
-	k = dis_a(gen);
+	std::uniform_int_distribution<> dis_k(2, p - 1);
+	//k = dis_a(gen);
 	// experement_hash_table - simulation of hash table that contains number of collisions + 1 in each slot
 	size_t* experement_hash_table = new size_t[table_size];
 	// choosing the best hash function - that requires the least space
 	for (size_t t = 0; t < 100; t++) {
 		//size_t a = dis(gen), b = dis(gen),space = 0;
 		universal_hash_vector_double temp;
-		temp.random(gen, dis_a, dis_b);
+		temp.random(gen, dis_a, dis_b, dis_k);
 		unsigned long long space = 0;
 		for (size_t i = 0; i < table_size; i++) {
 			experement_hash_table[i] = 0;
@@ -100,7 +101,7 @@ void hash_table::init(size_t hash_table_size, std::vector<double>* arr, size_t a
 		for (size_t i = 0; i < array_size; i++) {
 			//std::cout << universal_hash_function(a, b, m_size, arr[i]) << "\n";
 			//experement_hash_table[universal_hash_function(a, b, m_size, arr[i])]++;
-			experement_hash_table[temp.hash(arr[i], p, table_size, k)]++;
+			experement_hash_table[temp.hash(arr[i], p, table_size)]++;
 		}
 		for (size_t i = 0; i < table_size; i++) {
 			space += unsigned long long(experement_hash_table[i]) * experement_hash_table[i];
@@ -116,7 +117,7 @@ void hash_table::init(size_t hash_table_size, std::vector<double>* arr, size_t a
 	}
 	for (size_t i = 0; i < array_size; i++) {
 		//experement_hash_table[universal_hash_function(a_main_table, b_main_table, m_size, arr[i])]++;
-		experement_hash_table[main_table.hash(arr[i], p, table_size, k)]++;
+		experement_hash_table[main_table.hash(arr[i], p, table_size)]++;
 	}
 	// creating second layer of hash tables in slots where needed (collisions + 1 = experement_hash_table[i] > 1)
 	for (size_t i = 0; i < table_size; i++) {
@@ -128,13 +129,13 @@ void hash_table::init(size_t hash_table_size, std::vector<double>* arr, size_t a
 			}
 			if (experement_hash_table[i] > 1) {
 				// creating random universal hash function
-				additional_tables[i].random(gen, dis_a, dis_b);
+				additional_tables[i].random(gen, dis_a, dis_b, dis_k);
 				//a_for_additional_tables[i] = dis(gen);
 				//b_for_additional_tables[i] = dis(gen);
 			}
 			else {
 				// hash function that always return 0, so what needed for one element
-				additional_tables[i].set(0, 0);
+				additional_tables[i].set(0, 0, 0);
 				//a_for_additional_tables[i] = 0;
 				//b_for_additional_tables[i] = 0;
 			}
@@ -144,8 +145,8 @@ void hash_table::init(size_t hash_table_size, std::vector<double>* arr, size_t a
 		}
 	}
 	for (size_t i = 0; i < array_size; i++) {
-		size_t main_index = main_table.hash(arr[i], p, table_size, k)/*universal_hash_function(a_main_table, b_main_table, m_size, arr[i])*/,
-			additional_index = additional_tables[main_index].hash(arr[i], p, additional_table_sizes[main_index], k);/*universal_hash_function(a_for_additional_tables[main_index], b_for_additional_tables[main_index],
+		size_t main_index = main_table.hash(arr[i], p, table_size)/*universal_hash_function(a_main_table, b_main_table, m_size, arr[i])*/,
+			additional_index = additional_tables[main_index].hash(arr[i], p, additional_table_sizes[main_index]);/*universal_hash_function(a_for_additional_tables[main_index], b_for_additional_tables[main_index],
 				additional_table_sizes[main_index], arr[i]);*/
 		if (m_table[main_index][additional_index] == nullptr) {
 			m_table[main_index][additional_index] = &(arr[i]);
@@ -160,22 +161,26 @@ void hash_table::init(size_t hash_table_size, std::vector<double>* arr, size_t a
 				//if (copy_of_additional_table[j] != nullptr) std::cout << " " << *copy_of_additional_table[j];
 				//std::cout << '\n';
 			}
-
+			int count = 0;
 			// probability of picking hash function without collision on first guess is >= 1/2
 			while (collisions) {
+				count++;
+				if (count > 1000000) {
+					std::cout << "count > 1000000\n";
+				}
 				collisions = false;
 				for (size_t j = 0; j < additional_table_sizes[main_index]; j++) {
 					m_table[main_index][j] = nullptr;
 				}
 				// changing hash function to random hash function
-				additional_tables[main_index].random(gen, dis_a, dis_b);
+				additional_tables[main_index].random(gen, dis_a, dis_b, dis_k);
 				//a_for_additional_tables[main_index] = dis(gen);
 				//b_for_additional_tables[main_index] = dis(gen);
 				// rewrite elements in additional table according to new hash function and checking for collisions
 				for (size_t j = 0; j < additional_table_sizes[main_index]; j++) {
 					if (copy_of_additional_table[j] != nullptr) {
 						size_t index = additional_tables[main_index].hash(*(copy_of_additional_table[j]), p,
-							additional_table_sizes[main_index], k);/*universal_hash_function(a_for_additional_tables[main_index],
+							additional_table_sizes[main_index]);/*universal_hash_function(a_for_additional_tables[main_index],
 							b_for_additional_tables[main_index],
 							additional_table_sizes[main_index], *(copy_of_additional_table[j]));*/
 						if (m_table[main_index][index] == nullptr) {
@@ -190,7 +195,7 @@ void hash_table::init(size_t hash_table_size, std::vector<double>* arr, size_t a
 				// trying to write &arr[i] in additional hash table
 				//size_t index = universal_hash_function(a_for_additional_tables[main_index],
 				//	b_for_additional_tables[main_index], additional_table_sizes[main_index], arr[i]);
-				size_t index = additional_tables[main_index].hash(arr[i], p, additional_table_sizes[main_index], k);
+				size_t index = additional_tables[main_index].hash(arr[i], p, additional_table_sizes[main_index]);
 				if (m_table[main_index][index] == nullptr) {
 					m_table[main_index][index] = &(arr[i]);
 				}
@@ -255,12 +260,12 @@ void hash_table::visualize(size_t array_size, std::ofstream& out) {
 	}
 }
 bool hash_table::contains(std::vector<double>& value) {
-	size_t main_index = main_table.hash(value, p, table_size, k);
+	size_t main_index = main_table.hash(value, p, table_size);
 		/*universal_hash_function(a_main_table, b_main_table, m_size, value);*/
 	if (m_table[main_index] == nullptr) {
 		return false;
 	}
-	size_t additional_index = additional_tables[main_index].hash(value, p, additional_table_sizes[main_index], k);
+	size_t additional_index = additional_tables[main_index].hash(value, p, additional_table_sizes[main_index]);
 		/*universal_hash_function(a_for_additional_tables[main_index], b_for_additional_tables[main_index],
 		additional_table_sizes[main_index], value);*/
 	if (m_table[main_index][additional_index] == nullptr) {
