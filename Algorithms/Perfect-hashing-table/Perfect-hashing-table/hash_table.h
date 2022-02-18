@@ -5,7 +5,7 @@
 const double eps = 1e-9;
 class hash_table {
 private:
-	std::vector<double>*** m_table;
+	int** m_table;
 	size_t table_size;
 	//int a_main_table, b_main_table;
 	//size_t* a_for_additional_tables, * b_for_additional_tables, * additional_table_sizes, * psign_mult_for_additional_tables;
@@ -24,7 +24,7 @@ public:
 	hash_table(size_t hash_table_size, std::vector<double>* arr, size_t array_size);
 	double get_size();
 	~hash_table();
-	void visualize(size_t array_size, std::ofstream& out);
-	bool contains(std::vector<double>& value);
-	void print_info_about_value(std::vector<double>& value, std::ofstream& out);
+	void visualize(size_t array_size, std::ofstream& out, std::vector<double>* arr);
+	bool contains(std::vector<double>& value, std::vector<double>* arr);
+	void print_info_about_value(std::vector<double>& value, std::vector<double>* arr, std::ofstream& out);
 };

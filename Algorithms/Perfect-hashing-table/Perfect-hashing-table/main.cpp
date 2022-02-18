@@ -15,11 +15,11 @@ int main() {
 			read_vector(arr[i], in);
 		}
 		hash_table table(m, arr, n);
-		table.visualize(n, out);
+		table.visualize(n, out, arr);
 		for (size_t i = 0; i < q; i++) {
 			std::vector<double> value;
 			read_vector(value, in);
-			if (table.contains(value)) {
+			if (table.contains(value, arr)) {
 				out << "Array/Hash table contains ";
 			}
 			else {
@@ -28,7 +28,7 @@ int main() {
 			write_vector(value, out);
 			out << "\n";
 		}
-		table.print_info_about_value(arr[0], out);
+		table.print_info_about_value(arr[0], arr, out);
 		delete[] arr;
 	}
 	/*
@@ -36,9 +36,9 @@ int main() {
 		std::random_device rd;
 		std::seed_seq seed{ rd(), static_cast<unsigned int>(time(nullptr)) };
 		std::mt19937 gen(seed);
-		std::uniform_int_distribution<> size_dis(1, 1000);
+		std::uniform_int_distribution<> size_dis(1, 10);
 		std::uniform_real_distribution<> real_dis(0, 1000);
-		for (int t = 0; t < 1000; t++) {
+		for (int t = 0; t < 100; t++) {
 			size_t n = size_dis(gen);
 			size_t m = size_dis(gen);
 			std::cout << n << " " << m << " " << "\n";
@@ -79,7 +79,7 @@ int main() {
 			//std::cout << "Built\n";
 			bool stop = false;
 			for (size_t i = 0; i < n; i++) {
-				if (!table.contains(arr[i])) {
+				if (!table.contains(arr[i], arr)) {
 					std::cout << "Doesn't contain arr[i]\n";
 					stop = true;
 					break;
@@ -104,7 +104,7 @@ int main() {
 						if (all_equal) contains = true;
 					}
 				}
-				if (!(table.contains(vec) == contains)) {
+				if (!(table.contains(vec, arr) == contains)) {
 					std::cout << "Doesn't match random\n";
 					stop = true;
 					break;
