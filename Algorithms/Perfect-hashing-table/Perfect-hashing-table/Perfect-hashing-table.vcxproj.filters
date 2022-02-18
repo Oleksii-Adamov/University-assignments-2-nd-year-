@@ -21,9 +21,6 @@
     <ClCompile Include="hash_table.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="universal_hash_double.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="universal_hash_vector_double.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -33,9 +30,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="hash_table.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="universal_hash_double.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="universal_hash_vector_double.h">

@@ -3,9 +3,11 @@
 class universal_hash_vector_double
 {
 private:
+	
+	
+public:
 	unsigned long long a, b, k;
 	size_t hash_int(unsigned long long num, unsigned long long p, size_t m);
-public:
 	universal_hash_vector_double();
 	universal_hash_vector_double(unsigned long long i_a, unsigned long long i_b, unsigned long long i_k);
 	void set(unsigned long long i_a, unsigned long long i_b, unsigned long long i_k);

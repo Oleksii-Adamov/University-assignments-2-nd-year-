@@ -19,7 +19,7 @@ void universal_hash_vector_double::random(std::mt19937& gen, std::uniform_int_di
 size_t universal_hash_vector_double::hash_int(unsigned long long num, unsigned long long p, size_t m) {
 	return size_t(((a * num + b) % p) % m);
 }
-size_t universal_hash_vector_double::hash(const std::vector<double>& vec, unsigned long long p, size_t m/*, unsigned long long k*/) {
+size_t universal_hash_vector_double::hash(const std::vector<double>& vec, unsigned long long p, size_t m) {
 	unsigned long long sum = 0, mult = 1;
 	size_t vector_size = vec.size();
 	for (size_t i = 0; i < vector_size; i++) {
@@ -43,12 +43,14 @@ size_t universal_hash_vector_double::hash(const std::vector<double>& vec, unsign
 universal_hash_vector_double::universal_hash_vector_double(const universal_hash_vector_double& other) {
 	a = other.a;
 	b = other.b;
+	k = other.k;
 }
 // copy assignment
 universal_hash_vector_double& universal_hash_vector_double::operator=(const universal_hash_vector_double& other) {
 	if (this != &other) {
 		a = other.a;
 		b = other.b;
+		k = other.k;
 	}
 	return *this;
 }

@@ -12,51 +12,26 @@ int main() {
 		in >> n >> m >> q;
 		std::vector<double>* arr = new std::vector<double>[n];
 		for (size_t i = 0; i < n; i++) {
-			/*char c;
-			in >> c;
-			if (c != '(') {
-				out << "Error: no ( in vector\n";
-			}
-			while (true) {
-				double value;
-				in >> value;
-				arr[i].push_back(value);
-				std::cout << value << " ";
-				in >> c;
-				if (c == ')') break;
-			}
-			in >> c;
-			std::cout << "\n";*/
 			read_vector(arr[i], in);
-			/*for (size_t j = 0; j < i; j++) {
-				if (abs(1e9 * arr[i] - 1e9 * arr[j]) < 1) {
-					std::cout << "Repeat " << arr[i] << " " << arr[j] << "\n";
-				}
-			}*/
 		}
-		//std::cout << "\n";
 		hash_table table(m, arr, n);
 		table.visualize(n, out);
-		//char c;
-		//in >> c;
 		for (size_t i = 0; i < q; i++) {
 			std::vector<double> value;
-			//in >> value;
 			read_vector(value, in);
 			if (table.contains(value)) {
-				//out << "Array/Hash table contains " << value << "\n";
 				out << "Array/Hash table contains ";
 			}
 			else {
-				//out << "Array/Hash table DOESN'T contain " << value << "\n";
 				out << "Array/Hash table DOESN'T contain ";
 			}
 			write_vector(value, out);
 			out << "\n";
 		}
+		table.print_info_about_value(arr[0], out);
 		delete[] arr;
 	}
-	
+	/*
 	{
 		std::random_device rd;
 		std::seed_seq seed{ rd(), static_cast<unsigned int>(time(nullptr)) };
@@ -77,9 +52,7 @@ int main() {
 						std::cout << "Cycle repeating element\n";
 						break;
 					}
-					//repeating_element = false;
 					size_t size = size_dis(gen);
-					//arr[i].clear();
 					for (size_t j = 0; j < size; j++) {
 						arr[i].push_back(real_dis(gen));
 					}
@@ -142,4 +115,5 @@ int main() {
 			//std::cout << "Done\n\n";
 		}
 	}
+	*/
 }

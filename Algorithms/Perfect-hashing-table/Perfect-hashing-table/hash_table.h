@@ -13,7 +13,7 @@ private:
 	universal_hash_vector_double* additional_tables;
 	size_t* additional_table_sizes;
 	//size_t universal_hash_function(size_t a, size_t b, size_t m, double value);
-	unsigned long long p, k;
+	unsigned long long p;
 	//unsigned long long from_double_to_ull(double value);
 	unsigned long long next_prime(unsigned long long num);
 	// return the lesser prime number that is > num
@@ -26,4 +26,5 @@ public:
 	~hash_table();
 	void visualize(size_t array_size, std::ofstream& out);
 	bool contains(std::vector<double>& value);
+	void print_info_about_value(std::vector<double>& value, std::ofstream& out);
 };
