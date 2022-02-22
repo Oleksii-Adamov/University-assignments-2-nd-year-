@@ -102,6 +102,7 @@ void hash_table::init(size_t hash_table_size, std::vector<double>* arr, size_t a
 	for (size_t i = 0; i < array_size; i++) {
 		size_t main_index = main_table.hash(arr[i], p, table_size),
 			additional_index = additional_tables[main_index].hash(arr[i], p, additional_table_sizes[main_index]);
+		unsigned long long count = 0;
 		if (m_table[main_index][additional_index] == -1) {
 			m_table[main_index][additional_index] = /*&(arr[i])*/i;
 		}
@@ -112,8 +113,10 @@ void hash_table::init(size_t hash_table_size, std::vector<double>* arr, size_t a
 			for (size_t j = 0; j < additional_table_sizes[main_index]; j++) {
 				copy_of_additional_table[j] = m_table[main_index][j];
 			}
+			
 			// probability of picking hash function without collision on first guess is >= 1/2
 			while (collisions) {
+				count++;
 				collisions = false;
 				for (size_t j = 0; j < additional_table_sizes[main_index]; j++) {
 					m_table[main_index][j] = -1;
@@ -146,6 +149,7 @@ void hash_table::init(size_t hash_table_size, std::vector<double>* arr, size_t a
 			}
 			delete[] copy_of_additional_table;
 		}
+		std::cout << count << " ";
 	}
 	delete[] experement_hash_table;
 }

@@ -5,7 +5,7 @@
 #include <iostream>
 #include "read_and_write_vector.h"
 int main() {
-	{
+	/*{
 		size_t n, m, q;
 		std::ifstream in("input.txt");
 		std::ofstream out("output.txt");
@@ -30,18 +30,17 @@ int main() {
 		}
 		table.print_info_about_value(arr[0], arr, out);
 		delete[] arr;
-	}
-	/*
+	}*/
 	{
 		std::random_device rd;
 		std::seed_seq seed{ rd(), static_cast<unsigned int>(time(nullptr)) };
 		std::mt19937 gen(seed);
-		std::uniform_int_distribution<> size_dis(1, 10);
+		std::uniform_int_distribution<> size_dis(1, 100);
 		std::uniform_real_distribution<> real_dis(0, 1000);
 		for (int t = 0; t < 100; t++) {
 			size_t n = size_dis(gen);
 			size_t m = size_dis(gen);
-			std::cout << n << " " << m << " " << "\n";
+			std::cout << "\n" << n << " " << m << " " << "\n";
 			std::vector<double>* arr = new std::vector<double>[n];
 			for (size_t i = 0; i < n; i++) {
 				bool repeating_element = true;
@@ -115,5 +114,4 @@ int main() {
 			//std::cout << "Done\n\n";
 		}
 	}
-	*/
 }
