@@ -24,7 +24,11 @@
       </widget>
      </item>
      <item>
-      <widget class="QLineEdit" name="lineEditNameofTask"/>
+      <widget class="QLineEdit" name="lineEditNameofTask">
+       <property name="maxLength">
+        <number>40</number>
+       </property>
+      </widget>
      </item>
     </layout>
    </item>

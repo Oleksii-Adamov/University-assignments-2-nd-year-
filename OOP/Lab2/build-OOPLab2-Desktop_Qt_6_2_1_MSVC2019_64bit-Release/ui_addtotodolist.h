@@ -53,6 +53,7 @@ public:
 
         lineEditNameofTask = new QLineEdit(AddToToDoList);
         lineEditNameofTask->setObjectName(QString::fromUtf8("lineEditNameofTask"));
+        lineEditNameofTask->setMaxLength(40);
 
         horizontalLayout->addWidget(lineEditNameofTask);
 
