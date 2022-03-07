@@ -17,6 +17,9 @@ ToDoListWindow::ToDoListWindow(QWidget *parent) :
 ToDoListWindow::ToDoListWindow(QString file_name, QWidget *parent)
     :  QMainWindow(parent), ui(new Ui::ToDoListWindow), m_file_name(file_name)
 {
+
+    // not ui {
+
     // loading from file
     QDir dir;
     dir.mkdir(get_project_dir());
@@ -33,6 +36,9 @@ ToDoListWindow::ToDoListWindow(QString file_name, QWidget *parent)
         }
         file.close();
     }
+
+    // }
+
     // getting project name out of file name
     m_project_name = m_file_name;
     if (!(change_to_file_name_without_extension_bin(m_project_name) && remove_path_from_project_file_name(m_project_name))) {
@@ -46,6 +52,9 @@ ToDoListWindow::ToDoListWindow(QString file_name, QWidget *parent)
     list_item_font.setPointSize(30);
     ui->listWidget->setFont(list_item_font);
     ui->listWidget->setSortingEnabled(true);
+
+    // consider Model-View(Control) (without it there will be a lot of not ui logic it listWidget)
+
     for (size_t i = 0; i < m_data_list.size(); i++) {
         ui->listWidget->addItem((m_data_list[i]).ToQString());
     }
@@ -60,6 +69,8 @@ ToDoListWindow::ToDoListWindow(QString file_name, QWidget *parent)
 }
 ToDoListWindow::~ToDoListWindow()
 {
+    // not ui {
+
     // write to file
     if (!m_is_deleted) {
         QFile file(m_file_name);
@@ -69,6 +80,9 @@ ToDoListWindow::~ToDoListWindow()
             (m_data_list[i]).write_to_binary(out);
         }
     }
+
+    // }
+
     delete ui;
 }
 void ToDoListWindow::on_actionBack_triggered()
@@ -117,16 +131,25 @@ void ToDoListWindow::on_pushButtonDelete_clicked()
 
 void ToDoListWindow::on_actionDelete_this_project_triggered()
 {
+
+    // not ui (files) {
+
     // delete file
     QFile file(m_file_name);
     file.remove();
     m_is_deleted = true;
+
+    // }
+
     // emit silgnal to delete button in MainWindow
     emit delete_project_button(m_project_name);
     this->close();
 }
 
 void ToDoListWindow::edit_project(const QString& new_name) {
+
+    // not ui (files) {
+
     ui->label->setText(new_name);
     QFile file(m_file_name);
     m_file_name = get_project_path(new_name);
@@ -138,6 +161,9 @@ void ToDoListWindow::edit_project(const QString& new_name) {
         file.open(QFile::NewOnly);
         file.close();
     }
+
+    // }
+
     emit edit_project_button(m_project_name, new_name);
     m_project_name = new_name;
 }
@@ -155,6 +181,9 @@ void ToDoListWindow::on_pushButton_task_completed_clicked()
 {
     if (ui->listWidget->count() > 0) {
         int index = ui->listWidget->indexFromItem(ui->listWidget->currentItem()).row();
+
+        // not ui (files) {
+
         // writing to Comleted prject
         QFile file(get_project_path("Comleted"));
         if (!file.exists()) {
@@ -164,6 +193,9 @@ void ToDoListWindow::on_pushButton_task_completed_clicked()
         file.open(QIODevice::Append);
         QDataStream out(&file);
         (m_data_list[index]).write_to_binary(out);
+
+        // }
+
         // deleting from this project
         ui->listWidget->takeItem(index);
         std::vector<ToDoListData>::iterator iter = m_data_list.begin();

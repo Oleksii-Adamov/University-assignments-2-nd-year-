@@ -23,10 +23,14 @@ MainWindow::MainWindow(QWidget *parent)
     m_button_container = new QWidget();
     scrollArea->setWidget( m_button_container );
     m_button_layout = new QVBoxLayout(m_button_container);
+
+    // not ui (file managment) {
     QDir dir;
     dir.mkdir(get_project_dir());
     dir.mkdir(get_user_data_dir());
     dir.cd(get_project_dir());
+    // }
+
     // creating buttons with standard projects
     add_button("Today");
     add_button("Tomorrow");
@@ -74,10 +78,16 @@ void MainWindow::on_projectButton_clicked() {
 }
 
 void MainWindow::create_project(const QString& file_name) {
+
+    // not ui (file managment) {
+
     // creating new file in user projects directory
     QFile file(get_project_path(file_name));
     file.open(QIODevice::NewOnly);
     file.close();
+
+    // }
+
     // creating new button
     add_button(file_name);
 }
