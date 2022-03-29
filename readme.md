@@ -1,3 +1,23 @@
+# 2-nd semester OOP
+
+## Lab1a: In progress
+### Based on Lab2 of 1-st semester
+### TO DO:
+1. ~~Use Case Diagram~~
+2. ~~Start timer for task Activity Diagram (detailed)~~
+3. ~~Create new project Activity Diagram~~
+4. Intial Class Diagram
+5. Sequence diagram
+6. Intial Object diagram
+7. Glossary
+8. Unit tests
+9. Refactoring
+10. Doxygen documentation with access via github pages
+11. Current Class Diagram
+12. Current Object Diagram
+
+# 1-st semester OOP
+
 ## OOP Lab1: Ready
 Список1:2 \*\*, \*(a - інші алгоритми - heap sort) \*\*(d, e за допомогою функції або оператора користувача).
 
