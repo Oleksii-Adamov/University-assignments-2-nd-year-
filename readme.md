@@ -1,6 +1,6 @@
 # 2-nd semester OOP
 
-## Lab1a: In progress
+## Lab1a (or Lab4): In progress
 ### Based on Lab2 of 1-st semester
 ### TO DO:
 1. ~~Use Case Diagram~~
@@ -10,8 +10,8 @@
 5. Sequence diagram
 6. Intial Object diagram
 7. Glossary
-8. Unit tests
-9. Refactoring
+8. Unit tests (maybe after refacroring)
+9. Refactoring (do first refacroring commit so teacher can see where it started)
 10. Doxygen documentation with access via github pages
 11. Current Class Diagram
 12. Current Object Diagram
