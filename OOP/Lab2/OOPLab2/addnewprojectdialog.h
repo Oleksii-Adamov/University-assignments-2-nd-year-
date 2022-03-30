@@ -29,8 +29,6 @@ private slots:
 
     void on_pushButton_Create_clicked();
 
-
-
 private:
     Ui::AddNewProjectDialog *ui;
     project::mode m_mode;
