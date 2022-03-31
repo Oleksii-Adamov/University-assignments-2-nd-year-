@@ -7,14 +7,15 @@
 2. ~~Start timer for task Activity Diagram (detailed)~~
 3. ~~Create new project Activity Diagram~~
 4. Intial Class Diagram
-5. Sequence diagram
-6. Intial Object diagram
+5. Sequence Diagram (number of Sequence/Communication diagrams that show signal transmission between objects, should try to unite them in Interaction Overview Diagram)
+6. Intial Object diagram (not sure)
 7. Glossary
 8. Unit tests (maybe after refacroring)
 9. Refactoring (do first refacroring commit so teacher can see where it started)
 10. Doxygen documentation with access via github pages
 11. Current Class Diagram
-12. Current Object Diagram
+12. Current Object Diagram (not sure)
+13. Maybe new Interaction Overview Diagram (5-th in list)
 
 # 1-st semester OOP
 
