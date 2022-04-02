@@ -1,0 +1,3 @@
+TEMPLATE = subdirs
+
+SUBDIRS = OOPLab2 OOPLab2Tests

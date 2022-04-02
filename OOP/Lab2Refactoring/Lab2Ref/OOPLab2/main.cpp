@@ -6,11 +6,11 @@
 
 int main(int argc, char *argv[])
 {
-    std::freopen("D:/University/Programming-labs-2nd-year/OOP/Lab2/OOPLab2/testing.log", "w", stdout);
+    //std::freopen("D:/University/Programming-labs-2nd-year/OOP/Lab2/OOPLab2/testing.log", "w", stdout);
     QApplication a(argc, argv);
     qRegisterMetaType<ToDoListData>();
-    QTest::qExec(new Test_AddToToDoList, argc, argv);
-    std::fclose(stdout);
+    //QTest::qExec(new Test_AddToToDoList, argc, argv);
+    //std::fclose(stdout);
     MainWindow w;
     w.setWindowState(Qt::WindowMaximized);
     w.show();

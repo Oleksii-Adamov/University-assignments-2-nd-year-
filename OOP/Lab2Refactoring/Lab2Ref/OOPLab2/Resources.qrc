@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/Sounds">
+        <file alias="Timer-alarm">C:/Users/lvler/Downloads/Twin-bell-alarm-clock/Twin-bell-alarm-clock.mp3</file>
+    </qresource>
+</RCC>

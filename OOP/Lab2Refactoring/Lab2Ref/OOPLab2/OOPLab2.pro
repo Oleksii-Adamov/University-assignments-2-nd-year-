@@ -1,7 +1,3 @@
-TEMPLATE = subdirs
-
-SUBDIRS = app tests
-
 QT       += core gui
 QT       += multimedia
 QT       += core testlib
