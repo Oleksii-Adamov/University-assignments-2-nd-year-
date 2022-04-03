@@ -85,7 +85,7 @@ public:
 
         spinBox_priority = new QSpinBox(AddToToDoList);
         spinBox_priority->setObjectName(QString::fromUtf8("spinBox_priority"));
-        spinBox_priority->setMinimum(1);
+        spinBox_priority->setMinimum(0);
         spinBox_priority->setMaximum(9);
 
         horizontalLayout_3->addWidget(spinBox_priority);
