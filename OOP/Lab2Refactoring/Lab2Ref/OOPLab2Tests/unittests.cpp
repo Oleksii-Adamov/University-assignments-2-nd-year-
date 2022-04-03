@@ -3,6 +3,8 @@
 #include "../OOPLab2/addtotodolist.h"
 #include "ui_addtotodolist.h"
 #include "../OOPLab2/filepath.h"
+#include "../OOPLab2/settingsdialog.h"
+#include "ui_settingsdialog.h"
 
 class UnitTests : public QObject
 {
@@ -17,18 +19,24 @@ private slots:
     void cleanupTestCase();
     void AddToToDoListTestCase();
     void EditToDoListTestCase();
+    void SettingChangeTestCase();
 
+private:
+    QApplication* a;
 };
 
 UnitTests::UnitTests()
 {
     qRegisterMetaType<ToDoListData>();
     init_paths();
+    int argc = 0;
+    char **argv = NULL;
+    a = new QApplication(argc, argv);
 }
 
 UnitTests::~UnitTests()
 {
-
+    delete a;
 }
 
 void UnitTests::initTestCase()
@@ -43,10 +51,6 @@ void UnitTests::cleanupTestCase()
 
 void UnitTests::AddToToDoListTestCase()
 {
-    int argc = 0;
-    char **argv = NULL;
-    QApplication a(argc, argv);
-
     std::vector<ToDoListData> parent_data_list;
     QListWidget parent_list_widget;
     parent_list_widget.setSortingEnabled(true);
@@ -74,10 +78,6 @@ void UnitTests::AddToToDoListTestCase()
 
 void UnitTests::EditToDoListTestCase()
 {
-    int argc = 0;
-    char **argv = NULL;
-    QApplication a(argc, argv);
-
     std::vector<ToDoListData> parent_data_list;
     QListWidget parent_list_widget;
     parent_list_widget.setSortingEnabled(true);
@@ -112,6 +112,26 @@ void UnitTests::EditToDoListTestCase()
         QCOMPARE(parent_data_list[index].priority, new_priority[i]);
         QCOMPARE(parent_data_list[index].done, 0);
         QCOMPARE(parent_list_widget.item(index)->data(Qt::EditRole), parent_data_list[index].ToQString());
+    }
+}
+
+void UnitTests::SettingChangeTestCase()
+{
+    int new_pomodoro = 2, new_break = 7;
+    // test twice, also test that signal pomodoro_duration_changed() emited
+    for (int i = 0; i < 2; i++) {
+        SettingsDialog settings;
+        QSignalSpy spy(&settings, SIGNAL(pomodoro_duration_changed()));
+        settings.ui->spinBox_pomodoro->setValue(new_pomodoro);
+        settings.ui->spinBox_break->setValue(new_break);
+        settings.on_pushButton_apply_clicked();
+        int pomodoro_settings, break_settings;
+        read_settings(pomodoro_settings, break_settings);
+        QCOMPARE(pomodoro_settings, new_pomodoro);
+        QCOMPARE(break_settings, new_break);
+        QCOMPARE(spy.count(), 1);
+        new_pomodoro = 51;
+        new_break = 1;
     }
 }
 

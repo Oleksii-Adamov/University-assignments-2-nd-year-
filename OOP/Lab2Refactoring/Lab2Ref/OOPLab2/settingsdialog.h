@@ -10,7 +10,7 @@ class SettingsDialog;
 class SettingsDialog : public QDialog
 {
     Q_OBJECT
-
+    friend class UnitTests;
 public:
     explicit SettingsDialog(QWidget *parent = nullptr);
     ~SettingsDialog();
