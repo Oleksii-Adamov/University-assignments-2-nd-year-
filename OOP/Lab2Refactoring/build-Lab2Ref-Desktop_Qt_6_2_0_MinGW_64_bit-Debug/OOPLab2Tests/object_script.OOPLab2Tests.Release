@@ -1,4 +1,4 @@
-release/tst_test_addtotodolist.o
+release/unittests.o
 release/addnewprojectdialog.o
 release/addtotodolist.o
 release/filepath.o

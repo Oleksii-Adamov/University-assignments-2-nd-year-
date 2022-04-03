@@ -17,7 +17,7 @@ class AddToToDoList;
 class AddToToDoList : public QDialog
 {
     Q_OBJECT
-    friend class Test_AddToToDoList;
+    friend class UnitTests;
 public:
     explicit AddToToDoList(QWidget *parent = nullptr);
     ~AddToToDoList();

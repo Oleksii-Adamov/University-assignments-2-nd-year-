@@ -1,4 +1,4 @@
-debug/tst_test_addtotodolist.o
+debug/unittests.o
 debug/addnewprojectdialog.o
 debug/addtotodolist.o
 debug/filepath.o

@@ -9,7 +9,7 @@ CONFIG -= app_bundle
 TEMPLATE = app
 
 SOURCES += \
-    tst_test_addtotodolist.cpp \
+    unittests.cpp \
     ../OOPLab2/addnewprojectdialog.cpp \
     ../OOPLab2/addtotodolist.cpp \
     ../OOPLab2/filepath.cpp \
