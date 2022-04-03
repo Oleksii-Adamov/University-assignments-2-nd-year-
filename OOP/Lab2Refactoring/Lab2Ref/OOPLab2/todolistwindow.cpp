@@ -5,6 +5,7 @@
 #include "addnewprojectdialog.h"
 #include "timer.h"
 #include "settingsdialog.h"
+
 ToDoListWindow::ToDoListWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::ToDoListWindow)
@@ -149,15 +150,14 @@ void ToDoListWindow::on_actionDelete_this_project_triggered()
 void ToDoListWindow::edit_project(const QString& new_name) {
 
     // not ui (files) {
-
     ui->label->setText(new_name);
     QFile file(m_file_name);
-    m_file_name = get_project_path(new_name);
+
     if (file.exists()) {
-        file.rename(m_file_name);
+        file.rename(get_project_path(new_name));
     }
     else {
-        file.setFileName(m_file_name);
+        file.setFileName(get_project_path(new_name));
         file.open(QFile::NewOnly);
         file.close();
     }
@@ -165,6 +165,7 @@ void ToDoListWindow::edit_project(const QString& new_name) {
     // }
 
     emit edit_project_button(m_project_name, new_name);
+    m_file_name = get_project_path(new_name);
     m_project_name = new_name;
 }
 

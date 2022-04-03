@@ -35,18 +35,17 @@ void AddNewProjectDialog::on_pushButton_Cancel_clicked()
 void AddNewProjectDialog::on_pushButton_Create_clicked()
 {
     QFile file(get_project_path(ui->lineEdit->text()));
-    if (m_mode == project::mode::Add) {
-        if (file.exists()) {
-            QMessageBox::critical(this, "Error", "Project with this name already exists!");
-        }
-        else {
-            emit create_project(ui->lineEdit->text());
-            this->close();
-        }
+    if (file.exists()) {
+        QMessageBox::critical(this, "Error", "Project with this name already exists!");
     }
-    else { // Edit
-        // emmit signal to edit, ToDoListWindow catches
-        emit edit_project(ui->lineEdit->text());
+    else {
+        // emmit signal, ToDoListWindow catches
+        if (m_mode == project::mode::Add) {
+            emit create_project(ui->lineEdit->text());
+        }
+        else { // Edit
+            emit edit_project(ui->lineEdit->text());
+        }
         this->close();
     }
 }

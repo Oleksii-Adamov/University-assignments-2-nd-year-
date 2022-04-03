@@ -4,7 +4,6 @@ release/filepath.o
 release/main.o
 release/mainwindow.o
 release/settingsdialog.o
-release/test_addtotodolist.o
 release/timer.o
 release/todolistdata.o
 release/todolistwindow.o

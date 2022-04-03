@@ -15,7 +15,6 @@ SOURCES += \
     ../OOPLab2/filepath.cpp \
     ../OOPLab2/mainwindow.cpp \
     ../OOPLab2/settingsdialog.cpp \
-    ../OOPLab2/test_addtotodolist.cpp \
     ../OOPLab2/timer.cpp \
     ../OOPLab2/todolistdata.cpp \
     ../OOPLab2/todolistwindow.cpp
@@ -26,7 +25,6 @@ HEADERS += \
     ../OOPLab2/filepath.h \
     ../OOPLab2/mainwindow.h \
     ../OOPLab2/settingsdialog.h \
-    ../OOPLab2/test_addtotodolist.h \
     ../OOPLab2/timer.h \
     ../OOPLab2/todolistdata.h \
     ../OOPLab2/todolistwindow.h

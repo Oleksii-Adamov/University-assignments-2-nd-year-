@@ -16,7 +16,6 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp \
     settingsdialog.cpp \
-    test_addtotodolist.cpp \
     timer.cpp \
     todolistdata.cpp \
     todolistwindow.cpp
@@ -27,7 +26,6 @@ HEADERS += \
     filepath.h \
     mainwindow.h \
     settingsdialog.h \
-    test_addtotodolist.h \
     timer.h \
     todolistdata.h \
     todolistwindow.h

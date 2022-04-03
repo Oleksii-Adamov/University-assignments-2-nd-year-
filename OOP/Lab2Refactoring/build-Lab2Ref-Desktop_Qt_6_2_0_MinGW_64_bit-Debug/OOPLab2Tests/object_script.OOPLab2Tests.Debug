@@ -4,7 +4,6 @@ debug/addtotodolist.o
 debug/filepath.o
 debug/mainwindow.o
 debug/settingsdialog.o
-debug/test_addtotodolist.o
 debug/timer.o
 debug/todolistdata.o
 debug/todolistwindow.o

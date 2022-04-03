@@ -13,7 +13,7 @@ class ToDoListWindow;
 class ToDoListWindow : public QMainWindow
 {
     Q_OBJECT
-
+    friend class UnitTests;
 public:
     explicit ToDoListWindow(QWidget *parent = nullptr);
     ~ToDoListWindow();
