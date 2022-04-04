@@ -12,6 +12,7 @@
 7. Unit tests
 8. Benchmarking
 9. Refactoring (do first refacroring commit so teacher can see where it started)
+10. Refactoring of some Unit tests (Unit tests for Tasks higly dependant on realization, because of bad code structure)
 10. Doxygen documentation with access via github pages
 11. Current Class Diagram
 12. Current Object Diagram (not sure)

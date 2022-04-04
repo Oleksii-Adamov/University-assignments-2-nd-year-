@@ -25,7 +25,7 @@ private slots:
     void EditTaskTestCase();
     void DeleteTaskTestCase();
     void CompleteTaskTestCase();
-    //void TasksSavingTestCase();
+    void TasksSavingTestCase();
     void SettingChangeTestCase();
     void AddNewProjectTestCase();
     void EditProjectTestCase();
@@ -248,9 +248,6 @@ void UnitTests::DeleteTaskTestCase()
     delete_project_manually_if_exists(nullptr, project_name);
     {
         ToDoListWindow to_do_list_window(project_name);
-        std::vector<ToDoListData> parent_data_list;
-        QListWidget parent_list_widget;
-        parent_list_widget.setSortingEnabled(true);
         std::vector<QString> name_of_the_task {"Test task1", "Test task2", "Test task3"};
         std::vector<qint32> number_of_pomodoros {50, 29, 23};
         std::vector<qint32> priority {3, 2, 7};
@@ -282,9 +279,6 @@ void UnitTests::CompleteTaskTestCase()
     delete_project_manually_if_exists(nullptr, "Comleted");
     {
         ToDoListWindow to_do_list_window(project_name);
-        std::vector<ToDoListData> parent_data_list;
-        QListWidget parent_list_widget;
-        parent_list_widget.setSortingEnabled(true);
         std::vector<QString> name_of_the_task {"Test task1", "Test task2", "Test task3"};
         std::vector<qint32> number_of_pomodoros {50, 29, 23};
         std::vector<qint32> priority {3, 2, 7};
@@ -319,6 +313,36 @@ void UnitTests::CompleteTaskTestCase()
     }
     delete_project_manually_if_exists(nullptr, project_name);
     delete_project_manually_if_exists(nullptr, "Comleted");
+}
+
+void UnitTests::TasksSavingTestCase()
+{
+    QString project_name = "Project";
+    std::vector<QString> name_of_the_task {"Test task1", "Test task2", "Test task3"};
+    std::vector<qint32> number_of_pomodoros {50, 29, 23};
+    std::vector<qint32> priority {3, 2, 7};
+    delete_project_manually_if_exists(nullptr, project_name);
+    {
+        ToDoListWindow to_do_list_window(project_name);
+        // insert
+        for (int i = 0; i < 3; i++) {
+            add_or_edit_task(to_do_list_window.m_data_list, *to_do_list_window.ui->listWidget, ToDoList::mode::Add,
+                             name_of_the_task[i], number_of_pomodoros[i], priority[i]);
+        }
+    }
+    QFile file(get_project_path(project_name));
+    file.open(QIODevice::ReadOnly);
+    QDataStream in(&file);
+    std::vector<QString> data_string_list;
+    size_t i = 0;
+    while(!in.atEnd()) {
+        ToDoListData item(in);
+        QCOMPARE(item, ToDoListData(priority[i], name_of_the_task[i], 0, number_of_pomodoros[i]));
+        i++;
+    }
+    QCOMPARE(i, 3);
+    file.close();
+    delete_project_manually_if_exists(nullptr, project_name);
 }
 
 QTEST_APPLESS_MAIN(UnitTests)
