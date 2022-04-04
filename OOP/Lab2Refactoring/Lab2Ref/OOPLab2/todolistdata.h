@@ -22,6 +22,7 @@ public:
     void read_from_binary(QDataStream in);
     void write_to_binary(QDataStream& out);
     friend bool operator<(const ToDoListData& left, const ToDoListData& right);
+    friend bool operator==(const ToDoListData& left, const ToDoListData& right);
 private:
     QString time_needed_to_finish();
 

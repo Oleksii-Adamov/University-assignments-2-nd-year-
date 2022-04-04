@@ -53,3 +53,9 @@ bool operator<(const ToDoListData& left, const ToDoListData& right) {
         return left.priority < right.priority;
     }
 }
+
+bool operator==(const ToDoListData& left, const ToDoListData& right)
+{
+    return left.priority == right.priority && left.name == right.name &&
+            left.done == right.done && left.predicted == right.predicted;
+}
