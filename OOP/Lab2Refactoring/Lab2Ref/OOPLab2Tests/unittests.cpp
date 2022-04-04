@@ -262,8 +262,11 @@ void UnitTests::DeleteTaskTestCase()
         auto delete_item_test = [&](int i){
             to_do_list_window.ui->listWidget->setCurrentRow(i);
             QString deleted_item = to_do_list_window.ui->listWidget->item(i)->text();
+            ToDoListData deleted_data = to_do_list_window.m_data_list[i];
             to_do_list_window.on_pushButtonDelete_clicked();
             QCOMPARE(to_do_list_window.ui->listWidget->findItems(deleted_item, Qt::MatchExactly).count(), 0);
+            QCOMPARE(std::find(to_do_list_window.m_data_list.begin(), to_do_list_window.m_data_list.end(),
+                               deleted_data) == to_do_list_window.m_data_list.end(), true);
         };
         delete_item_test(1);
         delete_item_test(0);
@@ -293,8 +296,11 @@ void UnitTests::CompleteTaskTestCase()
         auto complete_item_test = [&](int i){
             to_do_list_window.ui->listWidget->setCurrentRow(i);
             QString deleted_item = to_do_list_window.ui->listWidget->item(i)->text();
+            ToDoListData deleted_data = to_do_list_window.m_data_list[i];
             to_do_list_window.on_pushButton_task_completed_clicked();
             QCOMPARE(to_do_list_window.ui->listWidget->findItems(deleted_item, Qt::MatchExactly).count(), 0);
+            QCOMPARE(std::find(to_do_list_window.m_data_list.begin(), to_do_list_window.m_data_list.end(),
+                               deleted_data) == to_do_list_window.m_data_list.end(), true);
             // file check
             QFile file(get_project_path("Comleted"));
             file.open(QIODevice::ReadOnly);
