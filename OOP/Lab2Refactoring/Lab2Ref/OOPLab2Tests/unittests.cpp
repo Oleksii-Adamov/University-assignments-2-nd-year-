@@ -247,7 +247,7 @@ void UnitTests::DeleteTaskTestCase()
     QString project_name = "Project";
     delete_project_manually_if_exists(nullptr, project_name);
     {
-        ToDoListWindow to_do_list_window(project_name);
+        ToDoListWindow to_do_list_window(get_project_path(project_name));
         std::vector<QString> name_of_the_task {"Test task1", "Test task2", "Test task3"};
         std::vector<qint32> number_of_pomodoros {50, 29, 23};
         std::vector<qint32> priority {3, 2, 7};
@@ -278,7 +278,7 @@ void UnitTests::CompleteTaskTestCase()
     delete_project_manually_if_exists(nullptr, project_name);
     delete_project_manually_if_exists(nullptr, "Comleted");
     {
-        ToDoListWindow to_do_list_window(project_name);
+        ToDoListWindow to_do_list_window(get_project_path(project_name));
         std::vector<QString> name_of_the_task {"Test task1", "Test task2", "Test task3"};
         std::vector<qint32> number_of_pomodoros {50, 29, 23};
         std::vector<qint32> priority {3, 2, 7};
@@ -319,11 +319,11 @@ void UnitTests::TasksSavingTestCase()
 {
     QString project_name = "Project";
     std::vector<QString> name_of_the_task {"Test task1", "Test task2", "Test task3"};
-    std::vector<qint32> number_of_pomodoros {50, 29, 23};
-    std::vector<qint32> priority {3, 2, 7};
+    std::vector<qint32> number_of_pomodoros {23, 29, 50};
+    std::vector<qint32> priority {2, 3, 7};
     delete_project_manually_if_exists(nullptr, project_name);
     {
-        ToDoListWindow to_do_list_window(project_name);
+        ToDoListWindow to_do_list_window(get_project_path(project_name));
         // insert
         for (int i = 0; i < 3; i++) {
             add_or_edit_task(to_do_list_window.m_data_list, *to_do_list_window.ui->listWidget, ToDoList::mode::Add,
