@@ -24,13 +24,15 @@ private slots:
     void AddTaskTestCase();
     void EditTaskTestCase();
     void DeleteTaskTestCase();
+    void CompleteTaskTestCase();
+    //void TasksSavingTestCase();
     void SettingChangeTestCase();
     void AddNewProjectTestCase();
     void EditProjectTestCase();
     void DeleteProjectTestCase();
 private:
     QApplication* a;
-    void delete_project_manually_if_exists(MainWindow& main_window, const QString& project_name);
+    void delete_project_manually_if_exists(MainWindow* main_window, const QString& project_name);
     bool project_button_exists(MainWindow& main_window, const QString& project_name);
     void add_or_edit_task(std::vector<ToDoListData>& parent_data_list, QListWidget& parent_list_widget, ToDoList::mode mode,
                   const QString& name_of_the_task, int number_of_pomodoros, int priority);
@@ -58,6 +60,124 @@ void UnitTests::initTestCase()
 void UnitTests::cleanupTestCase()
 {
 
+}
+
+void UnitTests::SettingChangeTestCase()
+{
+    int new_pomodoro = 2, new_break = 7;
+    // test twice, also test that signal pomodoro_duration_changed() emited
+    for (int i = 0; i < 2; i++) {
+        SettingsDialog settings;
+        QSignalSpy spy(&settings, SIGNAL(pomodoro_duration_changed()));
+        settings.ui->spinBox_pomodoro->setValue(new_pomodoro);
+        settings.ui->spinBox_break->setValue(new_break);
+        settings.on_pushButton_apply_clicked();
+        int pomodoro_settings, break_settings;
+        read_settings(pomodoro_settings, break_settings);
+        QCOMPARE(pomodoro_settings, new_pomodoro);
+        QCOMPARE(break_settings, new_break);
+        QCOMPARE(spy.count(), 1);
+        new_pomodoro = 51;
+        new_break = 1;
+    }
+}
+
+void UnitTests::delete_project_manually_if_exists(MainWindow* main_window, const QString& project_name)
+{
+    // from file system
+    QFile file(get_project_path(project_name));
+    if (file.exists()) {
+        file.remove();
+    }
+    // delete button
+    if (main_window != nullptr) {
+        for(qsizetype i = 0; i < main_window->m_button_layout->count(); i++) {
+            QPushButton *button = qobject_cast<QPushButton*>(main_window->m_button_layout->itemAt(i)->widget());
+            if(button->text() == project_name){
+                button->hide();
+                delete button;
+                break;
+            }
+        }
+    }
+}
+
+bool UnitTests::project_button_exists(MainWindow& main_window, const QString& project_name)
+{
+    bool return_value = false;
+    for(qsizetype i = 0; i < main_window.m_button_layout->count(); i++){
+        QPushButton *button = qobject_cast<QPushButton*>(main_window.m_button_layout->itemAt(i)->widget());
+        if(button->text() == project_name){
+            return_value = true;
+            break;
+        }
+    }
+    return return_value;
+}
+
+void UnitTests::AddNewProjectTestCase()
+{
+    MainWindow main_window;
+    QString project_name = "New project";
+    // deleting project manually if existed
+    delete_project_manually_if_exists(&main_window, project_name);
+    // test
+    main_window.create_project(project_name);
+    // checking file
+    QFile file(get_project_path(project_name));
+    QCOMPARE(file.exists(), true);
+    // checking button
+    QCOMPARE(project_button_exists(main_window, project_name), true);
+
+    delete_project_manually_if_exists(&main_window, project_name);
+}
+
+void UnitTests::EditProjectTestCase()
+{
+    MainWindow main_window;
+    QString old_project_name = "Old project", new_project_name = "New project";
+    // deleting projects manually if existed
+    delete_project_manually_if_exists(&main_window, old_project_name);
+    delete_project_manually_if_exists(&main_window, new_project_name);
+    // creating project
+    main_window.create_project(old_project_name);
+    // testing edit
+    {
+        ToDoListWindow to_do_list_window(get_project_path(old_project_name), &main_window);
+        connect(&to_do_list_window, SIGNAL(edit_project_button(const QString&, const QString&)), &main_window, SLOT(edit_project_button(const QString&, const QString&)));
+        to_do_list_window.edit_project(new_project_name);
+        // checking files
+        QFile old_file(get_project_path(old_project_name));
+        QCOMPARE(old_file.exists(), false);
+        QFile new_file(get_project_path(new_project_name));
+        QCOMPARE(new_file.exists(), true);
+        //checking label
+        QCOMPARE(to_do_list_window.ui->label->text(), new_project_name);
+        // checking buttons
+        QCOMPARE(project_button_exists(main_window, old_project_name), false);
+        QCOMPARE(project_button_exists(main_window, new_project_name), true);
+    }
+
+    delete_project_manually_if_exists(&main_window, new_project_name);
+}
+
+void UnitTests::DeleteProjectTestCase()
+{
+    MainWindow main_window;
+    QString project_name = "New project";
+    // deleting project manually if existed
+    delete_project_manually_if_exists(&main_window, project_name);
+    // creating project
+    main_window.create_project(project_name);
+    // testing deletion
+    ToDoListWindow to_do_list_window(get_project_path(project_name), &main_window);
+    connect(&to_do_list_window, SIGNAL(delete_project_button(const QString&)), &main_window, SLOT(delete_project_button(const QString&)));
+    to_do_list_window.on_actionDelete_this_project_triggered();
+    // checking file
+    QFile file(get_project_path(project_name));
+    QCOMPARE(file.exists(), false);
+    // checking button
+    QCOMPARE(project_button_exists(main_window, project_name), false);
 }
 
 void UnitTests::add_or_edit_task(std::vector<ToDoListData>& parent_data_list, QListWidget& parent_list_widget, ToDoList::mode mode,
@@ -124,144 +244,81 @@ void UnitTests::EditTaskTestCase()
 
 void UnitTests::DeleteTaskTestCase()
 {
-    ToDoListWindow to_do_list_window("Project");
-    std::vector<ToDoListData> parent_data_list;
-    QListWidget parent_list_widget;
-    parent_list_widget.setSortingEnabled(true);
-    std::vector<QString> name_of_the_task {"Test task1", "Test task2", "Test task3"};
-    std::vector<qint32> number_of_pomodoros {50, 29, 23};
-    std::vector<qint32> priority {3, 2, 7};
+    QString project_name = "Project";
+    delete_project_manually_if_exists(nullptr, project_name);
+    {
+        ToDoListWindow to_do_list_window(project_name);
+        std::vector<ToDoListData> parent_data_list;
+        QListWidget parent_list_widget;
+        parent_list_widget.setSortingEnabled(true);
+        std::vector<QString> name_of_the_task {"Test task1", "Test task2", "Test task3"};
+        std::vector<qint32> number_of_pomodoros {50, 29, 23};
+        std::vector<qint32> priority {3, 2, 7};
 
-    // insert
-    for (int i = 0; i < 3; i++) {
-        add_or_edit_task(to_do_list_window.m_data_list, *to_do_list_window.ui->listWidget, ToDoList::mode::Add,
-                         name_of_the_task[i], number_of_pomodoros[i], priority[i]);
-    }
-
-    // deletion test
-    auto delete_item_test = [&](int i){
-        to_do_list_window.ui->listWidget->setCurrentRow(i);
-        QString deleted_item = to_do_list_window.ui->listWidget->item(i)->text();
-        to_do_list_window.on_pushButtonDelete_clicked();
-        QCOMPARE(to_do_list_window.ui->listWidget->findItems(deleted_item, Qt::MatchExactly).count(), 0);
-    };
-    delete_item_test(1);
-    delete_item_test(0);
-    delete_item_test(0);
-}
-
-void UnitTests::SettingChangeTestCase()
-{
-    int new_pomodoro = 2, new_break = 7;
-    // test twice, also test that signal pomodoro_duration_changed() emited
-    for (int i = 0; i < 2; i++) {
-        SettingsDialog settings;
-        QSignalSpy spy(&settings, SIGNAL(pomodoro_duration_changed()));
-        settings.ui->spinBox_pomodoro->setValue(new_pomodoro);
-        settings.ui->spinBox_break->setValue(new_break);
-        settings.on_pushButton_apply_clicked();
-        int pomodoro_settings, break_settings;
-        read_settings(pomodoro_settings, break_settings);
-        QCOMPARE(pomodoro_settings, new_pomodoro);
-        QCOMPARE(break_settings, new_break);
-        QCOMPARE(spy.count(), 1);
-        new_pomodoro = 51;
-        new_break = 1;
-    }
-}
-
-void UnitTests::delete_project_manually_if_exists(MainWindow& main_window, const QString& project_name)
-{
-    // from file system
-    QFile file(get_project_path(project_name));
-    if (file.exists()) {
-        file.remove();
-    }
-    // delete button
-    for(qsizetype i = 0; i < main_window.m_button_layout->count(); i++){
-        QPushButton *button = qobject_cast<QPushButton*>(main_window.m_button_layout->itemAt(i)->widget());
-        if(button->text() == project_name){
-            button->hide();
-            delete button;
-            break;
+        // insert
+        for (int i = 0; i < 3; i++) {
+            add_or_edit_task(to_do_list_window.m_data_list, *to_do_list_window.ui->listWidget, ToDoList::mode::Add,
+                             name_of_the_task[i], number_of_pomodoros[i], priority[i]);
         }
+
+        // deletion test
+        auto delete_item_test = [&](int i){
+            to_do_list_window.ui->listWidget->setCurrentRow(i);
+            QString deleted_item = to_do_list_window.ui->listWidget->item(i)->text();
+            to_do_list_window.on_pushButtonDelete_clicked();
+            QCOMPARE(to_do_list_window.ui->listWidget->findItems(deleted_item, Qt::MatchExactly).count(), 0);
+        };
+        delete_item_test(1);
+        delete_item_test(0);
+        delete_item_test(0);
     }
+    delete_project_manually_if_exists(nullptr, project_name);
 }
 
-bool UnitTests::project_button_exists(MainWindow& main_window, const QString& project_name)
+void UnitTests::CompleteTaskTestCase()
 {
-    bool return_value = false;
-    for(qsizetype i = 0; i < main_window.m_button_layout->count(); i++){
-        QPushButton *button = qobject_cast<QPushButton*>(main_window.m_button_layout->itemAt(i)->widget());
-        if(button->text() == project_name){
-            return_value = true;
-            break;
+    QString project_name = "Project";
+    delete_project_manually_if_exists(nullptr, project_name);
+    delete_project_manually_if_exists(nullptr, "Comleted");
+    {
+        ToDoListWindow to_do_list_window(project_name);
+        std::vector<ToDoListData> parent_data_list;
+        QListWidget parent_list_widget;
+        parent_list_widget.setSortingEnabled(true);
+        std::vector<QString> name_of_the_task {"Test task1", "Test task2", "Test task3"};
+        std::vector<qint32> number_of_pomodoros {50, 29, 23};
+        std::vector<qint32> priority {3, 2, 7};
+
+        // insert
+        for (int i = 0; i < 3; i++) {
+            add_or_edit_task(to_do_list_window.m_data_list, *to_do_list_window.ui->listWidget, ToDoList::mode::Add,
+                             name_of_the_task[i], number_of_pomodoros[i], priority[i]);
         }
+
+        // complete task test
+        auto complete_item_test = [&](int i){
+            to_do_list_window.ui->listWidget->setCurrentRow(i);
+            QString deleted_item = to_do_list_window.ui->listWidget->item(i)->text();
+            to_do_list_window.on_pushButton_task_completed_clicked();
+            QCOMPARE(to_do_list_window.ui->listWidget->findItems(deleted_item, Qt::MatchExactly).count(), 0);
+            // file check
+            QFile file(get_project_path("Comleted"));
+            file.open(QIODevice::ReadOnly);
+            QDataStream in(&file);
+            std::vector<QString> data_string_list;
+            while(!in.atEnd()) {
+                ToDoListData item(in);
+                data_string_list.emplace_back(item.ToQString());
+            }
+            file.close();
+            QCOMPARE(std::find(data_string_list.begin(), data_string_list.end(), deleted_item) != data_string_list.end(), true);
+        };
+        complete_item_test(1);
+        complete_item_test(0);
+        complete_item_test(0);
     }
-    return return_value;
-}
-
-void UnitTests::AddNewProjectTestCase()
-{
-    MainWindow main_window;
-    QString project_name = "New project";
-    // deleting project manually if existed
-    delete_project_manually_if_exists(main_window, project_name);
-    // test
-    main_window.create_project(project_name);
-    // checking file
-    QFile file(get_project_path(project_name));
-    QCOMPARE(file.exists(), true);
-    // checking button
-    QCOMPARE(project_button_exists(main_window, project_name), true);
-
-    delete_project_manually_if_exists(main_window, project_name);
-}
-
-void UnitTests::EditProjectTestCase()
-{
-    MainWindow main_window;
-    QString old_project_name = "Old project", new_project_name = "New project";
-    // deleting projects manually if existed
-    delete_project_manually_if_exists(main_window, old_project_name);
-    delete_project_manually_if_exists(main_window, new_project_name);
-    // creating project
-    main_window.create_project(old_project_name);
-    // testing edit
-    ToDoListWindow to_do_list_window(get_project_path(old_project_name), &main_window);
-    connect(&to_do_list_window, SIGNAL(edit_project_button(const QString&, const QString&)), &main_window, SLOT(edit_project_button(const QString&, const QString&)));
-    to_do_list_window.edit_project(new_project_name);
-    // checking files
-    QFile old_file(get_project_path(old_project_name));
-    QCOMPARE(old_file.exists(), false);
-    QFile new_file(get_project_path(new_project_name));
-    QCOMPARE(new_file.exists(), true);
-    //checking label
-    QCOMPARE(to_do_list_window.ui->label->text(), new_project_name);
-    // checking buttons
-    QCOMPARE(project_button_exists(main_window, old_project_name), false);
-    QCOMPARE(project_button_exists(main_window, new_project_name), true);
-
-    delete_project_manually_if_exists(main_window, new_project_name);
-}
-
-void UnitTests::DeleteProjectTestCase()
-{
-    MainWindow main_window;
-    QString project_name = "New project";
-    // deleting project manually if existed
-    delete_project_manually_if_exists(main_window, project_name);
-    // creating project
-    main_window.create_project(project_name);
-    // testing deletion
-    ToDoListWindow to_do_list_window(get_project_path(project_name), &main_window);
-    connect(&to_do_list_window, SIGNAL(delete_project_button(const QString&)), &main_window, SLOT(delete_project_button(const QString&)));
-    to_do_list_window.on_actionDelete_this_project_triggered();
-    // checking file
-    QFile file(get_project_path(project_name));
-    QCOMPARE(file.exists(), false);
-    // checking button
-    QCOMPARE(project_button_exists(main_window, project_name), false);
+    delete_project_manually_if_exists(nullptr, project_name);
+    delete_project_manually_if_exists(nullptr, "Comleted");
 }
 
 QTEST_APPLESS_MAIN(UnitTests)
