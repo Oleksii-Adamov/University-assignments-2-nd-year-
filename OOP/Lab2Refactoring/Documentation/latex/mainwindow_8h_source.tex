@@ -1,0 +1,40 @@
+\hypertarget{mainwindow_8h_source}{}\doxysection{mainwindow.\+h}
+\label{mainwindow_8h_source}\index{D:/University/Programming-\/labs-\/2nd-\/year/OOP/Lab2Refactoring/Lab2Ref/OOPLab2/mainwindow.h@{D:/University/Programming-\/labs-\/2nd-\/year/OOP/Lab2Refactoring/Lab2Ref/OOPLab2/mainwindow.h}}
+\mbox{\hyperlink{mainwindow_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{preprocessor}{\#ifndef MAINWINDOW\_H}}
+\DoxyCodeLine{2 \textcolor{preprocessor}{\#define MAINWINDOW\_H}}
+\DoxyCodeLine{3 }
+\DoxyCodeLine{4 \textcolor{preprocessor}{\#include <QMainWindow>}}
+\DoxyCodeLine{5 \textcolor{preprocessor}{\#include <QLayout>}}
+\DoxyCodeLine{6 QT\_BEGIN\_NAMESPACE}
+\DoxyCodeLine{7 \textcolor{keyword}{namespace }\mbox{\hyperlink{namespace_ui}{Ui}} \{ \textcolor{keyword}{class }\mbox{\hyperlink{class_main_window}{MainWindow}}; \}}
+\DoxyCodeLine{8 QT\_END\_NAMESPACE}
+\DoxyCodeLine{9 }
+\DoxyCodeLine{10 \textcolor{keyword}{class }\mbox{\hyperlink{class_main_window}{MainWindow}} : \textcolor{keyword}{public} QMainWindow}
+\DoxyCodeLine{11 \{}
+\DoxyCodeLine{12     Q\_OBJECT}
+\DoxyCodeLine{13     \textcolor{keyword}{friend} \textcolor{keyword}{class }\mbox{\hyperlink{class_unit_tests}{UnitTests}};}
+\DoxyCodeLine{14 \textcolor{keyword}{public}:}
+\DoxyCodeLine{15     \mbox{\hyperlink{class_main_window_a996c5a2b6f77944776856f08ec30858d}{MainWindow}}(QWidget *parent = \textcolor{keyword}{nullptr});}
+\DoxyCodeLine{16     \mbox{\hyperlink{class_main_window_ae98d00a93bc118200eeef9f9bba1dba7}{\string~MainWindow}}();}
+\DoxyCodeLine{17 }
+\DoxyCodeLine{18 \textcolor{keyword}{private}:}
+\DoxyCodeLine{19     Ui::MainWindow *ui;}
+\DoxyCodeLine{20     \textcolor{keywordtype}{void} callToDoList(QString file\_name);}
+\DoxyCodeLine{21     \textcolor{comment}{//QStringList m\_project\_list;}}
+\DoxyCodeLine{22     \textcolor{keywordtype}{void} add\_button(QString name);}
+\DoxyCodeLine{23     QVBoxLayout* m\_button\_layout;}
+\DoxyCodeLine{24     QWidget* m\_button\_container;}
+\DoxyCodeLine{25 \textcolor{keyword}{public} slots:}
+\DoxyCodeLine{26     \textcolor{keywordtype}{void} \mbox{\hyperlink{class_main_window_abc3a8d55dbf367e9cd0a0e1b44ba2012}{create\_project}}(\textcolor{keyword}{const} QString\& file\_name);}
+\DoxyCodeLine{27     \textcolor{keywordtype}{void} \mbox{\hyperlink{class_main_window_af14bf65ea273db41861d381dafe5c4e9}{delete\_project\_button}}(\textcolor{keyword}{const} QString\& name);}
+\DoxyCodeLine{28     \textcolor{keywordtype}{void} \mbox{\hyperlink{class_main_window_a44bf65ebe9643f8b1d4df2ccb083c60b}{edit\_project\_button}}(\textcolor{keyword}{const} QString\& old\_name, \textcolor{keyword}{const} QString\& new\_name);}
+\DoxyCodeLine{29 \textcolor{keyword}{private} slots:}
+\DoxyCodeLine{30     \textcolor{keywordtype}{void} on\_projectButton\_clicked();}
+\DoxyCodeLine{31     \textcolor{keywordtype}{void} on\_actionNew\_triggered();}
+\DoxyCodeLine{32     \textcolor{keywordtype}{void} on\_actionSettings\_triggered();}
+\DoxyCodeLine{33 \};}
+\DoxyCodeLine{34 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// MAINWINDOW\_H}}
+
+\end{DoxyCode}

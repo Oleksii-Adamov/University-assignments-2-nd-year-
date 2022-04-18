@@ -1,0 +1,43 @@
+\hypertarget{addnewprojectdialog_8h_source}{}\doxysection{addnewprojectdialog.\+h}
+\label{addnewprojectdialog_8h_source}\index{D:/University/Programming-\/labs-\/2nd-\/year/OOP/Lab2Refactoring/Lab2Ref/OOPLab2/addnewprojectdialog.h@{D:/University/Programming-\/labs-\/2nd-\/year/OOP/Lab2Refactoring/Lab2Ref/OOPLab2/addnewprojectdialog.h}}
+\mbox{\hyperlink{addnewprojectdialog_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{preprocessor}{\#ifndef ADDNEWPROJECTDIALOG\_H}}
+\DoxyCodeLine{2 \textcolor{preprocessor}{\#define ADDNEWPROJECTDIALOG\_H}}
+\DoxyCodeLine{3 \textcolor{preprocessor}{\#include <QDialog>}}
+\DoxyCodeLine{4 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{mainwindow_8h}{mainwindow.h}}"{}}}
+\DoxyCodeLine{5 \textcolor{keyword}{namespace }\mbox{\hyperlink{namespaceproject}{project}} \{}
+\DoxyCodeLine{6     \textcolor{keyword}{enum} \mbox{\hyperlink{namespaceproject_a0424b9834ca7c04b7b8b5ef8b956e53b}{mode}} \{}
+\DoxyCodeLine{7         \mbox{\hyperlink{namespaceproject_a0424b9834ca7c04b7b8b5ef8b956e53bab737ac6282703f98b8708a7b97e291aa}{Add}},}
+\DoxyCodeLine{8         \mbox{\hyperlink{namespaceproject_a0424b9834ca7c04b7b8b5ef8b956e53baa1765c5179630e7f00848c3f8cc871af}{Edit}}}
+\DoxyCodeLine{9     \};}
+\DoxyCodeLine{10 \}}
+\DoxyCodeLine{11 \textcolor{keyword}{namespace }\mbox{\hyperlink{namespace_ui}{Ui}} \{}
+\DoxyCodeLine{12 \textcolor{keyword}{class }\mbox{\hyperlink{class_add_new_project_dialog}{AddNewProjectDialog}};}
+\DoxyCodeLine{13 \}}
+\DoxyCodeLine{14 }
+\DoxyCodeLine{15 \textcolor{keyword}{class }\mbox{\hyperlink{class_add_new_project_dialog}{AddNewProjectDialog}} : \textcolor{keyword}{public} QDialog}
+\DoxyCodeLine{16 \{}
+\DoxyCodeLine{17     Q\_OBJECT}
+\DoxyCodeLine{18 }
+\DoxyCodeLine{19 \textcolor{keyword}{public}:}
+\DoxyCodeLine{20     \textcolor{keyword}{explicit} \mbox{\hyperlink{class_add_new_project_dialog_a333342d8afeba992d84c4e45f8bd7146}{AddNewProjectDialog}}(QWidget *parent, \mbox{\hyperlink{namespaceproject_a0424b9834ca7c04b7b8b5ef8b956e53b}{project::mode}} \mbox{\hyperlink{namespaceproject_a0424b9834ca7c04b7b8b5ef8b956e53b}{mode}} = \mbox{\hyperlink{namespaceproject_a0424b9834ca7c04b7b8b5ef8b956e53bab737ac6282703f98b8708a7b97e291aa}{project::mode::Add}});}
+\DoxyCodeLine{21     \mbox{\hyperlink{class_add_new_project_dialog_a7047c227d739b8a43102b8446b056abe}{\string~AddNewProjectDialog}}();}
+\DoxyCodeLine{22 }
+\DoxyCodeLine{23 signals:}
+\DoxyCodeLine{24    \textcolor{keywordtype}{void} \mbox{\hyperlink{class_add_new_project_dialog_ab2ff140efbf708104bb89a24ac7d4981}{create\_project}}(\textcolor{keyword}{const} QString\& file\_path);}
+\DoxyCodeLine{25    \textcolor{keywordtype}{void} \mbox{\hyperlink{class_add_new_project_dialog_a2dc34736e3ca7386f4d2c79b9877787d}{edit\_project}}(\textcolor{keyword}{const} QString\& new\_name);}
+\DoxyCodeLine{26 }
+\DoxyCodeLine{27 \textcolor{keyword}{private} slots:}
+\DoxyCodeLine{28     \textcolor{keywordtype}{void} on\_pushButton\_Cancel\_clicked();}
+\DoxyCodeLine{29 }
+\DoxyCodeLine{30     \textcolor{keywordtype}{void} on\_pushButton\_Create\_clicked();}
+\DoxyCodeLine{31 }
+\DoxyCodeLine{32 \textcolor{keyword}{private}:}
+\DoxyCodeLine{33     Ui::AddNewProjectDialog *ui;}
+\DoxyCodeLine{34     \mbox{\hyperlink{namespaceproject_a0424b9834ca7c04b7b8b5ef8b956e53b}{project::mode}} m\_mode;}
+\DoxyCodeLine{35 \};}
+\DoxyCodeLine{36 }
+\DoxyCodeLine{37 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// ADDNEWPROJECTDIALOG\_H}}
+
+\end{DoxyCode}

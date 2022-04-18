@@ -25,11 +25,13 @@ private slots:
     void EditTaskTestCase();
     void DeleteTaskTestCase();
     void CompleteTaskTestCase();
-    void TasksSavingTestCase();
+    // Change duration of work/break timer Use Cases
     void SettingChangeTestCase();
     void AddNewProjectTestCase();
     void EditProjectTestCase();
     void DeleteProjectTestCase();
+    // Addittional tests
+    void TasksSavingTestCase();
 private:
     QApplication* a;
     void delete_project_manually_if_exists(MainWindow* main_window, const QString& project_name);

@@ -1,0 +1,36 @@
+\hypertarget{todolistdata_8h_source}{}\doxysection{todolistdata.\+h}
+\label{todolistdata_8h_source}\index{D:/University/Programming-\/labs-\/2nd-\/year/OOP/Lab2Refactoring/Lab2Ref/OOPLab2/todolistdata.h@{D:/University/Programming-\/labs-\/2nd-\/year/OOP/Lab2Refactoring/Lab2Ref/OOPLab2/todolistdata.h}}
+\mbox{\hyperlink{todolistdata_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{preprocessor}{\#ifndef TODOLISTDATA\_H}}
+\DoxyCodeLine{2 \textcolor{preprocessor}{\#define TODOLISTDATA\_H}}
+\DoxyCodeLine{3 }
+\DoxyCodeLine{4 \textcolor{preprocessor}{\#include<QString>}}
+\DoxyCodeLine{5 \textcolor{preprocessor}{\#include <QDataStream>}}
+\DoxyCodeLine{6 \textcolor{keyword}{class }\mbox{\hyperlink{class_to_do_list_data}{ToDoListData}}}
+\DoxyCodeLine{7 \{}
+\DoxyCodeLine{8     \textcolor{comment}{//Q\_OBJECT}}
+\DoxyCodeLine{9 \textcolor{keyword}{public}:}
+\DoxyCodeLine{10     \mbox{\hyperlink{class_to_do_list_data_adc3906a46a34246e297fc1c7178fc59d}{ToDoListData}}();}
+\DoxyCodeLine{11     \mbox{\hyperlink{class_to_do_list_data_adc3906a46a34246e297fc1c7178fc59d}{ToDoListData}}(qint8 \mbox{\hyperlink{class_to_do_list_data_ab8aa7fbbaaad0c1c6b7cb770d73e5a54}{priority}}, QString \mbox{\hyperlink{class_to_do_list_data_a8581847ea53687ede9b9e84924f7600c}{name}}, qint32 \mbox{\hyperlink{class_to_do_list_data_a240bdc4ac58734bbaa359cae9c3f8cdd}{done}}, qint32 \mbox{\hyperlink{class_to_do_list_data_a0a7a353c77f32c0de0ea111d85353eb2}{predicted}});}
+\DoxyCodeLine{12     \mbox{\hyperlink{class_to_do_list_data_adc3906a46a34246e297fc1c7178fc59d}{ToDoListData}}(QDataStream\& in);}
+\DoxyCodeLine{13     \mbox{\hyperlink{class_to_do_list_data_a075f5ab7b68689ef037d201e08ae48a8}{ToDoListData}}(\textcolor{keyword}{const} \mbox{\hyperlink{class_to_do_list_data}{ToDoListData}} \& other)}
+\DoxyCodeLine{14         : \mbox{\hyperlink{class_to_do_list_data_ab8aa7fbbaaad0c1c6b7cb770d73e5a54}{priority}}(other.\mbox{\hyperlink{class_to_do_list_data_ab8aa7fbbaaad0c1c6b7cb770d73e5a54}{priority}}), \mbox{\hyperlink{class_to_do_list_data_a8581847ea53687ede9b9e84924f7600c}{name}}(other.\mbox{\hyperlink{class_to_do_list_data_a8581847ea53687ede9b9e84924f7600c}{name}}), \mbox{\hyperlink{class_to_do_list_data_a240bdc4ac58734bbaa359cae9c3f8cdd}{done}}(other.\mbox{\hyperlink{class_to_do_list_data_a240bdc4ac58734bbaa359cae9c3f8cdd}{done}}), \mbox{\hyperlink{class_to_do_list_data_a0a7a353c77f32c0de0ea111d85353eb2}{predicted}}(other.\mbox{\hyperlink{class_to_do_list_data_a0a7a353c77f32c0de0ea111d85353eb2}{predicted}}) \{\}}
+\DoxyCodeLine{15     \mbox{\hyperlink{class_to_do_list_data}{ToDoListData}}\& \mbox{\hyperlink{class_to_do_list_data_a9fd8ad9369646fc8afa5648b3a030e55}{operator=}}(\textcolor{keyword}{const} \mbox{\hyperlink{class_to_do_list_data}{ToDoListData}} \& other);}
+\DoxyCodeLine{16 \textcolor{keyword}{public}:}
+\DoxyCodeLine{17     qint8 \mbox{\hyperlink{class_to_do_list_data_ab8aa7fbbaaad0c1c6b7cb770d73e5a54}{priority}};}
+\DoxyCodeLine{18     QString \mbox{\hyperlink{class_to_do_list_data_a8581847ea53687ede9b9e84924f7600c}{name}};}
+\DoxyCodeLine{19     qint32 \mbox{\hyperlink{class_to_do_list_data_a240bdc4ac58734bbaa359cae9c3f8cdd}{done}};}
+\DoxyCodeLine{20     qint32 \mbox{\hyperlink{class_to_do_list_data_a0a7a353c77f32c0de0ea111d85353eb2}{predicted}};}
+\DoxyCodeLine{21     QString \mbox{\hyperlink{class_to_do_list_data_a596dde4fff0fc37723f37a868e6cd414}{ToQString}}();}
+\DoxyCodeLine{22     \textcolor{comment}{//void read\_from\_binary(QDataStream in);}}
+\DoxyCodeLine{23     \textcolor{keywordtype}{void} \mbox{\hyperlink{class_to_do_list_data_afc3d4c3c240a8c6e3e2a5eb518741d8c}{write\_to\_binary}}(QDataStream\& out);}
+\DoxyCodeLine{24     \textcolor{keyword}{friend} \textcolor{keywordtype}{bool} \mbox{\hyperlink{class_to_do_list_data_a0fec4e2032abdb1abc09fbc911a8d4cc}{operator<}}(\textcolor{keyword}{const} \mbox{\hyperlink{class_to_do_list_data}{ToDoListData}}\& left, \textcolor{keyword}{const} \mbox{\hyperlink{class_to_do_list_data}{ToDoListData}}\& right);}
+\DoxyCodeLine{25     \textcolor{keyword}{friend} \textcolor{keywordtype}{bool} \mbox{\hyperlink{class_to_do_list_data_a79c48777123cb8f91e88fd70c4ff7fd3}{operator==}}(\textcolor{keyword}{const} \mbox{\hyperlink{class_to_do_list_data}{ToDoListData}}\& left, \textcolor{keyword}{const} \mbox{\hyperlink{class_to_do_list_data}{ToDoListData}}\& right);}
+\DoxyCodeLine{26 \textcolor{keyword}{private}:}
+\DoxyCodeLine{27     QString time\_needed\_to\_finish();}
+\DoxyCodeLine{28 }
+\DoxyCodeLine{29 \};}
+\DoxyCodeLine{30 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// TODOLISTDATA\_H}}
+
+\end{DoxyCode}
