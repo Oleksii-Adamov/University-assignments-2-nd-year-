@@ -8,7 +8,11 @@
 #include "../OOPLab2/mainwindow.h"
 #include "../OOPLab2/todolistwindow.h"
 #include "ui_todolistwindow.h"
+/*!
+    \brief Unit tests
 
+    Some text
+*/
 class UnitTests : public QObject
 {
     Q_OBJECT
