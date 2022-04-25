@@ -11,7 +11,7 @@ class Timer;
 class Timer : public QDialog
 {
     Q_OBJECT
-
+    friend class UnitTests;
 public:
     explicit Timer(QWidget *parent = nullptr);
     ~Timer();

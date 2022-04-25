@@ -8,6 +8,12 @@
 #include "../OOPLab2/mainwindow.h"
 #include "../OOPLab2/todolistwindow.h"
 #include "ui_todolistwindow.h"
+#include "../OOPLab2/timer.h"
+#include "ui_timer.h"
+//#include <QThread>
+//#include <thread>
+#include <chrono>
+#include <iostream>
 /*!
     \brief Unit tests
 
@@ -360,7 +366,61 @@ void UnitTests::TasksSavingTestCase()
 
 void UnitTests::TimerTestCase()
 {
+    // set settings
+    {
+        SettingsDialog settings;
+        settings.ui->spinBox_pomodoro->setValue(1);
+        settings.ui->spinBox_break->setValue(1);
+        settings.on_pushButton_apply_clicked();
+    }
+    // timer test
+    Timer test_timer;
+    int pomodoro_duration_in_minutes, break_duration_in_minutes;
+    read_settings(pomodoro_duration_in_minutes, break_duration_in_minutes);
+    QCOMPARE(test_timer.m_duration_of_pomodoro_in_seconds, pomodoro_duration_in_minutes * 60);
+    QCOMPARE(test_timer.m_duration_of_break_in_seconds, break_duration_in_minutes * 60);
+    QCOMPARE(test_timer.ui->label_state->text(), "Work. Try not to be distracted");
+    QCOMPARE(test_timer.ui->pushButton_stop_skip_start->text(), "Stop");
+    QCOMPARE(test_timer.ui->label_time->text(), "01:00");
+    test_timer.on_pushButton_stop_skip_start_clicked();
+    QCOMPARE(test_timer.ui->label_state->text(), "Work. Try not to be distracted");
+    QCOMPARE(test_timer.ui->pushButton_stop_skip_start->text(), "Start");
+    QCOMPARE(test_timer.ui->label_time->text(), "01:00");
+    /*auto wait_seconds = [](int sec){
+        QThread::sleep(sec);
+    };*/
+    // wait one second
+   // std::thread waiting_thread(wait_seconds, 2);
+    //waiting_thread.join();
+    /*auto start_time_point = std::chrono::high_resolution_clock::now();
+    auto start = std::chrono::time_point_cast<std::chrono::microseconds>(start_time_point).time_since_epoch();
+    //int time_passed = 0;
+    std::chrono::microseconds time_passed(0);
+    // 1s = 10^6 microseconds
+    while (time_passed != std::chrono::microseconds(1500000)) {
+        auto time_point = std::chrono::high_resolution_clock::now();
+        auto now = std::chrono::time_point_cast<std::chrono::microseconds>(time_point).time_since_epoch();
+        time_passed = now - start;
 
+    }*/
+    //QThread::sleep(1);
+    /*auto wait_seconds = [&test_timer](){
+        QCOMPARE(test_timer.ui->label_state->text(), "Work. Try not to be distracted");
+        QCOMPARE(test_timer.ui->pushButton_stop_skip_start->text(), "Stop");
+        QCOMPARE(test_timer.ui->label_time->text(), "00:59");
+    };
+    QTimer* m_timer = new QTimer(this);*/
+    //qDebug() << connect(m_timer, SIGNAL(timeout()), this, SLOT(wait_seconds()));
+    // counting seconds
+    //m_timer->start(1000);
+    /*QCOMPARE(test_timer.ui->label_state->text(), "Work. Try not to be distracted");
+    QCOMPARE(test_timer.ui->pushButton_stop_skip_start->text(), "Stop");
+    QCOMPARE(test_timer.ui->label_time->text(), "00:59");*/
+    // wait timer end
+    /*QThread::sleep(59);
+    QCOMPARE(test_timer.ui->label_state->text(), "Work. Try not to be distracted");
+    QCOMPARE(test_timer.ui->pushButton_stop_skip_start->text(), "Stop");
+    QCOMPARE(test_timer.ui->label_time->text(), "01:00");*/
 }
 QTEST_APPLESS_MAIN(UnitTests)
 

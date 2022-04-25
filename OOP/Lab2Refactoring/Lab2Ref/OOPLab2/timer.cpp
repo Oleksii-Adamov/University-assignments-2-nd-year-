@@ -24,7 +24,7 @@ Timer::Timer(QWidget *parent) :
     ui->label_time->setText(seconds_to_string(m_duration_of_pomodoro_in_seconds));
     ui->pushButton_stop_skip_start->setText("Stop");
     m_timer = new QTimer(this);
-    qDebug() << connect(m_timer, SIGNAL(timeout()), this, SLOT(second_passed()));
+    connect(m_timer, SIGNAL(timeout()), this, SLOT(second_passed()));
     // counting seconds
     m_timer->start(1000);
     m_player = new QMediaPlayer(this);
