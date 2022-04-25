@@ -43,8 +43,11 @@ private slots:
     void TimerTestCase();
     // Addittional tests
     void TasksSavingTestCase();
+    // utility slot (increase seconds_passed)
+    void second_passed();
 private:
     QApplication* a;
+    unsigned int seconds_passed = 0;
     void delete_project_manually_if_exists(MainWindow* main_window, const QString& project_name);
     bool project_button_exists(MainWindow& main_window, const QString& project_name);
     void add_or_edit_task(std::vector<ToDoListData>& parent_data_list, QListWidget& parent_list_widget, ToDoList::mode mode,
@@ -364,6 +367,11 @@ void UnitTests::TasksSavingTestCase()
     delete_project_manually_if_exists(nullptr, project_name);
 }
 
+void UnitTests::second_passed()
+{
+    seconds_passed++;
+}
+
 void UnitTests::TimerTestCase()
 {
     // set settings
@@ -382,45 +390,61 @@ void UnitTests::TimerTestCase()
     QCOMPARE(test_timer.ui->label_state->text(), "Work. Try not to be distracted");
     QCOMPARE(test_timer.ui->pushButton_stop_skip_start->text(), "Stop");
     QCOMPARE(test_timer.ui->label_time->text(), "01:00");
+
+    // wait one second
+    QTimer* m_timer = new QTimer(this);
+    qDebug() << connect(m_timer, SIGNAL(timeout()), this, SLOT(second_passed()));
+    // counting seconds
+    m_timer->start(1000);
+    while (seconds_passed != 1)
+    {
+        QCoreApplication::processEvents(QEventLoop::WaitForMoreEvents);
+    }
+    m_timer->stop();
+    QCOMPARE(test_timer.ui->label_state->text(), "Work. Try not to be distracted");
+    QCOMPARE(test_timer.ui->pushButton_stop_skip_start->text(), "Stop");
+    QCOMPARE(test_timer.ui->label_time->text(), "00:59");
+
+    // stop timer
     test_timer.on_pushButton_stop_skip_start_clicked();
     QCOMPARE(test_timer.ui->label_state->text(), "Work. Try not to be distracted");
     QCOMPARE(test_timer.ui->pushButton_stop_skip_start->text(), "Start");
     QCOMPARE(test_timer.ui->label_time->text(), "01:00");
-    /*auto wait_seconds = [](int sec){
-        QThread::sleep(sec);
-    };*/
-    // wait one second
-   // std::thread waiting_thread(wait_seconds, 2);
-    //waiting_thread.join();
-    /*auto start_time_point = std::chrono::high_resolution_clock::now();
-    auto start = std::chrono::time_point_cast<std::chrono::microseconds>(start_time_point).time_since_epoch();
-    //int time_passed = 0;
-    std::chrono::microseconds time_passed(0);
-    // 1s = 10^6 microseconds
-    while (time_passed != std::chrono::microseconds(1500000)) {
-        auto time_point = std::chrono::high_resolution_clock::now();
-        auto now = std::chrono::time_point_cast<std::chrono::microseconds>(time_point).time_since_epoch();
-        time_passed = now - start;
 
-    }*/
-    //QThread::sleep(1);
-    /*auto wait_seconds = [&test_timer](){
-        QCOMPARE(test_timer.ui->label_state->text(), "Work. Try not to be distracted");
-        QCOMPARE(test_timer.ui->pushButton_stop_skip_start->text(), "Stop");
-        QCOMPARE(test_timer.ui->label_time->text(), "00:59");
-    };
-    QTimer* m_timer = new QTimer(this);*/
-    //qDebug() << connect(m_timer, SIGNAL(timeout()), this, SLOT(wait_seconds()));
-    // counting seconds
-    //m_timer->start(1000);
-    /*QCOMPARE(test_timer.ui->label_state->text(), "Work. Try not to be distracted");
-    QCOMPARE(test_timer.ui->pushButton_stop_skip_start->text(), "Stop");
-    QCOMPARE(test_timer.ui->label_time->text(), "00:59");*/
-    // wait timer end
-    /*QThread::sleep(59);
+    // start timer and wait till timer end
+    seconds_passed = 0;
+    test_timer.on_pushButton_stop_skip_start_clicked();
+    m_timer->start(1000);
+    while (seconds_passed != 60)
+    {
+        QCoreApplication::processEvents(QEventLoop::WaitForMoreEvents);
+    }
+    m_timer->stop();
+    QCOMPARE(test_timer.ui->label_state->text(), "Rest");
+    QCOMPARE(test_timer.ui->pushButton_stop_skip_start->text(), "Skip");
+    QCOMPARE(test_timer.ui->label_time->text(), "01:00");
+
+    // wait one second
+    seconds_passed = 0;
+    m_timer->start(1000);
+    while (seconds_passed != 1)
+    {
+        QCoreApplication::processEvents(QEventLoop::WaitForMoreEvents);
+    }
+    m_timer->stop();
+    QCOMPARE(test_timer.ui->label_state->text(), "Rest");
+    QCOMPARE(test_timer.ui->pushButton_stop_skip_start->text(), "Skip");
+    QCOMPARE(test_timer.ui->label_time->text(), "00:59");
+
+    // skip
+    test_timer.on_pushButton_stop_skip_start_clicked();
     QCOMPARE(test_timer.ui->label_state->text(), "Work. Try not to be distracted");
-    QCOMPARE(test_timer.ui->pushButton_stop_skip_start->text(), "Stop");
-    QCOMPARE(test_timer.ui->label_time->text(), "01:00");*/
+    QCOMPARE(test_timer.ui->pushButton_stop_skip_start->text(), "Start");
+    QCOMPARE(test_timer.ui->label_time->text(), "01:00");
+
+    // don't test pass of break because it will take 2 minutes more
+
+    delete m_timer;
 }
 QTEST_APPLESS_MAIN(UnitTests)
 
