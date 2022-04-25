@@ -1,0 +1,15 @@
+debug/unittests.o
+debug/addnewprojectdialog.o
+debug/addtotodolist.o
+debug/filepath.o
+debug/mainwindow.o
+debug/settingsdialog.o
+debug/timer.o
+debug/todolistdata.o
+debug/todolistwindow.o
+debug/moc_addnewprojectdialog.o
+debug/moc_addtotodolist.o
+debug/moc_mainwindow.o
+debug/moc_settingsdialog.o
+debug/moc_timer.o
+debug/moc_todolistwindow.o

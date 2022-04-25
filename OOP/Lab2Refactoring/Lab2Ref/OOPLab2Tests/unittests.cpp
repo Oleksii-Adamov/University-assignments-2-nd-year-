@@ -34,6 +34,7 @@ private slots:
     void AddNewProjectTestCase();
     void EditProjectTestCase();
     void DeleteProjectTestCase();
+    void TimerTestCase();
     // Addittional tests
     void TasksSavingTestCase();
 private:
@@ -357,6 +358,10 @@ void UnitTests::TasksSavingTestCase()
     delete_project_manually_if_exists(nullptr, project_name);
 }
 
+void UnitTests::TimerTestCase()
+{
+
+}
 QTEST_APPLESS_MAIN(UnitTests)
 
 #include "unittests.moc"

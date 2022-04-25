@@ -57,6 +57,7 @@ void Timer::on_pushButton_stop_skip_start_clicked()
     else { // start
         m_timer->start();
         m_is_timer_counting = true;
+        ui->pushButton_stop_skip_start->setText("Stop");
     }
 }
 
