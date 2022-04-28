@@ -14,17 +14,19 @@ public:
         : priority(other.priority), name(other.name), done(other.done), predicted(other.predicted) {}
     ToDoListData& operator=(const ToDoListData & other);
 public:
-    qint8 priority;
+    qint8 priority = -1;
     QString name;
     qint32 done;
     qint32 predicted;
-    QString ToQString();
+    QString ToQString() const;
     //void read_from_binary(QDataStream in);
     void write_to_binary(QDataStream& out);
     friend bool operator<(const ToDoListData& left, const ToDoListData& right);
     friend bool operator==(const ToDoListData& left, const ToDoListData& right);
+    friend bool operator!=(const ToDoListData& left, const ToDoListData& right);
 private:
-    QString time_needed_to_finish();
+    QString time_needed_to_finish() const;
 
 };
+
 #endif // TODOLISTDATA_H

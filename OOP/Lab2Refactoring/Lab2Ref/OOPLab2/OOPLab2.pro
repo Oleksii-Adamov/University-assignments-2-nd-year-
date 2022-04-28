@@ -18,6 +18,7 @@ SOURCES += \
     settingsdialog.cpp \
     timer.cpp \
     todolistdata.cpp \
+    todolistmodel.cpp \
     todolistwindow.cpp
 
 HEADERS += \
@@ -28,6 +29,7 @@ HEADERS += \
     settingsdialog.h \
     timer.h \
     todolistdata.h \
+    todolistmodel.h \
     todolistwindow.h
 
 FORMS += \

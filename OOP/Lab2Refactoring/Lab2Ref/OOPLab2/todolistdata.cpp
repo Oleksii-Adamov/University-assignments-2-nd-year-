@@ -1,6 +1,6 @@
 #include "todolistdata.h"
 #include "filepath.h"
-QString ToDoListData::ToQString() {
+QString ToDoListData::ToQString() const {
     return "Priority " + QString::number(priority) + ": " + name + " " + QString::number(done) + "/" + QString::number(predicted) + " pomodoro" + time_needed_to_finish();
 }
 
@@ -27,7 +27,7 @@ void ToDoListData::write_to_binary(QDataStream& out) {
     out << priority << name << done << predicted;
 }
 
-QString ToDoListData::time_needed_to_finish() {
+QString ToDoListData::time_needed_to_finish() const {
     if (done > predicted) return " Prediction is wrong!";
     int pomodoro_duration_in_minutes, break_duration_in_minutes;
     read_settings(pomodoro_duration_in_minutes, break_duration_in_minutes);
@@ -58,4 +58,9 @@ bool operator==(const ToDoListData& left, const ToDoListData& right)
 {
     return left.priority == right.priority && left.name == right.name &&
             left.done == right.done && left.predicted == right.predicted;
+}
+
+bool operator!=(const ToDoListData& left, const ToDoListData& right)
+{
+    return !(left == right);
 }
