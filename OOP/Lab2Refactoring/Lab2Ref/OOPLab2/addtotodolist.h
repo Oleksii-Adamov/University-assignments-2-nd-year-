@@ -2,8 +2,8 @@
 #define ADDTOTODOLIST_H
 
 #include <QDialog>
-#include "todolistdata.h"
-#include <QListWidget>
+#include "todolistmodel.h"
+
 namespace ToDoList {
     enum mode {
         Add,
@@ -21,8 +21,9 @@ class AddToToDoList : public QDialog
 public:
     explicit AddToToDoList(QWidget *parent = nullptr);
     ~AddToToDoList();
-    explicit AddToToDoList(QWidget *parent, std::vector<ToDoListData>* parent_data_list, QListWidget* parent_list_widget,
-                           ToDoList::mode mode);
+    /// current_index (index of selected element) is required for edit mode, to show current data of edited item
+    explicit AddToToDoList(QWidget *parent, QSharedPointer<ToDoListModel> parent_model,
+                           ToDoList::mode mode, int current_index = 0);
     Ui::AddToToDoList** get_ui();
 private slots:
     void on_pushButtonCreate_clicked();
@@ -31,9 +32,9 @@ private slots:
 
 private:
     Ui::AddToToDoList *ui;
-    std::vector<ToDoListData>* m_parent_data_list;
-    QListWidget* m_parent_list_widget;
+    QSharedPointer<ToDoListModel> m_parent_model;
     ToDoList::mode m_mode;
+    int m_current_index;
 };
 
 #endif // ADDTOTODOLIST_H

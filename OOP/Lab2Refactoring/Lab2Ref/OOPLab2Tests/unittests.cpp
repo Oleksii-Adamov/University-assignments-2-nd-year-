@@ -198,12 +198,12 @@ void UnitTests::DeleteProjectTestCase()
 
 void UnitTests::add_or_edit_task(std::vector<ToDoListData>& parent_data_list, QListWidget& parent_list_widget, ToDoList::mode mode,
                          const QString& name_of_the_task, int number_of_pomodoros, int priority)
-{
+{/*
     AddToToDoList add_task_dialog(nullptr, &parent_data_list, &parent_list_widget, mode);
     add_task_dialog.ui->lineEditNameofTask->setText(name_of_the_task);
     add_task_dialog.ui->spinBox->setValue(number_of_pomodoros);
     add_task_dialog.ui->spinBox_priority->setValue(priority);
-    add_task_dialog.on_pushButtonCreate_clicked();
+    add_task_dialog.on_pushButtonCreate_clicked();*/
 }
 
 void UnitTests::AddTaskTestCase()

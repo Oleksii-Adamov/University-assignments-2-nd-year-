@@ -105,9 +105,10 @@ void ToDoListWindow::on_actionBack_triggered()
 
 void ToDoListWindow::on_pushButtonAdd_clicked()
 {
-   /*AddToToDoList* new_dialog = new AddToToDoList(this, &m_data_list, ui->listWidget, ToDoList::mode::Add);
+   /*AddToToDoList* new_dialog = new AddToToDoList(this, &m_data_list, ui->listWidget, ToDoList::mode::Add);*/
+   AddToToDoList* new_dialog = new AddToToDoList(this, model, ToDoList::mode::Add);
    new_dialog->setModal(true);
-   new_dialog->show();*/
+   new_dialog->show();
 }
 
 
