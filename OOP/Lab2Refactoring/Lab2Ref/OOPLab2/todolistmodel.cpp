@@ -57,3 +57,4 @@ bool ToDoListModel::removeRows(int row, int count, const QModelIndex &parent)
     endRemoveRows();
     return true;
 }
+

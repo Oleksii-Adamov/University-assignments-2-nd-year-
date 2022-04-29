@@ -1341,6 +1341,8 @@ debug/moc_todolistwindow.cpp: ../../Lab2Ref/OOPLab2/todolistwindow.h \
 		../../Lab2Ref/OOPLab2/todolistdata.h \
 		C:/Qt/6.3.0/mingw_64/include/QtCore/QString \
 		C:/Qt/6.3.0/mingw_64/include/QtCore/QDataStream \
+		../../Lab2Ref/OOPLab2/todolistmodel.h \
+		C:/Qt/6.3.0/mingw_64/include/QtCore/QAbstractListModel \
 		debug/moc_predefs.h \
 		C:/Qt/6.3.0/mingw_64/bin/moc.exe
 	C:\Qt\6.3.0\mingw_64\bin\moc.exe $(DEFINES) --include D:/University/Programming-labs-2nd-year/OOP/Lab2Refactoring/build-Lab2Ref-Desktop_Qt_6_3_0_MinGW_64_bit-Debug/OOPLab2/debug/moc_predefs.h -IC:/Qt/6.3.0/mingw_64/mkspecs/win32-g++ -ID:/University/Programming-labs-2nd-year/OOP/Lab2Refactoring/Lab2Ref/OOPLab2 -IC:/Qt/6.3.0/mingw_64/include -IC:/Qt/6.3.0/mingw_64/include/QtMultimedia -IC:/Qt/6.3.0/mingw_64/include/QtWidgets -IC:/Qt/6.3.0/mingw_64/include/QtGui -IC:/Qt/6.3.0/mingw_64/include/QtNetwork -IC:/Qt/6.3.0/mingw_64/include/QtTest -IC:/Qt/6.3.0/mingw_64/include/QtCore -I. -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++ -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/x86_64-w64-mingw32 -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/backward -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include-fixed -IC:/Qt/Tools/mingw1120_64/x86_64-w64-mingw32/include ..\..\Lab2Ref\OOPLab2\todolistwindow.h -o debug\moc_todolistwindow.cpp
@@ -2497,6 +2499,8 @@ debug/mainwindow.o: ../../Lab2Ref/OOPLab2/mainwindow.cpp ../../Lab2Ref/OOPLab2/m
 		../../Lab2Ref/OOPLab2/todolistdata.h \
 		C:/Qt/6.3.0/mingw_64/include/QtCore/QString \
 		C:/Qt/6.3.0/mingw_64/include/QtCore/QDataStream \
+		../../Lab2Ref/OOPLab2/todolistmodel.h \
+		C:/Qt/6.3.0/mingw_64/include/QtCore/QAbstractListModel \
 		C:/Qt/6.3.0/mingw_64/include/QtCore/QSharedPointer \
 		C:/Qt/6.3.0/mingw_64/include/QtWidgets/QMessageBox \
 		C:/Qt/6.3.0/mingw_64/include/QtWidgets/qmessagebox.h \
@@ -3387,6 +3391,8 @@ debug/todolistwindow.o: ../../Lab2Ref/OOPLab2/todolistwindow.cpp ../../Lab2Ref/O
 		../../Lab2Ref/OOPLab2/todolistdata.h \
 		C:/Qt/6.3.0/mingw_64/include/QtCore/QString \
 		C:/Qt/6.3.0/mingw_64/include/QtCore/QDataStream \
+		../../Lab2Ref/OOPLab2/todolistmodel.h \
+		C:/Qt/6.3.0/mingw_64/include/QtCore/QAbstractListModel \
 		ui_todolistwindow.h \
 		C:/Qt/6.3.0/mingw_64/include/QtCore/QVariant \
 		C:/Qt/6.3.0/mingw_64/include/QtGui/QAction \
@@ -3400,8 +3406,7 @@ debug/todolistwindow.o: ../../Lab2Ref/OOPLab2/todolistwindow.cpp ../../Lab2Ref/O
 		C:/Qt/6.3.0/mingw_64/include/QtWidgets/QLabel \
 		C:/Qt/6.3.0/mingw_64/include/QtWidgets/qlabel.h \
 		C:/Qt/6.3.0/mingw_64/include/QtWidgets/qframe.h \
-		C:/Qt/6.3.0/mingw_64/include/QtWidgets/QListWidget \
-		C:/Qt/6.3.0/mingw_64/include/QtWidgets/qlistwidget.h \
+		C:/Qt/6.3.0/mingw_64/include/QtWidgets/QListView \
 		C:/Qt/6.3.0/mingw_64/include/QtWidgets/qlistview.h \
 		C:/Qt/6.3.0/mingw_64/include/QtWidgets/qabstractitemview.h \
 		C:/Qt/6.3.0/mingw_64/include/QtWidgets/qabstractscrollarea.h \
@@ -3427,6 +3432,8 @@ debug/todolistwindow.o: ../../Lab2Ref/OOPLab2/todolistwindow.cpp ../../Lab2Ref/O
 		../../Lab2Ref/OOPLab2/addtotodolist.h \
 		C:/Qt/6.3.0/mingw_64/include/QtWidgets/QDialog \
 		C:/Qt/6.3.0/mingw_64/include/QtWidgets/qdialog.h \
+		C:/Qt/6.3.0/mingw_64/include/QtWidgets/QListWidget \
+		C:/Qt/6.3.0/mingw_64/include/QtWidgets/qlistwidget.h \
 		../../Lab2Ref/OOPLab2/filepath.h \
 		../../Lab2Ref/OOPLab2/addnewprojectdialog.h \
 		../../Lab2Ref/OOPLab2/mainwindow.h \

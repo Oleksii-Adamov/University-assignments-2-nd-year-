@@ -8,7 +8,6 @@
 #include <QAudioDevice>
 #include <QFile>
 #include "filepath.h"
-
 Timer::Timer(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::Timer)

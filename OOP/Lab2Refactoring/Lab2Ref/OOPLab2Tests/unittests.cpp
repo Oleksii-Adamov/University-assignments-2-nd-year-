@@ -208,6 +208,7 @@ void UnitTests::add_or_edit_task(std::vector<ToDoListData>& parent_data_list, QL
 
 void UnitTests::AddTaskTestCase()
 {
+    /*
     std::vector<ToDoListData> parent_data_list;
     QListWidget parent_list_widget;
     parent_list_widget.setSortingEnabled(true);
@@ -225,10 +226,12 @@ void UnitTests::AddTaskTestCase()
     add_item_test(0, 0);
     add_item_test(0, 0);
     add_item_test(0, 2);
+    */
 }
 
 void UnitTests::EditTaskTestCase()
 {
+    /*
     std::vector<ToDoListData> parent_data_list;
     QListWidget parent_list_widget;
     parent_list_widget.setSortingEnabled(true);
@@ -256,10 +259,12 @@ void UnitTests::EditTaskTestCase()
                                                        new_number_of_pomodoros[i]));
         QCOMPARE(parent_list_widget.item(index)->data(Qt::EditRole), parent_data_list[index].ToQString());
     }
+    */
 }
 
 void UnitTests::DeleteTaskTestCase()
 {
+    /*
     QString project_name = "Project";
     delete_project_manually_if_exists(nullptr, project_name);
     {
@@ -289,10 +294,12 @@ void UnitTests::DeleteTaskTestCase()
         delete_item_test(0);
     }
     delete_project_manually_if_exists(nullptr, project_name);
+    */
 }
 
 void UnitTests::CompleteTaskTestCase()
 {
+    /*
     QString project_name = "Project";
     delete_project_manually_if_exists(nullptr, project_name);
     delete_project_manually_if_exists(nullptr, "Comleted");
@@ -335,10 +342,12 @@ void UnitTests::CompleteTaskTestCase()
     }
     delete_project_manually_if_exists(nullptr, project_name);
     delete_project_manually_if_exists(nullptr, "Comleted");
+    */
 }
 
 void UnitTests::TasksSavingTestCase()
 {
+    /*
     QString project_name = "Project";
     std::vector<QString> name_of_the_task {"Test task1", "Test task2", "Test task3"};
     std::vector<qint32> number_of_pomodoros {23, 29, 50};
@@ -365,6 +374,7 @@ void UnitTests::TasksSavingTestCase()
     QCOMPARE(i, 3);
     file.close();
     delete_project_manually_if_exists(nullptr, project_name);
+    */
 }
 
 void UnitTests::second_passed()

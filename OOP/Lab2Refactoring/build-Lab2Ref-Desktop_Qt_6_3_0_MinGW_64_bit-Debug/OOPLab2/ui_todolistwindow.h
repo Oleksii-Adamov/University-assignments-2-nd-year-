@@ -14,7 +14,7 @@
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QGridLayout>
 #include <QtWidgets/QLabel>
-#include <QtWidgets/QListWidget>
+#include <QtWidgets/QListView>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenuBar>
 #include <QtWidgets/QPushButton>
@@ -33,13 +33,13 @@ public:
     QAction *actionSettings;
     QWidget *centralwidget;
     QGridLayout *gridLayout;
-    QPushButton *pushButtonStartTimer;
-    QListWidget *listWidget;
-    QLabel *label;
-    QPushButton *pushButtonEdit;
-    QPushButton *pushButtonDelete;
     QPushButton *pushButtonAdd;
+    QPushButton *pushButtonEdit;
+    QPushButton *pushButtonStartTimer;
     QPushButton *pushButton_task_completed;
+    QPushButton *pushButtonDelete;
+    QLabel *label;
+    QListView *listView;
     QMenuBar *menubar;
     QStatusBar *statusbar;
     QToolBar *toolBar;
@@ -67,53 +67,47 @@ public:
         centralwidget->setObjectName(QString::fromUtf8("centralwidget"));
         gridLayout = new QGridLayout(centralwidget);
         gridLayout->setObjectName(QString::fromUtf8("gridLayout"));
-        pushButtonStartTimer = new QPushButton(centralwidget);
-        pushButtonStartTimer->setObjectName(QString::fromUtf8("pushButtonStartTimer"));
+        pushButtonAdd = new QPushButton(centralwidget);
+        pushButtonAdd->setObjectName(QString::fromUtf8("pushButtonAdd"));
 
-        gridLayout->addWidget(pushButtonStartTimer, 3, 0, 1, 3);
-
-        listWidget = new QListWidget(centralwidget);
-        listWidget->setObjectName(QString::fromUtf8("listWidget"));
-        QSizePolicy sizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
-        sizePolicy.setHorizontalStretch(0);
-        sizePolicy.setVerticalStretch(0);
-        sizePolicy.setHeightForWidth(listWidget->sizePolicy().hasHeightForWidth());
-        listWidget->setSizePolicy(sizePolicy);
-        listWidget->setResizeMode(QListView::Adjust);
-
-        gridLayout->addWidget(listWidget, 1, 0, 1, 3);
-
-        label = new QLabel(centralwidget);
-        label->setObjectName(QString::fromUtf8("label"));
-        QSizePolicy sizePolicy1(QSizePolicy::Preferred, QSizePolicy::Fixed);
-        sizePolicy1.setHorizontalStretch(0);
-        sizePolicy1.setVerticalStretch(0);
-        sizePolicy1.setHeightForWidth(label->sizePolicy().hasHeightForWidth());
-        label->setSizePolicy(sizePolicy1);
-        label->setScaledContents(false);
-        label->setAlignment(Qt::AlignCenter);
-
-        gridLayout->addWidget(label, 0, 0, 1, 3);
+        gridLayout->addWidget(pushButtonAdd, 2, 2, 1, 1);
 
         pushButtonEdit = new QPushButton(centralwidget);
         pushButtonEdit->setObjectName(QString::fromUtf8("pushButtonEdit"));
 
         gridLayout->addWidget(pushButtonEdit, 2, 1, 1, 1);
 
-        pushButtonDelete = new QPushButton(centralwidget);
-        pushButtonDelete->setObjectName(QString::fromUtf8("pushButtonDelete"));
+        pushButtonStartTimer = new QPushButton(centralwidget);
+        pushButtonStartTimer->setObjectName(QString::fromUtf8("pushButtonStartTimer"));
 
-        gridLayout->addWidget(pushButtonDelete, 2, 0, 1, 1);
-
-        pushButtonAdd = new QPushButton(centralwidget);
-        pushButtonAdd->setObjectName(QString::fromUtf8("pushButtonAdd"));
-
-        gridLayout->addWidget(pushButtonAdd, 2, 2, 1, 1);
+        gridLayout->addWidget(pushButtonStartTimer, 3, 0, 1, 3);
 
         pushButton_task_completed = new QPushButton(centralwidget);
         pushButton_task_completed->setObjectName(QString::fromUtf8("pushButton_task_completed"));
 
         gridLayout->addWidget(pushButton_task_completed, 4, 0, 1, 3);
+
+        pushButtonDelete = new QPushButton(centralwidget);
+        pushButtonDelete->setObjectName(QString::fromUtf8("pushButtonDelete"));
+
+        gridLayout->addWidget(pushButtonDelete, 2, 0, 1, 1);
+
+        label = new QLabel(centralwidget);
+        label->setObjectName(QString::fromUtf8("label"));
+        QSizePolicy sizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
+        sizePolicy.setHorizontalStretch(0);
+        sizePolicy.setVerticalStretch(0);
+        sizePolicy.setHeightForWidth(label->sizePolicy().hasHeightForWidth());
+        label->setSizePolicy(sizePolicy);
+        label->setScaledContents(false);
+        label->setAlignment(Qt::AlignCenter);
+
+        gridLayout->addWidget(label, 0, 0, 1, 3);
+
+        listView = new QListView(centralwidget);
+        listView->setObjectName(QString::fromUtf8("listView"));
+
+        gridLayout->addWidget(listView, 1, 0, 1, 3);
 
         ToDoListWindow->setCentralWidget(centralwidget);
         menubar = new QMenuBar(ToDoListWindow);
@@ -144,12 +138,12 @@ public:
         actionDelete_this_project->setText(QCoreApplication::translate("ToDoListWindow", "Delete project", nullptr));
         actionEditProject->setText(QCoreApplication::translate("ToDoListWindow", "Edit Project", nullptr));
         actionSettings->setText(QCoreApplication::translate("ToDoListWindow", "Settings", nullptr));
-        pushButtonStartTimer->setText(QCoreApplication::translate("ToDoListWindow", "StartTimer", nullptr));
-        label->setText(QCoreApplication::translate("ToDoListWindow", "TextLabel", nullptr));
-        pushButtonEdit->setText(QCoreApplication::translate("ToDoListWindow", "Edit", nullptr));
-        pushButtonDelete->setText(QCoreApplication::translate("ToDoListWindow", "Delete", nullptr));
         pushButtonAdd->setText(QCoreApplication::translate("ToDoListWindow", "Add", nullptr));
+        pushButtonEdit->setText(QCoreApplication::translate("ToDoListWindow", "Edit", nullptr));
+        pushButtonStartTimer->setText(QCoreApplication::translate("ToDoListWindow", "StartTimer", nullptr));
         pushButton_task_completed->setText(QCoreApplication::translate("ToDoListWindow", "Task Comleted", nullptr));
+        pushButtonDelete->setText(QCoreApplication::translate("ToDoListWindow", "Delete", nullptr));
+        label->setText(QCoreApplication::translate("ToDoListWindow", "TextLabel", nullptr));
         toolBar->setWindowTitle(QCoreApplication::translate("ToDoListWindow", "toolBar", nullptr));
     } // retranslateUi
 

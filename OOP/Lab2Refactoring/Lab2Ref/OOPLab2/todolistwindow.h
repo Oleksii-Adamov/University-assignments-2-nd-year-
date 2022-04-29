@@ -5,7 +5,7 @@
 #include <QtGui>
 #include "todolistdata.h"
 #include <vector>
-
+#include "todolistmodel.h"
 namespace Ui {
 class ToDoListWindow;
 }
@@ -50,7 +50,11 @@ private slots:
 private:
     Ui::ToDoListWindow *ui;
     QString m_file_name;
-    std::vector<ToDoListData> m_data_list;
+    //std::vector<ToDoListData> m_data_list;
+    QSharedPointer<ToDoListModel> model;
+    //ToDoListModel model_obj
+    //ToDoListModel* model;
+    //ToDoListModel2* model;
     bool m_is_deleted = false;
     QString m_project_name;
 };

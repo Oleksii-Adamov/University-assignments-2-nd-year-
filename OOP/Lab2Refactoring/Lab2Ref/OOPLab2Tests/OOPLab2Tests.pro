@@ -17,7 +17,8 @@ SOURCES += \
     ../OOPLab2/settingsdialog.cpp \
     ../OOPLab2/timer.cpp \
     ../OOPLab2/todolistdata.cpp \
-    ../OOPLab2/todolistwindow.cpp
+    ../OOPLab2/todolistwindow.cpp \
+    ../OOPLab2/todolistmodel.cpp
 
 HEADERS += \
     ../OOPLab2/addnewprojectdialog.h \
@@ -27,7 +28,8 @@ HEADERS += \
     ../OOPLab2/settingsdialog.h \
     ../OOPLab2/timer.h \
     ../OOPLab2/todolistdata.h \
-    ../OOPLab2/todolistwindow.h
+    ../OOPLab2/todolistwindow.h \
+    ../OOPLab2/todolistmodel.h
 
 FORMS += \
     ../OOPLab2/addnewprojectdialog.ui \

@@ -1,5 +1,6 @@
 #include "todolistdata.h"
 #include "filepath.h"
+
 QString ToDoListData::ToQString() const {
     return "Priority " + QString::number(priority) + ": " + name + " " + QString::number(done) + "/" + QString::number(predicted) + " pomodoro" + time_needed_to_finish();
 }
