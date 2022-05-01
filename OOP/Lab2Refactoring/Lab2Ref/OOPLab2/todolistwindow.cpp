@@ -55,6 +55,7 @@ ToDoListWindow::ToDoListWindow(QString file_name, QWidget *parent)
     this->setWindowState(Qt::WindowMaximized);
     this->setBackgroundRole(QPalette::Window);
     setAttribute(Qt::WA_DeleteOnClose);
+    ui->listView->setEditTriggers(QListView::EditTrigger::NoEditTriggers);
     QFont list_view_font;
     list_view_font.setPointSize(30);
     //ui->listWidget->setFont(list_item_font);
@@ -125,9 +126,10 @@ void ToDoListWindow::on_pushButtonStartTimer_clicked()
 void ToDoListWindow::on_pushButtonEdit_clicked()
 {
     if (/*ui->listWidget->count()*/model->rowCount() > 0) {
-        /*AddToToDoList* new_dialog = new AddToToDoList(this, &m_data_list, ui->listWidget, ToDoList::mode::Edit);
+        /*AddToToDoList* new_dialog = new AddToToDoList(this, &m_data_list, ui->listWidget, ToDoList::mode::Edit);*/
+        AddToToDoList* new_dialog = new AddToToDoList(this, model, ToDoList::mode::Edit, ui->listView->currentIndex().row());
         new_dialog->setModal(true);
-        new_dialog->show();*/
+        new_dialog->show();
     }
 }
 

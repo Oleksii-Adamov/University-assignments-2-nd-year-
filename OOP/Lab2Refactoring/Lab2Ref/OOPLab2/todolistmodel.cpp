@@ -24,10 +24,19 @@ QVariant ToDoListModel::data(const QModelIndex &index, int role) const
     return QVariant();
 }
 
+ToDoListData ToDoListModel::ToDoListItemData(const QModelIndex &index, int role) {
+    if (!index.isValid() || std::size_t(index.row()) >= m_list.size())
+        return ToDoListData();
+    if (role == Qt::DisplayRole || role == Qt::EditRole) {
+        return m_list[std::size_t(index.row())];
+    }
+}
+
 bool ToDoListModel::setData(const QModelIndex &index, const QVariant &value, int role)
 {
     if (index.isValid() && role == Qt::EditRole && data(index, role) != value) {
         m_list[std::size_t(index.row())] = value.value<ToDoListData>();
+        sort();
         emit dataChanged(index, index, {role});
         return true;
     }
@@ -58,3 +67,6 @@ bool ToDoListModel::removeRows(int row, int count, const QModelIndex &parent)
     return true;
 }
 
+void ToDoListModel::sort() {
+    std::sort(m_list.begin(), m_list.end());
+}

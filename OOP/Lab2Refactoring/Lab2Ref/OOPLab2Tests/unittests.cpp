@@ -10,6 +10,7 @@
 #include "ui_todolistwindow.h"
 #include "../OOPLab2/timer.h"
 #include "ui_timer.h"
+#include "../OOPLab2/todolistmodel.h"
 //#include <QThread>
 //#include <thread>
 #include <chrono>
@@ -50,8 +51,8 @@ private:
     unsigned int seconds_passed = 0;
     void delete_project_manually_if_exists(MainWindow* main_window, const QString& project_name);
     bool project_button_exists(MainWindow& main_window, const QString& project_name);
-    void add_or_edit_task(std::vector<ToDoListData>& parent_data_list, QListWidget& parent_list_widget, ToDoList::mode mode,
-                  const QString& name_of_the_task, int number_of_pomodoros, int priority);
+    void add_or_edit_task(QSharedPointer<ToDoListModel> model_ptr, ToDoList::mode mode,
+                  const QString& name_of_the_task, int number_of_pomodoros, int priority, int cur_index = 0);
 };
 
 UnitTests::UnitTests()
@@ -196,52 +197,46 @@ void UnitTests::DeleteProjectTestCase()
     QCOMPARE(project_button_exists(main_window, project_name), false);
 }
 
-void UnitTests::add_or_edit_task(std::vector<ToDoListData>& parent_data_list, QListWidget& parent_list_widget, ToDoList::mode mode,
-                         const QString& name_of_the_task, int number_of_pomodoros, int priority)
-{/*
-    AddToToDoList add_task_dialog(nullptr, &parent_data_list, &parent_list_widget, mode);
+void UnitTests::add_or_edit_task(QSharedPointer<ToDoListModel> model_ptr, ToDoList::mode mode,
+                         const QString& name_of_the_task, int number_of_pomodoros, int priority, int cur_index)
+{
+    AddToToDoList add_task_dialog(nullptr, model_ptr, mode, cur_index);
     add_task_dialog.ui->lineEditNameofTask->setText(name_of_the_task);
     add_task_dialog.ui->spinBox->setValue(number_of_pomodoros);
     add_task_dialog.ui->spinBox_priority->setValue(priority);
-    add_task_dialog.on_pushButtonCreate_clicked();*/
+    add_task_dialog.on_pushButtonCreate_clicked();
 }
 
 void UnitTests::AddTaskTestCase()
 {
-    /*
-    std::vector<ToDoListData> parent_data_list;
-    QListWidget parent_list_widget;
-    parent_list_widget.setSortingEnabled(true);
+    ToDoListModel* model = new ToDoListModel;
+    QSharedPointer<ToDoListModel> model_ptr(model);
     std::vector<QString> name_of_the_task {"Test task1", "Test task2", "Test task3"};
     std::vector<qint32> number_of_pomodoros {50, 29, 23};
     std::vector<qint32> priority {3, 2, 7};
     auto add_item_test = [&](int index_in_test_data, int expected_index_taken){
-        add_or_edit_task(parent_data_list, parent_list_widget, ToDoList::mode::Add, name_of_the_task[index_in_test_data],
+        add_or_edit_task(model_ptr, ToDoList::mode::Add, name_of_the_task[index_in_test_data],
                          number_of_pomodoros[index_in_test_data], priority[index_in_test_data]);
-        QCOMPARE(parent_data_list[expected_index_taken], ToDoListData(priority[index_in_test_data],
-                         name_of_the_task[index_in_test_data], 0, number_of_pomodoros[index_in_test_data]));
-        QCOMPARE(parent_list_widget.item(expected_index_taken)->data(Qt::EditRole),
-                 parent_data_list[expected_index_taken].ToQString());
+        QCOMPARE(model_ptr->ToDoListItemData(model->index(expected_index_taken)),
+                 ToDoListData(priority[index_in_test_data], name_of_the_task[index_in_test_data], 0,
+                              number_of_pomodoros[index_in_test_data]));
     };
     add_item_test(0, 0);
     add_item_test(0, 0);
     add_item_test(0, 2);
-    */
 }
 
 void UnitTests::EditTaskTestCase()
 {
-    /*
-    std::vector<ToDoListData> parent_data_list;
-    QListWidget parent_list_widget;
-    parent_list_widget.setSortingEnabled(true);
+    ToDoListModel* model = new ToDoListModel;
+    QSharedPointer<ToDoListModel> model_ptr(model);
     std::vector<QString> name_of_the_task {"Test task1", "Test task2"};
     std::vector<qint32> number_of_pomodoros {50, 29};
     std::vector<qint32> priority {2, 3};
 
     // insert
     for (int i = 0; i < 2; i++) {
-        add_or_edit_task(parent_data_list, parent_list_widget, ToDoList::mode::Add,
+        add_or_edit_task(model_ptr, ToDoList::mode::Add,
                          name_of_the_task[i], number_of_pomodoros[i], priority[i]);
     }
 
@@ -251,15 +246,12 @@ void UnitTests::EditTaskTestCase()
 
     // editting test
     for (int i = 0; i < 2; i++) {
-        parent_list_widget.setCurrentRow(i);
-        add_or_edit_task(parent_data_list, parent_list_widget, ToDoList::mode::Edit,
+        add_or_edit_task(model_ptr, ToDoList::mode::Edit,
                          new_name_of_the_task[i], new_number_of_pomodoros[i], new_priority[i]);
         qint32 index = 0;
-        QCOMPARE(parent_data_list[index], ToDoListData(new_priority[i], new_name_of_the_task[i], 0,
+        QCOMPARE(model_ptr->ToDoListItemData(model->index(index)), ToDoListData(new_priority[i], new_name_of_the_task[i], 0,
                                                        new_number_of_pomodoros[i]));
-        QCOMPARE(parent_list_widget.item(index)->data(Qt::EditRole), parent_data_list[index].ToQString());
     }
-    */
 }
 
 void UnitTests::DeleteTaskTestCase()

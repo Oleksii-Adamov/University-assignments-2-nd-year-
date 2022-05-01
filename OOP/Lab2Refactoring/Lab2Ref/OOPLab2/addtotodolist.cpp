@@ -35,7 +35,7 @@ AddToToDoList::AddToToDoList(QWidget *parent, QSharedPointer<ToDoListModel> pare
         ui->spinBox->setValue((*m_parent_data_list)[index].predicted);
         ui->spinBox_priority->setValue((*m_parent_data_list)[index].priority);
         ui->lineEditNameofTask->setText((*m_parent_data_list)[index].name);*/
-        ToDoListData data = m_parent_model->data(m_parent_model->index(m_current_index)).value<ToDoListData>();
+        ToDoListData data = m_parent_model->ToDoListItemData(m_parent_model->index(m_current_index));
         ui->spinBox->setValue(data.predicted);
         ui->spinBox_priority->setValue(data.priority);
         ui->lineEditNameofTask->setText(data.name);

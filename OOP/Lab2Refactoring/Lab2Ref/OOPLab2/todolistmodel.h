@@ -28,6 +28,10 @@ public:
     // Remove data:
     bool removeRows(int row, int count, const QModelIndex &parent = QModelIndex()) override;
 
+    void sort();
+
+    ToDoListData ToDoListItemData(const QModelIndex &index, int role = Qt::DisplayRole);
+
 private:
     std::vector<ToDoListData> m_list;
 };
