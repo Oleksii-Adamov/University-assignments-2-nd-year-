@@ -64,3 +64,24 @@ void init_paths() {
     dir.mkdir(get_project_dir());
     dir.mkdir(get_user_data_dir());
 }
+
+std::vector<ToDoListData> load_to_do_list(const QString& file_name)
+{
+    std::vector<ToDoListData> result;
+    QDir dir;
+    dir.mkdir(get_project_dir());
+    QFile file(file_name);
+    if (!file.exists()) {
+        file.open(QIODevice::NewOnly);
+        file.close();
+    }
+    else {
+        file.open(QIODevice::ReadOnly);
+        QDataStream in(&file);
+        while(!in.atEnd()) {
+            result.emplace_back(in);
+        }
+        file.close();
+    }
+    return result;
+}

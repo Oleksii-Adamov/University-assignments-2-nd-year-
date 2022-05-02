@@ -34,6 +34,8 @@ public:
 
     ToDoListData ToDoListItemData(const QModelIndex &index, int role = Qt::DisplayRole);
 
+    void load_from_file(const QString& file_name);
+
 private:
     std::vector<ToDoListData> m_list;
 };

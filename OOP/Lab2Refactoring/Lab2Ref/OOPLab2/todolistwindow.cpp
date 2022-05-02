@@ -19,27 +19,8 @@ ToDoListWindow::ToDoListWindow(QString file_name, QWidget *parent)
     :  QMainWindow(parent), ui(new Ui::ToDoListWindow), m_file_name(file_name)
 {
     model.reset(new ToDoListModel());
-    // not ui {
 
-    // loading from file
-    QDir dir;
-    dir.mkdir(get_project_dir());
-    QFile file(m_file_name);
-    if (!file.exists()) {
-        file.open(QIODevice::NewOnly);
-        file.close();
-    }
-    else {
-        file.open(QIODevice::ReadOnly);
-        QDataStream in(&file);
-        while(!in.atEnd()) {
-            model->insertRows(model->rowCount(), 1);
-            model->setData(model->index(model->rowCount() - 1), QVariant::fromValue(ToDoListData(in)));
-        }
-        file.close();
-    }
-
-    // }
+    model->load_from_file(m_file_name);
 
     // getting project name out of file name
     m_project_name = m_file_name;

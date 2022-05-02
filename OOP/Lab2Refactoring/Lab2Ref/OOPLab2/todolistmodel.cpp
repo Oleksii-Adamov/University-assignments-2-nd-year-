@@ -1,4 +1,5 @@
 #include "todolistmodel.h"
+#include "filepath.h"
 
 ToDoListModel::ToDoListModel(QObject *parent)
     : QAbstractListModel(parent)
@@ -81,4 +82,8 @@ bool ToDoListModel::increment_pomodoros(const QModelIndex &index, int role)
         return true;
     }
     return false;
+}
+
+void ToDoListModel::load_from_file(const QString& file_name) {
+    m_list = load_to_do_list(file_name);
 }

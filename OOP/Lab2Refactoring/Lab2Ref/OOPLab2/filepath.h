@@ -1,6 +1,7 @@
 #ifndef FILEPATH_H
 #define FILEPATH_H
 #include <QString>
+#include "todolistdata.h"
 
 void init_paths();
 
@@ -19,5 +20,8 @@ bool remove_path_from_project_file_name(QString& file_name);
 QString get_settings_path();
 
 void read_settings(int& pomodoro_duration_in_minutes, int& break_duration_in_minutes);
+
+/// loading tasks from file
+std::vector<ToDoListData> load_to_do_list(const QString& name);
 
 #endif // FILEPATH_H
