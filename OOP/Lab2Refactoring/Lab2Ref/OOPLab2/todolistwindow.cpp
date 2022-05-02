@@ -101,14 +101,9 @@ void ToDoListWindow::on_pushButtonDelete_clicked()
 void ToDoListWindow::on_actionDelete_this_project_triggered()
 {
 
-    // not ui (files) {
-
     // delete file
-    QFile file(m_file_name);
-    file.remove();
+    delete_file(m_file_name);
     m_is_deleted = true;
-
-    // }
 
     // emit silgnal to delete button in MainWindow
     emit delete_project_button(m_project_name);

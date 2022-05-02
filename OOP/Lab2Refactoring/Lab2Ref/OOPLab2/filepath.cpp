@@ -95,3 +95,9 @@ void write_to_do_list_to_file(std::vector<ToDoListData>& to_do_list, const QStri
         to_do_list[i].write_to_binary(out);
     }
 }
+
+void delete_file(const QString& file_name)
+{
+    QFile file(file_name);
+    file.remove();
+}

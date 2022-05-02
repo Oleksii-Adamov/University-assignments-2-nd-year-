@@ -32,4 +32,7 @@ std::vector<ToDoListData> load_to_do_list_from_file(const QString& file_name);
 
 /// writing tasks to file
 void write_to_do_list_to_file(std::vector<ToDoListData>& to_do_list, const QString& file_name);
+
+void delete_file(const QString& file_name);
+
 #endif // FILEPATH_H
