@@ -12,6 +12,7 @@ namespace Ui {
 class AddNewProjectDialog;
 }
 
+/// Adds new project or edits current project based on project::mode mode
 class AddNewProjectDialog : public QDialog
 {
     Q_OBJECT

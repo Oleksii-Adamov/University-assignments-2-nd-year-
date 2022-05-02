@@ -81,20 +81,27 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a0b2c18be97e99368072437a76c8f9a25"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_to_do_list_model.html#a0b2c18be97e99368072437a76c8f9a25">rowCount</a> (const QModelIndex &amp;parent=QModelIndex()) const override</td></tr>
 <tr class="separator:a0b2c18be97e99368072437a76c8f9a25"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a92293123fc938b206520355e867eada0"><td class="memItemLeft" align="right" valign="top">QVariant&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_to_do_list_model.html#a92293123fc938b206520355e867eada0">data</a> (const QModelIndex &amp;index, int role=Qt::DisplayRole) const override</td></tr>
+<tr class="memdesc:a92293123fc938b206520355e867eada0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get data.  <a href="class_to_do_list_model.html#a92293123fc938b206520355e867eada0">More...</a><br /></td></tr>
 <tr class="separator:a92293123fc938b206520355e867eada0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a61c3479798b5c898806c3f062ec078e1"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_to_do_list_model.html#a61c3479798b5c898806c3f062ec078e1">setData</a> (const QModelIndex &amp;index, const QVariant &amp;value, int role=Qt::EditRole) override</td></tr>
+<tr class="memdesc:a61c3479798b5c898806c3f062ec078e1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Edit data.  <a href="class_to_do_list_model.html#a61c3479798b5c898806c3f062ec078e1">More...</a><br /></td></tr>
 <tr class="separator:a61c3479798b5c898806c3f062ec078e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aaf7771c6f90615e8370065b13be126d4"><td class="memItemLeft" align="right" valign="top">Qt::ItemFlags&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_to_do_list_model.html#aaf7771c6f90615e8370065b13be126d4">flags</a> (const QModelIndex &amp;index) const override</td></tr>
 <tr class="separator:aaf7771c6f90615e8370065b13be126d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac2d0283e6a7d0c8aa2fd36cc66fd43e2"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_to_do_list_model.html#ac2d0283e6a7d0c8aa2fd36cc66fd43e2">insertRows</a> (int row, int count, const QModelIndex &amp;parent=QModelIndex()) override</td></tr>
+<tr class="memdesc:ac2d0283e6a7d0c8aa2fd36cc66fd43e2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add data.  <a href="class_to_do_list_model.html#ac2d0283e6a7d0c8aa2fd36cc66fd43e2">More...</a><br /></td></tr>
 <tr class="separator:ac2d0283e6a7d0c8aa2fd36cc66fd43e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4ecaaf970c3c0029521ea4a40f03e068"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_to_do_list_model.html#a4ecaaf970c3c0029521ea4a40f03e068">removeRows</a> (int row, int count, const QModelIndex &amp;parent=QModelIndex()) override</td></tr>
+<tr class="memdesc:a4ecaaf970c3c0029521ea4a40f03e068"><td class="mdescLeft">&#160;</td><td class="mdescRight">Remove data.  <a href="class_to_do_list_model.html#a4ecaaf970c3c0029521ea4a40f03e068">More...</a><br /></td></tr>
 <tr class="separator:a4ecaaf970c3c0029521ea4a40f03e068"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7a63c63617ea151685e8e48f1b504127"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_to_do_list_model.html#a7a63c63617ea151685e8e48f1b504127">sort</a> ()</td></tr>
+<tr class="memdesc:a7a63c63617ea151685e8e48f1b504127"><td class="mdescLeft">&#160;</td><td class="mdescRight">sort m_list (by string representaion in alphabet order)  <a href="class_to_do_list_model.html#a7a63c63617ea151685e8e48f1b504127">More...</a><br /></td></tr>
 <tr class="separator:a7a63c63617ea151685e8e48f1b504127"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abc3107c11f392bf4bf521755e6a70c97"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_to_do_list_model.html#abc3107c11f392bf4bf521755e6a70c97">increment_pomodoros</a> (const QModelIndex &amp;index, int role=Qt::EditRole)</td></tr>
+<tr class="memdesc:abc3107c11f392bf4bf521755e6a70c97"><td class="mdescLeft">&#160;</td><td class="mdescRight">increment number of done pomodoros by one for given task (from index)  <a href="class_to_do_list_model.html#abc3107c11f392bf4bf521755e6a70c97">More...</a><br /></td></tr>
 <tr class="separator:abc3107c11f392bf4bf521755e6a70c97"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab457168fee18ffa664f8d009c347fa2a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_to_do_list_data.html">ToDoListData</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_to_do_list_model.html#ab457168fee18ffa664f8d009c347fa2a">ToDoListItemData</a> (const QModelIndex &amp;index, int role=Qt::DisplayRole)</td></tr>
+<tr class="memdesc:ab457168fee18ffa664f8d009c347fa2a"><td class="mdescLeft">&#160;</td><td class="mdescRight">returns m_list[i] = m_list[index-&gt;row()]  <a href="class_to_do_list_model.html#ab457168fee18ffa664f8d009c347fa2a">More...</a><br /></td></tr>
 <tr class="separator:ab457168fee18ffa664f8d009c347fa2a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3c490b45d5d7783d79cde947cec55e58"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_to_do_list_model.html#a3c490b45d5d7783d79cde947cec55e58">load_from_file</a> (const QString &amp;file_path)</td></tr>
 <tr class="separator:a3c490b45d5d7783d79cde947cec55e58"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -163,6 +170,8 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Get data. </p>
+
 </div>
 </div>
 <a id="aaf7771c6f90615e8370065b13be126d4" name="aaf7771c6f90615e8370065b13be126d4"></a>
@@ -217,6 +226,8 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>increment number of done pomodoros by one for given task (from index) </p>
+
 </div>
 </div>
 <a id="ac2d0283e6a7d0c8aa2fd36cc66fd43e2" name="ac2d0283e6a7d0c8aa2fd36cc66fd43e2"></a>
@@ -258,6 +269,8 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Add data. </p>
 
 </div>
 </div>
@@ -318,6 +331,8 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Remove data. </p>
 
 </div>
 </div>
@@ -387,6 +402,8 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Edit data. </p>
+
 </div>
 </div>
 <a id="a7a63c63617ea151685e8e48f1b504127" name="a7a63c63617ea151685e8e48f1b504127"></a>
@@ -403,6 +420,8 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>sort m_list (by string representaion in alphabet order) </p>
 
 </div>
 </div>
@@ -431,6 +450,8 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>returns m_list[i] = m_list[index-&gt;row()] </p>
 
 </div>
 </div>
