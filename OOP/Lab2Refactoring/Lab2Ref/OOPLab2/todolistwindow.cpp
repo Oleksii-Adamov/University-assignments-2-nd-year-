@@ -87,14 +87,11 @@ ToDoListWindow::~ToDoListWindow()
         file.open(QIODevice::WriteOnly);
         QDataStream out(&file);
         std::size_t size = model->rowCount();
-        for (std::size_t i = 0; i < /*m_data_list.size()*/size; i++) {
-            //(m_data_list[i]).write_to_binary(out);
+        for (std::size_t i = 0; i < size; i++) {
             // kind of Law of Demeter violation, but because model is data storage, I think that's OK.
             model->ToDoListItemData(model->index(i)).write_to_binary(out);
         }
     }
-
-    // }
 
     delete ui;
 }
@@ -133,12 +130,12 @@ void ToDoListWindow::on_pushButtonEdit_clicked()
 
 void ToDoListWindow::on_pushButtonDelete_clicked()
 {
-     if (/*ui->listWidget->count()*/model->rowCount() > 0) {
+     if (model->rowCount() > 0) {
          /*int index = ui->listWidget->indexFromItem(ui->listWidget->currentItem()).row();
          ui->listWidget->takeItem(index);
          std::vector<ToDoListData>::iterator iter = m_data_list.begin();
          m_data_list.erase(iter + index);*/
-         //model->removeRows(ui->listView->currentIndex().row(), 1);
+         model->removeRows(ui->listView->currentIndex().row(), 1);
      }
 }
 
