@@ -15,8 +15,6 @@ public:
     explicit SettingsDialog(QWidget *parent = nullptr);
     ~SettingsDialog();
 
-signals:
-    void pomodoro_duration_changed();
 private slots:
     void on_pushButton_cancel_clicked();
 

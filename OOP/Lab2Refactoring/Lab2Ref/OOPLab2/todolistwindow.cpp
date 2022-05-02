@@ -204,17 +204,9 @@ void ToDoListWindow::increment_pomodoros() {
     sort(m_data_list.begin(), m_data_list.end());*/
 }
 
-void ToDoListWindow::update_list() {
-    /*for (size_t i = 0; i < m_data_list.size(); i++) {
-        ui->listWidget->item(i)->setData(Qt::EditRole, (m_data_list[i]).ToQString());
-    }
-    sort(m_data_list.begin(), m_data_list.end());*/
-}
-
 void ToDoListWindow::on_actionSettings_triggered()
 {
     SettingsDialog* new_dialog = new SettingsDialog(this);
-    connect(new_dialog, SIGNAL(pomodoro_duration_changed()), this, SLOT(update_list()));
     new_dialog->setModal(true);
     new_dialog->show();
 }
