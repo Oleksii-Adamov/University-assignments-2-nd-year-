@@ -40,17 +40,6 @@ MainWindow::MainWindow(QWidget *parent)
         }
     }
     add_button("Comleted");
-    /*QDir dir;
-    dir.cd(get_project_dir());
-    foreach(QFileInfo file_info, dir.entryInfoList()) {
-        QString file_name = file_info.fileName();
-        // if file is .bin
-        if (change_to_file_name_without_extension_bin(file_name)) {
-            // write into project list
-            if (file_name != "Today" && file_name != "Tomorrow" && file_name != "Someday" && file_name != "Comleted")
-                   add_button(file_name);
-        }
-    }*/
 
 }
 
@@ -85,14 +74,7 @@ void MainWindow::on_projectButton_clicked() {
 
 void MainWindow::create_project(const QString& file_name) {
 
-    // not ui (file managment) {
-
-    // creating new file in user projects directory
-    QFile file(get_project_path(file_name));
-    file.open(QIODevice::NewOnly);
-    file.close();
-
-    // }
+    create_file(get_project_path(file_name));
 
     // creating new button
     add_button(file_name);

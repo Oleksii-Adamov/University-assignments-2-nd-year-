@@ -134,20 +134,9 @@ void ToDoListWindow::on_pushButton_task_completed_clicked()
 {
     if (model->rowCount() > 0) {
         QModelIndex index = ui->listView->currentIndex();
-        // not ui (files) {
 
         // writing to Comleted prject
-        /*QFile file(get_project_path("Comleted"));
-        if (!file.exists()) {
-            file.open(QIODevice::NewOnly);
-            file.close();
-        }
-        file.open(QIODevice::Append);
-        QDataStream out(&file);
-        model->ToDoListItemData(index).write_to_binary(out);*/
         task_to_completed(model->ToDoListItemData(index));
-
-        // }
 
         // deleting from this project
         model->removeRows(index.row(), 1);

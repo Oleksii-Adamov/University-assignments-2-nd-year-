@@ -65,12 +65,12 @@ void init_paths() {
     dir.mkdir(get_user_data_dir());
 }
 
-std::vector<ToDoListData> load_to_do_list_from_file(const QString& file_name)
+std::vector<ToDoListData> load_to_do_list_from_file(const QString& file_path)
 {
     std::vector<ToDoListData> result;
     QDir dir;
     dir.mkdir(get_project_dir());
-    QFile file(file_name);
+    QFile file(file_path);
     if (!file.exists()) {
         file.open(QIODevice::NewOnly);
         file.close();
@@ -86,9 +86,9 @@ std::vector<ToDoListData> load_to_do_list_from_file(const QString& file_name)
     return result;
 }
 
-void write_to_do_list_to_file(std::vector<ToDoListData>& to_do_list, const QString& file_name)
+void write_to_do_list_to_file(std::vector<ToDoListData>& to_do_list, const QString& file_path)
 {
-    QFile file(file_name);
+    QFile file(file_path);
     file.open(QIODevice::WriteOnly);
     QDataStream out(&file);
     for (std::size_t i = 0; i < to_do_list.size(); i++) {
@@ -96,21 +96,21 @@ void write_to_do_list_to_file(std::vector<ToDoListData>& to_do_list, const QStri
     }
 }
 
-void delete_file(const QString& file_name)
+void delete_file(const QString& file_path)
 {
-    QFile file(file_name);
+    QFile file(file_path);
     file.remove();
 }
 
-void rename_file(const QString& old_file_name, const QString& new_file_name)
+void rename_file(const QString& old_file_path, const QString& new_file_path)
 {
-    QFile file(old_file_name);
+    QFile file(old_file_path);
 
     if (file.exists()) {
-        file.rename(new_file_name);
+        file.rename(new_file_path);
     }
     else {
-        file.setFileName(new_file_name);
+        file.setFileName(new_file_path);
         file.open(QFile::NewOnly);
         file.close();
     }
@@ -141,4 +141,11 @@ void task_to_completed(const ToDoListData& data)
     file.open(QIODevice::Append);
     QDataStream out(&file);
     data.write_to_binary(out);
+}
+
+void create_file(const QString& file_path)
+{
+    QFile file(file_path);
+    file.open(QIODevice::NewOnly);
+    file.close();
 }
