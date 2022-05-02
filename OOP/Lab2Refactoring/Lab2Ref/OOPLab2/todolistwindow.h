@@ -17,7 +17,7 @@ class ToDoListWindow : public QMainWindow
 public:
     explicit ToDoListWindow(QWidget *parent = nullptr);
     ~ToDoListWindow();
-    ToDoListWindow(QString file_name, QWidget *parent = nullptr);
+    ToDoListWindow(QString project_name, QWidget *parent = nullptr);
 
 signals:
     void delete_project_button(const QString& name);
@@ -48,11 +48,9 @@ private slots:
 
 private:
     Ui::ToDoListWindow *ui;
-    /// eg. ./UserProjects/Today
-    QString m_file_name;
     QSharedPointer<ToDoListModel> model;
     bool m_is_deleted = false;
-    /// Today
+    /// eg. Today
     QString m_project_name;
 };
 

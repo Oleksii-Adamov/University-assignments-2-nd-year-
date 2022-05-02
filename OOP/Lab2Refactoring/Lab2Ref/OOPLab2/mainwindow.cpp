@@ -59,8 +59,8 @@ void MainWindow::add_button(QString name) {
 }
 
 // open todolistwindow
-void MainWindow::callToDoList(QString file_name) {
-    ToDoListWindow* new_window  = new ToDoListWindow(file_name/*, list*/, this);
+void MainWindow::callToDoList(QString project_name) {
+    ToDoListWindow* new_window  = new ToDoListWindow(project_name, this);
     connect(new_window, SIGNAL(delete_project_button(const QString&)), this, SLOT(delete_project_button(const QString&)));
     connect(new_window, SIGNAL(edit_project_button(const QString&, const QString&)), this, SLOT(edit_project_button(const QString&, const QString&)));
     new_window->setWindowModality(Qt::WindowModal);
@@ -69,15 +69,15 @@ void MainWindow::callToDoList(QString file_name) {
 
 void MainWindow::on_projectButton_clicked() {
     QPushButton* _sender = (QPushButton*) sender();
-    callToDoList(get_project_path(_sender->text()));
+    callToDoList(_sender->text());
 }
 
-void MainWindow::create_project(const QString& file_name) {
+void MainWindow::create_project(const QString& project_name) {
 
-    create_file(get_project_path(file_name));
+    create_file(get_project_path(project_name));
 
     // creating new button
-    add_button(file_name);
+    add_button(project_name);
 }
 
 void MainWindow::on_actionNew_triggered()

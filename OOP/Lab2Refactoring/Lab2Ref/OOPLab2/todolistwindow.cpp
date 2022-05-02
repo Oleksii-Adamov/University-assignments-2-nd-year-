@@ -15,18 +15,13 @@ ToDoListWindow::ToDoListWindow(QWidget *parent) :
     this->setBackgroundRole(QPalette::Window);
     setAttribute(Qt::WA_DeleteOnClose);
 }
-ToDoListWindow::ToDoListWindow(QString file_name, QWidget *parent)
-    :  QMainWindow(parent), ui(new Ui::ToDoListWindow), m_file_name(file_name)
+ToDoListWindow::ToDoListWindow(QString project_name, QWidget *parent)
+    :  QMainWindow(parent), ui(new Ui::ToDoListWindow), m_project_name(project_name)
 {
     model.reset(new ToDoListModel());
 
-    model->load_from_file(m_file_name);
+    model->load_from_file(get_project_path(m_project_name));
 
-    // getting project name out of file name
-    m_project_name = m_file_name;
-    if (!(change_to_file_name_without_extension_bin(m_project_name) && remove_path_from_project_file_name(m_project_name))) {
-        this->close();
-    }
     ui->setupUi(this);
     this->setWindowState(Qt::WindowMaximized);
     this->setBackgroundRole(QPalette::Window);
@@ -35,8 +30,6 @@ ToDoListWindow::ToDoListWindow(QString file_name, QWidget *parent)
     QFont list_view_font;
     list_view_font.setPointSize(30);
     ui->listView->setFont(list_view_font);
-
-
 
     if (model->rowCount() > 0)
         ui->listView->setCurrentIndex(model->index(0));
@@ -52,7 +45,7 @@ ToDoListWindow::~ToDoListWindow()
 {
     // write to file
     if (!m_is_deleted) {
-        model->write_to_file(m_file_name);
+        model->write_to_file(get_project_path(m_project_name));
     }
 
     delete ui;
@@ -102,7 +95,7 @@ void ToDoListWindow::on_actionDelete_this_project_triggered()
 {
 
     // delete file
-    delete_file(m_file_name);
+    delete_file(get_project_path(m_project_name));
     m_is_deleted = true;
 
     // emit silgnal to delete button in MainWindow
@@ -114,10 +107,9 @@ void ToDoListWindow::edit_project(const QString& new_name) {
 
     ui->label->setText(new_name);
 
-    rename_file(m_file_name, get_project_path(new_name));
+    rename_file(get_project_path(m_project_name), get_project_path(new_name));
 
     emit edit_project_button(m_project_name, new_name);
-    m_file_name = get_project_path(new_name);
     m_project_name = new_name;
 }
 

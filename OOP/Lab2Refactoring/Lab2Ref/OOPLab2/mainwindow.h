@@ -17,12 +17,12 @@ public:
 
 private:
     Ui::MainWindow *ui;
-    void callToDoList(QString file_name);
+    void callToDoList(QString project_name);
     void add_button(QString name);
     QVBoxLayout* m_button_layout;
     QWidget* m_button_container;
 public slots:
-    void create_project(const QString& file_name);
+    void create_project(const QString& project_name);
     void delete_project_button(const QString& name);
     void edit_project_button(const QString& old_name, const QString& new_name);
 private slots:
