@@ -18,7 +18,6 @@ public:
 private:
     Ui::MainWindow *ui;
     void callToDoList(QString file_name);
-    //QStringList m_project_list;
     void add_button(QString name);
     QVBoxLayout* m_button_layout;
     QWidget* m_button_container;

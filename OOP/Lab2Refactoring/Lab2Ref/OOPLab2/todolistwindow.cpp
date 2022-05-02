@@ -112,20 +112,9 @@ void ToDoListWindow::on_actionDelete_this_project_triggered()
 
 void ToDoListWindow::edit_project(const QString& new_name) {
 
-    // not ui (files) {
     ui->label->setText(new_name);
-    QFile file(m_file_name);
 
-    if (file.exists()) {
-        file.rename(get_project_path(new_name));
-    }
-    else {
-        file.setFileName(get_project_path(new_name));
-        file.open(QFile::NewOnly);
-        file.close();
-    }
-
-    // }
+    rename_file(m_file_name, get_project_path(new_name));
 
     emit edit_project_button(m_project_name, new_name);
     m_file_name = get_project_path(new_name);

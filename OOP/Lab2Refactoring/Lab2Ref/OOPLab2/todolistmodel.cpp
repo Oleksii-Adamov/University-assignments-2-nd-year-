@@ -31,6 +31,7 @@ ToDoListData ToDoListModel::ToDoListItemData(const QModelIndex &index, int role)
     if (role == Qt::DisplayRole || role == Qt::EditRole) {
         return m_list[std::size_t(index.row())];
     }
+    return ToDoListData();
 }
 
 bool ToDoListModel::setData(const QModelIndex &index, const QVariant &value, int role)

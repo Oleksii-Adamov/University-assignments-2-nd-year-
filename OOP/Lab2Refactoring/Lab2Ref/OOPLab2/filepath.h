@@ -17,7 +17,7 @@ QString get_project_dir();
 
 QString get_user_data_dir();
 
-/// eg. task.bin -> task
+/// eg. Today.bin -> Today
 bool change_to_file_name_without_extension_bin(QString& file_name);
 
 /// eg. ./project./task.bin -> task.bin
@@ -34,5 +34,9 @@ std::vector<ToDoListData> load_to_do_list_from_file(const QString& file_name);
 void write_to_do_list_to_file(std::vector<ToDoListData>& to_do_list, const QString& file_name);
 
 void delete_file(const QString& file_name);
+
+void rename_file(const QString& old_file_name, const QString& new_file_name);
+
+std::vector<QString> get_project_names();
 
 #endif // FILEPATH_H

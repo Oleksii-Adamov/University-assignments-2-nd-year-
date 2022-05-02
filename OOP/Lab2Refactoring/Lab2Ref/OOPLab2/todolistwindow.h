@@ -48,13 +48,11 @@ private slots:
 
 private:
     Ui::ToDoListWindow *ui;
+    /// eg. ./UserProjects/Today
     QString m_file_name;
-    //std::vector<ToDoListData> m_data_list;
     QSharedPointer<ToDoListModel> model;
-    //ToDoListModel model_obj
-    //ToDoListModel* model;
-    //ToDoListModel2* model;
     bool m_is_deleted = false;
+    /// Today
     QString m_project_name;
 };
 

@@ -101,3 +101,32 @@ void delete_file(const QString& file_name)
     QFile file(file_name);
     file.remove();
 }
+
+void rename_file(const QString& old_file_name, const QString& new_file_name)
+{
+    QFile file(old_file_name);
+
+    if (file.exists()) {
+        file.rename(new_file_name);
+    }
+    else {
+        file.setFileName(new_file_name);
+        file.open(QFile::NewOnly);
+        file.close();
+    }
+}
+
+std::vector<QString> get_project_names()
+{
+    std::vector<QString> res;
+    QDir dir;
+    dir.cd(get_project_dir());
+    foreach(QFileInfo file_info, dir.entryInfoList()) {
+        QString file_name = file_info.fileName();
+        // if file is .bin
+        if (change_to_file_name_without_extension_bin(file_name)) {
+            res.push_back(file_name);
+        }
+    }
+    return res;
+}

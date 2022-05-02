@@ -25,17 +25,23 @@ MainWindow::MainWindow(QWidget *parent)
     scrollArea->setWidget( m_button_container );
     m_button_layout = new QVBoxLayout(m_button_container);
 
-    // not ui (file managment) {
     init_paths();
-    QDir dir;
-    dir.cd(get_project_dir());
-    // }
 
     // creating buttons with standard projects
     add_button("Today");
     add_button("Tomorrow");
     add_button("Someday");
-    // creating projects buttons based on user projects dir
+    // creating projects buttons
+    std::vector<QString> button_names = get_project_names();
+    for (std::size_t i = 0; i < button_names.size(); i++) {
+        if (button_names[i] != "Today" && button_names[i] != "Tomorrow" && button_names[i] != "Someday" &&
+                button_names[i] != "Comleted") {
+               add_button(button_names[i]);
+        }
+    }
+    add_button("Comleted");
+    /*QDir dir;
+    dir.cd(get_project_dir());
     foreach(QFileInfo file_info, dir.entryInfoList()) {
         QString file_name = file_info.fileName();
         // if file is .bin
@@ -44,8 +50,8 @@ MainWindow::MainWindow(QWidget *parent)
             if (file_name != "Today" && file_name != "Tomorrow" && file_name != "Someday" && file_name != "Comleted")
                    add_button(file_name);
         }
-    }
-    add_button("Comleted");
+    }*/
+
 }
 
 MainWindow::~MainWindow()
