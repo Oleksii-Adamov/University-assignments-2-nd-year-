@@ -17,9 +17,6 @@ AddToToDoList::~AddToToDoList()
     delete ui;
 }
 
-Ui::AddToToDoList** AddToToDoList::get_ui() {
-    return &ui;
-}
 
 AddToToDoList::AddToToDoList(QWidget *parent, QSharedPointer<ToDoListModel> parent_model, ToDoList::mode mode, int current_index)
     : QDialog(parent), ui(new Ui::AddToToDoList), m_parent_model(parent_model), m_mode(mode), m_current_index(current_index)

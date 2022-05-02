@@ -14,6 +14,7 @@ namespace Ui {
 class AddToToDoList;
 }
 
+/// Adds to ToDoList or edits current element of ToDoList based on ToDoList::mode mode
 class AddToToDoList : public QDialog
 {
     Q_OBJECT
@@ -24,7 +25,6 @@ public:
     /// current_index (index of selected element) is required for edit mode, to show current data of edited item
     explicit AddToToDoList(QWidget *parent, QSharedPointer<ToDoListModel> parent_model,
                            ToDoList::mode mode, int current_index = 0);
-    Ui::AddToToDoList** get_ui();
 private slots:
     void on_pushButtonCreate_clicked();
 
