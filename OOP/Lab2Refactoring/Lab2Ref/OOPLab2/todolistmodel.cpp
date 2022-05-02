@@ -67,6 +67,18 @@ bool ToDoListModel::removeRows(int row, int count, const QModelIndex &parent)
     return true;
 }
 
-void ToDoListModel::sort() {
+void ToDoListModel::sort()
+{
     std::sort(m_list.begin(), m_list.end());
+}
+
+bool ToDoListModel::increment_pomodoros(const QModelIndex &index, int role)
+{
+    if (index.isValid() && role == Qt::EditRole) {
+        m_list[std::size_t(index.row())].done++;
+        sort();
+        emit dataChanged(index, index, {role});
+        return true;
+    }
+    return false;
 }

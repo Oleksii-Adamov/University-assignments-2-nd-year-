@@ -198,10 +198,7 @@ void ToDoListWindow::on_pushButton_task_completed_clicked()
 }
 
 void ToDoListWindow::increment_pomodoros() {
-    /*int index = ui->listWidget->indexFromItem(ui->listWidget->currentItem()).row();
-    m_data_list[index].done += 1;
-    ui->listWidget->currentItem()->setData(Qt::EditRole, m_data_list[index].ToQString());
-    sort(m_data_list.begin(), m_data_list.end());*/
+    model->increment_pomodoros(ui->listView->currentIndex());
 }
 
 void ToDoListWindow::on_actionSettings_triggered()

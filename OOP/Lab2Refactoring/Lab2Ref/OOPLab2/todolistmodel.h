@@ -30,6 +30,8 @@ public:
 
     void sort();
 
+    bool increment_pomodoros(const QModelIndex &index, int role = Qt::EditRole);
+
     ToDoListData ToDoListItemData(const QModelIndex &index, int role = Qt::DisplayRole);
 
 private:

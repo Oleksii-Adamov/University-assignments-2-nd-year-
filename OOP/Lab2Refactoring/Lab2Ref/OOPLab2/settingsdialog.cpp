@@ -31,9 +31,6 @@ void SettingsDialog::on_pushButton_apply_clicked()
     QDataStream out(&file);
     out << ui->spinBox_pomodoro->value() << ui->spinBox_break->value();
     file.close();
-    if (ui->spinBox_pomodoro->value() != m_prev_pomodoro_duration) { // emit signal to update predicted time in ToDoList
-        emit pomodoro_duration_changed();
-    }
     this->close();
 }
 
