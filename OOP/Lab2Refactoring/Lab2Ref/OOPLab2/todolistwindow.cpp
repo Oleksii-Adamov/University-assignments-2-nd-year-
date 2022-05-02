@@ -50,18 +50,9 @@ ToDoListWindow::ToDoListWindow(QString file_name, QWidget *parent)
 }
 ToDoListWindow::~ToDoListWindow()
 {
-    // not ui {
-
     // write to file
     if (!m_is_deleted) {
-        QFile file(m_file_name);
-        file.open(QIODevice::WriteOnly);
-        QDataStream out(&file);
-        std::size_t size = model->rowCount();
-        for (std::size_t i = 0; i < size; i++) {
-            // kind of Law of Demeter violation, but because model is data storage, I think that's OK.
-            model->ToDoListItemData(model->index(i)).write_to_binary(out);
-        }
+        model->write_to_file(m_file_name);
     }
 
     delete ui;

@@ -7,7 +7,7 @@
 namespace Ui {
 class Timer;
 }
-
+/// pomodoro timer (with work time an break time)
 class Timer : public QDialog
 {
     Q_OBJECT

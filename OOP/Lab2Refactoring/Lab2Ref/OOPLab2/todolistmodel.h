@@ -36,6 +36,8 @@ public:
 
     void load_from_file(const QString& file_name);
 
+    void write_to_file(const QString& file_name);
+
 private:
     std::vector<ToDoListData> m_list;
 };

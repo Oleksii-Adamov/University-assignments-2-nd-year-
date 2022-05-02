@@ -65,7 +65,7 @@ void init_paths() {
     dir.mkdir(get_user_data_dir());
 }
 
-std::vector<ToDoListData> load_to_do_list(const QString& file_name)
+std::vector<ToDoListData> load_to_do_list_from_file(const QString& file_name)
 {
     std::vector<ToDoListData> result;
     QDir dir;
@@ -84,4 +84,14 @@ std::vector<ToDoListData> load_to_do_list(const QString& file_name)
         file.close();
     }
     return result;
+}
+
+void write_to_do_list_to_file(std::vector<ToDoListData>& to_do_list, const QString& file_name)
+{
+    QFile file(file_name);
+    file.open(QIODevice::WriteOnly);
+    QDataStream out(&file);
+    for (std::size_t i = 0; i < to_do_list.size(); i++) {
+        to_do_list[i].write_to_binary(out);
+    }
 }

@@ -84,6 +84,12 @@ bool ToDoListModel::increment_pomodoros(const QModelIndex &index, int role)
     return false;
 }
 
-void ToDoListModel::load_from_file(const QString& file_name) {
-    m_list = load_to_do_list(file_name);
+void ToDoListModel::load_from_file(const QString& file_name)
+{
+    m_list = load_to_do_list_from_file(file_name);
+}
+
+void ToDoListModel::write_to_file(const QString& file_name)
+{
+    write_to_do_list_to_file(m_list, file_name);
 }
