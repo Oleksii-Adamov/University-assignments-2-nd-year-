@@ -85,7 +85,6 @@ void UnitTests::SettingChangeTestCase()
     // test twice, also test that signal pomodoro_duration_changed() emited
     for (int i = 0; i < 2; i++) {
         SettingsDialog settings;
-        QSignalSpy spy(&settings, SIGNAL(pomodoro_duration_changed()));
         settings.ui->spinBox_pomodoro->setValue(new_pomodoro);
         settings.ui->spinBox_break->setValue(new_break);
         settings.on_pushButton_apply_clicked();
@@ -93,7 +92,6 @@ void UnitTests::SettingChangeTestCase()
         read_settings(pomodoro_settings, break_settings);
         QCOMPARE(pomodoro_settings, new_pomodoro);
         QCOMPARE(break_settings, new_break);
-        QCOMPARE(spy.count(), 1);
         new_pomodoro = 51;
         new_break = 1;
     }
@@ -160,7 +158,7 @@ void UnitTests::EditProjectTestCase()
     main_window.create_project(old_project_name);
     // testing edit
     {
-        ToDoListWindow to_do_list_window(get_project_path(old_project_name), &main_window);
+        ToDoListWindow to_do_list_window(old_project_name, &main_window);
         connect(&to_do_list_window, SIGNAL(edit_project_button(const QString&, const QString&)), &main_window, SLOT(edit_project_button(const QString&, const QString&)));
         to_do_list_window.edit_project(new_project_name);
         // checking files
@@ -187,7 +185,7 @@ void UnitTests::DeleteProjectTestCase()
     // creating project
     main_window.create_project(project_name);
     // testing deletion
-    ToDoListWindow to_do_list_window(get_project_path(project_name), &main_window);
+    ToDoListWindow to_do_list_window(project_name, &main_window);
     connect(&to_do_list_window, SIGNAL(delete_project_button(const QString&)), &main_window, SLOT(delete_project_button(const QString&)));
     to_do_list_window.on_actionDelete_this_project_triggered();
     // checking file
@@ -354,7 +352,7 @@ void UnitTests::TasksSavingTestCase()
     std::vector<qint32> priority {2, 3, 7};
     delete_project_manually_if_exists(nullptr, project_name);
     {
-        ToDoListWindow to_do_list_window(get_project_path(project_name));
+        ToDoListWindow to_do_list_window(project_name);
         // insert
         for (int i = 0; i < 3; i++) {
             add_or_edit_task(to_do_list_window.model, ToDoList::mode::Add,
@@ -364,7 +362,6 @@ void UnitTests::TasksSavingTestCase()
     QFile file(get_project_path(project_name));
     file.open(QIODevice::ReadOnly);
     QDataStream in(&file);
-    std::vector<QString> data_string_list;
     size_t i = 0;
     while(!in.atEnd()) {
         ToDoListData item(in);
@@ -383,7 +380,6 @@ void UnitTests::second_passed()
 
 void UnitTests::TimerTestCase()
 {
-    /*
     // set settings
     {
         SettingsDialog settings;
@@ -455,7 +451,6 @@ void UnitTests::TimerTestCase()
     // don't test pass of break because it will take 2 minutes more
 
     delete m_timer;
-    */
 }
 QTEST_APPLESS_MAIN(UnitTests)
 
