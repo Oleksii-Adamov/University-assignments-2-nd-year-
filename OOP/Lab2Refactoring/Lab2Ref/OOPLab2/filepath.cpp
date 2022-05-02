@@ -130,3 +130,15 @@ std::vector<QString> get_project_names()
     }
     return res;
 }
+
+void task_to_completed(const ToDoListData& data)
+{
+    QFile file(get_project_path("Comleted"));
+    if (!file.exists()) {
+        file.open(QIODevice::NewOnly);
+        file.close();
+    }
+    file.open(QIODevice::Append);
+    QDataStream out(&file);
+    data.write_to_binary(out);
+}

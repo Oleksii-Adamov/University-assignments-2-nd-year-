@@ -20,7 +20,7 @@ public:
     qint32 predicted;
     QString ToQString() const;
     //void read_from_binary(QDataStream in);
-    void write_to_binary(QDataStream& out);
+    void write_to_binary(QDataStream& out) const;
     friend bool operator<(const ToDoListData& left, const ToDoListData& right);
     friend bool operator==(const ToDoListData& left, const ToDoListData& right);
     friend bool operator!=(const ToDoListData& left, const ToDoListData& right);

@@ -137,14 +137,15 @@ void ToDoListWindow::on_pushButton_task_completed_clicked()
         // not ui (files) {
 
         // writing to Comleted prject
-        QFile file(get_project_path("Comleted"));
+        /*QFile file(get_project_path("Comleted"));
         if (!file.exists()) {
             file.open(QIODevice::NewOnly);
             file.close();
         }
         file.open(QIODevice::Append);
         QDataStream out(&file);
-        model->ToDoListItemData(index).write_to_binary(out);
+        model->ToDoListItemData(index).write_to_binary(out);*/
+        task_to_completed(model->ToDoListItemData(index));
 
         // }
 

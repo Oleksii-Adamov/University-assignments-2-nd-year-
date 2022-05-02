@@ -39,4 +39,7 @@ void rename_file(const QString& old_file_name, const QString& new_file_name);
 
 std::vector<QString> get_project_names();
 
+/// write task data to file of "Completed" project
+void task_to_completed(const ToDoListData& data);
+
 #endif // FILEPATH_H

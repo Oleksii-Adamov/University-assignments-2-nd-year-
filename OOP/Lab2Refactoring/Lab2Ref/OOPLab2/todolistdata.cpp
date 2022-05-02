@@ -24,7 +24,7 @@ ToDoListData& ToDoListData::operator=(const ToDoListData &other) {
     return *this;
 }
 
-void ToDoListData::write_to_binary(QDataStream& out) {
+void ToDoListData::write_to_binary(QDataStream& out) const{
     out << priority << name << done << predicted;
 }
 
