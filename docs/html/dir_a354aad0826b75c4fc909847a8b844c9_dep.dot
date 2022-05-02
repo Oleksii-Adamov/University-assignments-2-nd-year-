@@ -1,0 +1,13 @@
+digraph "D:/University/Programming-labs-2nd-year/OOP/Lab2Refactoring/Lab2Ref/OOPLab2" {
+  compound=true
+  node [ fontsize="10", fontname="Helvetica"];
+  edge [ labelfontsize="10", labelfontname="Helvetica"];
+  subgraph clusterdir_b8d78a9b4f8e6d344cdbedddace84ff2 {
+    graph [ bgcolor="#ddddee", pencolor="black", label="Lab2Ref" fontname="Helvetica", fontsize="10", URL="dir_b8d78a9b4f8e6d344cdbedddace84ff2.html"]
+  subgraph clusterdir_a354aad0826b75c4fc909847a8b844c9 {
+    graph [ bgcolor="#eeeeff", pencolor="black", label="" URL="dir_a354aad0826b75c4fc909847a8b844c9.html"];
+    dir_a354aad0826b75c4fc909847a8b844c9 [shape=plaintext label="OOPLab2"];
+  dir_7553a792643e077ae9bde4946a37dbf2 [shape=box label="tests" fillcolor="white" style="filled" color="red" URL="dir_7553a792643e077ae9bde4946a37dbf2.html"];
+  }
+  }
+}
