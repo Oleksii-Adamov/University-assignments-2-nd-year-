@@ -292,7 +292,6 @@ void UnitTests::DeleteTaskTestCase()
 
 void UnitTests::CompleteTaskTestCase()
 {
-    /*
     QString project_name = "Project";
     delete_project_manually_if_exists(nullptr, project_name);
     delete_project_manually_if_exists(nullptr, "Comleted");
@@ -304,30 +303,39 @@ void UnitTests::CompleteTaskTestCase()
 
         // insert
         for (int i = 0; i < 3; i++) {
-            add_or_edit_task(to_do_list_window.m_data_list, *to_do_list_window.ui->listWidget, ToDoList::mode::Add,
+            add_or_edit_task(to_do_list_window.model, ToDoList::mode::Add,
                              name_of_the_task[i], number_of_pomodoros[i], priority[i]);
         }
 
         // complete task test
         auto complete_item_test = [&](int i){
-            to_do_list_window.ui->listWidget->setCurrentRow(i);
-            QString deleted_item = to_do_list_window.ui->listWidget->item(i)->text();
-            ToDoListData deleted_data = to_do_list_window.m_data_list[i];
+            // deletion check
+            to_do_list_window.ui->listView->setCurrentIndex(to_do_list_window.model->index(i));
+            ToDoListData deleted_data = to_do_list_window.model->ToDoListItemData(to_do_list_window.model->index(i));
             to_do_list_window.on_pushButton_task_completed_clicked();
-            QCOMPARE(to_do_list_window.ui->listWidget->findItems(deleted_item, Qt::MatchExactly).count(), 0);
-            QCOMPARE(std::find(to_do_list_window.m_data_list.begin(), to_do_list_window.m_data_list.end(),
-                               deleted_data) == to_do_list_window.m_data_list.end(), true);
+            bool is_deleted = true;
+            for (int j = 0; j < to_do_list_window.model->rowCount(); j++) {
+                if (to_do_list_window.model->ToDoListItemData(to_do_list_window.model->index(j)) == deleted_data) {
+                    is_deleted = false;
+                }
+            }
+            QCOMPARE(is_deleted, true);
             // file check
             QFile file(get_project_path("Comleted"));
             file.open(QIODevice::ReadOnly);
             QDataStream in(&file);
-            std::vector<QString> data_string_list;
+            std::vector<ToDoListData> data_list;
             while(!in.atEnd()) {
-                ToDoListData item(in);
-                data_string_list.emplace_back(item.ToQString());
+                data_list.emplace_back(in);
             }
             file.close();
-            QCOMPARE(std::find(data_string_list.begin(), data_string_list.end(), deleted_item) != data_string_list.end(), true);
+            bool is_present = false;
+            for (std::size_t j = 0; j < data_list.size(); j++) {
+                if (data_list[j] == deleted_data) {
+                    is_present = true;
+                }
+            }
+            QCOMPARE(is_present, true);
         };
         complete_item_test(1);
         complete_item_test(0);
@@ -335,7 +343,6 @@ void UnitTests::CompleteTaskTestCase()
     }
     delete_project_manually_if_exists(nullptr, project_name);
     delete_project_manually_if_exists(nullptr, "Comleted");
-    */
 }
 
 void UnitTests::TasksSavingTestCase()
@@ -376,6 +383,7 @@ void UnitTests::second_passed()
 
 void UnitTests::TimerTestCase()
 {
+    /*
     // set settings
     {
         SettingsDialog settings;
@@ -447,6 +455,7 @@ void UnitTests::TimerTestCase()
     // don't test pass of break because it will take 2 minutes more
 
     delete m_timer;
+    */
 }
 QTEST_APPLESS_MAIN(UnitTests)
 
