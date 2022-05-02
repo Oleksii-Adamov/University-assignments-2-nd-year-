@@ -9,14 +9,11 @@
 4. ~~Intial Class Diagram~~
 5. ~~Sequence Diagrams (for signal-slot interaction) - 5~~
 6. ~~Glossary~~
-7. Unit tests
-8. Benchmarking
-9. Refactoring (do first refacroring commit so teacher can see where it started)
-10. Refactoring of some Unit tests (Unit tests for Tasks higly dependant on realization, because of bad code structure)
-10. Doxygen documentation with access via github pages
-11. Current Class Diagram
-12. Current Object Diagram (not sure)
-13. Maybe new Interaction Overview Diagram (5-th in list)
+7. ~~Unit tests~~
+8. ~~Refactoring (do first refacroring commit so teacher can see where it started)~~
+9. ~~Refactoring of some Unit tests (Unit tests for Tasks higly dependant on realization, because of bad code structure)~~
+10. ~~Doxygen documentation with access via github pages~~
+11. ~~Doc file about following principles of OOP in this lab~~
 
 # 1-st semester OOP
 
