@@ -90,7 +90,7 @@ ToDoListWindow::~ToDoListWindow()
         for (std::size_t i = 0; i < /*m_data_list.size()*/size; i++) {
             //(m_data_list[i]).write_to_binary(out);
             // kind of Law of Demeter violation, but because model is data storage, I think that's OK.
-            model->data(model->index(i)).value<ToDoListData>().write_to_binary(out);
+            model->ToDoListItemData(model->index(i)).write_to_binary(out);
         }
     }
 
@@ -106,7 +106,6 @@ void ToDoListWindow::on_actionBack_triggered()
 
 void ToDoListWindow::on_pushButtonAdd_clicked()
 {
-   /*AddToToDoList* new_dialog = new AddToToDoList(this, &m_data_list, ui->listWidget, ToDoList::mode::Add);*/
    AddToToDoList* new_dialog = new AddToToDoList(this, model, ToDoList::mode::Add);
    new_dialog->setModal(true);
    new_dialog->show();
@@ -115,7 +114,7 @@ void ToDoListWindow::on_pushButtonAdd_clicked()
 
 void ToDoListWindow::on_pushButtonStartTimer_clicked()
 {
-    if (/*ui->listWidget->count()model->rowCount() > 0*/true) {
+    if (model->rowCount() > 0) {
         Timer* new_dialog = new Timer(this);
         connect(new_dialog, SIGNAL(pomodoro_finished()), this, SLOT(increment_pomodoros()));
         new_dialog->setModal(true);
@@ -125,8 +124,7 @@ void ToDoListWindow::on_pushButtonStartTimer_clicked()
 
 void ToDoListWindow::on_pushButtonEdit_clicked()
 {
-    if (/*ui->listWidget->count()*/model->rowCount() > 0) {
-        /*AddToToDoList* new_dialog = new AddToToDoList(this, &m_data_list, ui->listWidget, ToDoList::mode::Edit);*/
+    if (model->rowCount() > 0) {
         AddToToDoList* new_dialog = new AddToToDoList(this, model, ToDoList::mode::Edit, ui->listView->currentIndex().row());
         new_dialog->setModal(true);
         new_dialog->show();
