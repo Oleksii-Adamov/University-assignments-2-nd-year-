@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+	
+</head>
+<body>
+	<script>
+		let f = function(array) {
+			array.sort(function(lhs,rhs) {
+				if (Math.abs(lhs) < Math.abs(rhs)) {
+					return -1;
+				}
+				else if (Math.abs(lhs) > Math.abs(rhs))
+				{
+					return 1;
+				}
+				else {
+					return 0;
+				}
+			}
+			);
+			console.log(array);
+		};
+		f([0,1,2,6,1,-1,2,5,-3,-2]);
+	</script>
+</body>
+</html>

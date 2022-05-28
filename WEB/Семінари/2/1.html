@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+	<style>
+		.main {
+			font-family: Times New Roman;
+		}
+		.italic {
+			font-style: italic;
+			font-size: small;
+		}
+		.title {
+			font-weight: bolder;
+			font-size: larger;
+		}
+		.asterisk {
+			color: #e82044;
+			font-style: oblique;
+		}
+		.left_column {
+			width: 100px;
+		}
+		.right_column {
+			width: 200px;
+		}
+		.input_style {
+			width: 200px;
+		}
+		.button_style {
+			width: 180px;
+			height: 40px;
+		}
+	</style>
+</head>
+<body class = "main">
+	<div class = "title">Форма заявки на работу в зоопарке</div>
+	<div class = "italic">Пожалуйста заполните форму. Обязательные поля помечены <em class = "asterisk">*</em></div>
+	<form>
+		<fieldset>
+		    <legend>Контактная информация</legend>
+		    <table cellspacing="0">
+		    	<tr>
+		    		<td class = "left_column"><label>Имя <em class = "asterisk">*</em></label></td>
+		    		<td class = "right_column"><input type="text" class = "input_style"></td>
+		    	</tr>
+		    	<tr>
+		    		<td class = "left_column"><label>Телефон</label></td>
+		    		<td class = "right_column"><input type="text" class = "input_style"></td>
+		    	</tr>
+		    	<tr>
+		    		<td class = "left_column"><label>Email <em class = "asterisk">*</em></label></td>
+		    		<td class = "right_column"><input type="email" class = "input_style"></td>
+		    	</tr>
+			</table>
+  		</fieldset>
+  		<fieldset>
+		    <legend>Персональная информация</legend>
+		    <table cellspacing="0">
+		    	<tr>
+		    		<td class = "left_column"><label>Возраст <em class = "asterisk">*</em></label></td>
+		    		<td class = "right_column"><input type="text" class = "input_style"></td>
+		    	</tr>
+		    	<tr>
+		    		<td class = "left_column"><label>Пол</label></td>
+		    		<td class = "right_column">
+		    			<select class = "input_style">
+		    				<option>Женщина</option>
+		    				<option>Мужчина</option>
+		    			</select>
+		    		</td>
+		    	</tr>
+		    	<tr>
+		    		<td class = "left_column"><label>Перечислите<br>личные<br>качества</label></td>
+		    		<td class = "right_column"><textarea class = "input_style"></textarea></td>
+		    	</tr>
+			</table>
+  		</fieldset>
+  		<fieldset>
+		    <legend>Выберете ваших любимых животных</legend>
+		    <table width="100%">
+		    	<tr>
+		    		<td>
+		    			<input type="checkbox">
+		    			<label>Зебра</label>
+		    		</td>
+		    		<td>
+		    			<input type="checkbox">
+		    			<label>Кошак</label>
+		    		</td>
+		    		<td>
+		    			<input type="checkbox">
+		    			<label>Анаконда</label>
+		    		</td>
+		    		<td>
+		    			<input type="checkbox">
+		    			<label>Человек</label>
+		    		</td>
+		    		
+		    	</tr>
+		    	<tr>
+		    		<td>
+		    			<input type="checkbox">
+		    			<label>Слон</label>
+		    		</td>
+		    		<td>
+		    			<input type="checkbox">
+		    			<label>Антилопа</label>
+		    		</td>
+		    		<td>
+		    			<input type="checkbox">
+		    			<label>Голубь</label>
+		    		</td>
+		    		<td>
+		    			<input type="checkbox">
+		    			<label>Краб</label>
+		    		</td>
+		    	</tr>
+			</table>
+  		</fieldset>
+  		<p><input type="submit" value="Отправить информацию" class = "button_style"></p>
+	</form>
+</body>
+</html>

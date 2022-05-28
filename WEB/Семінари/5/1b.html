@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+	<style type="text/css">
+		.rounded_corners {
+			border-radius: 10px;
+		}
+		.black_block {
+			background-color: #1E202A;
+			height: 50px;
+		}
+		.turquoise_block {
+			background-color: #46A1A3;
+			height: 400px;
+		}
+		.gray_block {
+			background-color: #CBBBAB;
+			height: 50px;
+			width: 100%;
+		}
+		.orange_block {
+			background-color: #FFAB48;
+			height: 50px;
+			width: 100%;
+		}
+		.blue_block {
+			background-color: #415F6B;
+			height: 50px;
+		}
+
+		.main_block {
+			display: flex;
+			flex-direction: column;
+			gap: 10px;
+			margin: auto;
+			max-width: 800px;
+		}
+
+		.middle_block {
+			display: flex;
+			flex-direction: column;
+			gap: 10px;
+		}
+
+		.orange_gray_block {
+			display: flex;
+			flex-wrap: wrap;
+			flex-direction: row-reverse;	
+			gap: 10px;
+		}
+
+		@media only screen and (min-width: 768px) {
+			.gray_block {
+				width: auto;
+				flex: 1;
+			}
+			.orange_block {
+				width: auto;
+				flex: 3;
+			}
+		}
+
+		@media only screen and (min-width: 992px) {
+			.middle_block {
+				flex-direction: row-reverse;
+			}
+			.orange_gray_block {
+				flex-direction: column;
+				flex: 1;
+			}
+			.turquoise_block {
+				flex: 6;
+			}
+			.gray_block {
+				height: auto;
+				flex: 1;
+				width: auto;
+			}
+			.orange_block {
+				height: auto;
+				flex: 2;
+				width: auto;
+			}
+		}
+
+	</style>
+</head>
+<body>
+	<div class="main_block">
+		<div class="black_block rounded_corners"></div>
+		<div class="middle_block">
+			<div class="turquoise_block rounded_corners"></div>
+			<div class="orange_gray_block rounded_corners">
+				<div class="orange_block rounded_corners"></div>
+				<div class="gray_block rounded_corners"></div>
+			</div>
+		</div>
+		<div class="blue_block rounded_corners"></div>
+	</div>
+</body>
+</html>

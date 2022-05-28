@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+	<style type="text/css">
+		.orange_col {
+			min-height: 50px;
+			margin-bottom: 3px;
+		}
+		.yellow_col {
+			min-height: 100px;
+		}
+		.blue_col {
+			min-height: 200px;
+			margin-bottom: 5px;
+		}
+		.gray_col {
+			min-height: 100px;
+			margin-bottom: 5px;
+		}
+		.container {
+			padding-left: 5px;
+			padding-right: 5px;
+		}
+		.row {
+			margin-bottom: 15px;
+		}
+		.orange_back {
+			background-color: #FFA334;
+		}
+		.yellow_back {
+			background-color: #DBED00;
+		}
+		.blue_back {
+			background-color: #4A89D1;
+		}
+		.gray_back {
+			background-color: #E4E4E4;
+		}
+		/* medium */
+		@media only screen and (min-width: 768px) {
+			.yellow_col {
+				min-height: 250px;
+			}
+			.blue_col {
+				min-height: 100px;
+			}
+			.gray_col {
+				min-height: 120px;
+			}
+		}
+		/* large */
+		@media only screen and (min-width: 992px) {
+			.container {
+				padding-left: 20px;
+				padding-right: 20px;
+				padding-bottom: 60px;
+			}
+			.row {
+				margin-bottom: 25px;
+			}
+			.orange_col {
+				min-height: 125px;
+			}
+			.yellow_col {
+				min-height: 300px;
+			}
+			.blue_col {
+				min-height: 200px;
+			}
+		}
+	</style>
+</head>
+<body>
+	<div class = "container mt-3">
+		<div class="row">
+			<div class = "col-12 col-lg-6 orange_col"><div class = "orange_back h-100 w-100"></div></div>
+			<div class = "col-12 col-lg-6 orange_col"><div class = "orange_back h-100 w-100"></div></div>
+		</div>
+		<div class="row">
+			<div class = "col-12 yellow_col"><div class = "yellow_back h-100 w-100"></div></div>
+		</div>
+		<div class="row">
+			<div class = "col-12 col-lg-4 blue_col"><div class = "blue_back h-100 w-100"></div></div>
+			<div class = "col-12 col-lg-4 blue_col"><div class = "blue_back h-100 w-100"></div></div>
+			<div class = "col-12 col-lg-4 blue_col"><div class = "blue_back h-100 w-100"></div></div>
+		</div>
+		<div class="row">
+			<div class = "col-12 col-md-6 col-lg-3 gray_col"><div class = "gray_back h-100 w-100"></div></div>
+			<div class = "col-12 col-md-6 col-lg-3 gray_col"><div class = "gray_back h-100 w-100"></div></div>
+			<div class = "col-12 col-md-6 col-lg-3 gray_col"><div class = "gray_back h-100 w-100"></div></div>
+			<div class = "col-12 col-md-6 col-lg-3 gray_col"><div class = "gray_back h-100 w-100"></div></div>
+		</div>
+	</div>
+</body>
+</html>

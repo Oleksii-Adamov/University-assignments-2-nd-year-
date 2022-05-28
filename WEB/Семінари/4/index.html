@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+	<style type="text/css">
+		.horizontal_flexbox {
+			display: flex;
+			justify-content: flex-start;
+			gap: 2px;
+			margin: 0;
+		}
+		.left_block_left_grid {
+			display: grid;
+			grid-template-rows: 220px 239px;
+			gap: 20px;
+			grid-template-columns: 1fr;
+		}
+		.left_block_images_grid {
+			display: grid;
+			grid-template-columns: 60px 60px;
+			grid-template-rows: repeat(5, 70px);
+			gap: 5px;
+		}
+		.right_block_images_grid {
+			display: grid;
+			grid-template-columns: 1fr;
+			grid-template-rows: repeat(4, 100px);
+			gap: 5px;
+		}
+		img {
+			width: 100%;
+			height: 100%;
+		}
+		.small_img {
+			width: 54px;
+			height: 54px;
+		}
+		.medium_img {
+			width: 119px;
+			height: 60px;	
+		}
+		figure, div {
+			margin: 0;
+		}
+		figcaption {
+			margin-top: 6px;
+			line-height: 1.2em;
+		}
+		.content_block {
+			width: 570px;
+			height: 480px;
+			z-index: -2;
+			color: white;
+			font-size: x-small;
+			text-align: center;
+			padding-left: 10px;
+			padding-right: 10px;
+			padding-bottom: 15px;
+			padding-top: 15px;
+			display: grid;
+			grid-template-rows: auto;
+			grid-template-columns: 430px 118px;
+			gap: 14px;
+			font-family: 'Roboto', sans-serif;;
+		}
+		.left_block {
+			position: absolute;
+			top: 10px;
+			left: 10px;
+			background-image: url(https://i2.wp.com/files.123freevectors.com/wp-content/original/201630-abstract-purple-green-and-yellow-circle-background.jpg?w=800&q=95);
+		}
+		.middle_block {
+			position: absolute;
+			top: 185px;
+  			left: 475px;
+  			z-index: -1;
+  			background-image: url(https://i2.wp.com/files.123freevectors.com/wp-content/original/201618-abstract-red-and-yellow-circle-background.jpg?w=800&q=95);
+		}
+		.right_block {
+			position: absolute;
+			top: 10px;
+			left: 920px;
+			background-image: url(https://i2.wp.com/files.123freevectors.com/wp-content/original/201585-dark-blue-circle-background.jpg?w=800&q=95);
+		}
+		.gray_back {
+			background-color: #E0E0E0;
+		}
+		.blue_back {
+			background-color: #1BC6F2;
+		}
+		.menu_block {
+			line-height: 30px;
+			height: 30px; 
+			width: 425px;
+			color: #2B6DC5;
+		}
+		.menu_option {
+			width: 130px;
+			background-color: #F9F9F9;
+		}
+		.middle_block_menu_option {
+			width: 135px;
+			background-color: #2D91BF;
+		}
+		.white_border {
+			border: 3px solid white;
+		}
+		.gray_border {
+			border: 3px solid #E0E0E0;
+		}
+		.green_border {
+			border: 3px solid #92C15F;
+		}
+		.text_block {
+			width: 386px; 
+			background-color: white;
+			height: 164px;
+			padding: 20px;
+			margin-left: -1px;
+			color: black;
+			text-align: left;
+			line-height: 1em;
+			font-weight: 500;
+		}
+		.image_in_text_block {
+			float: left;
+			width: 200px;
+			height: 100px;
+			margin-right: 5px;
+		}
+		a {
+			color: #2B6DC5;
+		}
+		h2 {
+			margin: 0;
+		}
+	</style>
+</head>
+<body>
+	<div class="content_block left_block">
+		<div class="left_block_left_grid">
+			<figure>
+				<div style="width: 424px; height: 200px;" >
+				<img src = "https://img.freepik.com/free-vector/space-background-with-planet-landscape_107791-6146.jpg?w=2000" class="white_border">
+				</div>
+				<figcaption style="margin: 13px;">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</figcaption>
+			</figure>
+			<div class="white_border" style = "width: 424px;">
+				<div class="gray_back horizontal_flexbox menu_block">
+					<div class="menu_option" style="background-color: white; color: #F247A0;"><h2>About Example</h2></div>
+					<div class="menu_option"><h2>Marketplaces</h2></div>
+					<div class="menu_option"><h2>Tuts+ Network</h2></div>
+				</div>
+				<div class="text_block">
+					<div class="image_in_text_block gray_border"><img src = "https://img.freepik.com/free-vector/space-background-with-planet-landscape_107791-6146.jpg?w=2000"></div>
+					Proin hendrerit laoreet libero, non iaculis enim consequat in. Cras suscipit tempor egestas. Interdum et malesuada fames ac ante ipsum primis in faucibus. Aliquam massa ante, sagittis sed magna nec, molestie tincidunt lorem. Cras finibus libero vel nisl laoreet faucibus. Suspendisse a urna feugiat, blandit eros vitae, iaculis est. Morbi lacus mauris, mollis non eros eu, pharetra pretium urna. Quisque a tincidunt nunc. Vivamus scelerisque, enim sed sollicitudin blandit, risus nulla auctor dui, nec condimentum nisi mauris vulputate leo. Aliquam dignissim lacus ac sodales aliquet. In lobortis neque ac est euismod sollicitudin.
+					<h3><a href="https://media.istockphoto.com/vectors/rockets-and-astronauts-in-space-vector-id1255355313?b=1&k=20&m=1255355313&s=612x612&w=0&h=cxt6XfNeujtdTvgpWEnpgHXviKBeFdhsQD9xE-o1cA4=">Visit The Exotic Website</a></h3>
+				</div>
+			</div>
+		</div>
+		<div class="left_block_images_grid">
+				<figure>
+				<div class="small_img"><img src = "https://media.istockphoto.com/vectors/flying-cartoon-rocket-in-flat-style-isolated-on-blue-background-vector-id681125144?b=1&k=20&m=681125144&s=612x612&w=0&h=HuAyC6qrPy3i-C16ZLeAKlUZJJbj5GOyacYI3kwk2ho=" class="white_border"></div>
+				<figcaption>6.00 am</figcaption>
+				</figure>
+				<figure>
+				<div class="small_img"><img src = "https://media.istockphoto.com/vectors/flying-cartoon-rocket-in-flat-style-isolated-on-blue-background-vector-id681125144?b=1&k=20&m=681125144&s=612x612&w=0&h=HuAyC6qrPy3i-C16ZLeAKlUZJJbj5GOyacYI3kwk2ho=" class="white_border"></div>
+				<figcaption>6.00 am</figcaption>
+				</figure>
+				<figure>
+				<div class="small_img"><img src = "https://media.istockphoto.com/vectors/flying-cartoon-rocket-in-flat-style-isolated-on-blue-background-vector-id681125144?b=1&k=20&m=681125144&s=612x612&w=0&h=HuAyC6qrPy3i-C16ZLeAKlUZJJbj5GOyacYI3kwk2ho=" class="white_border"></div>
+				<figcaption>6.00 am</figcaption>
+				</figure>
+				<figure>
+				<div class="small_img"><img src = "https://media.istockphoto.com/vectors/flying-cartoon-rocket-in-flat-style-isolated-on-blue-background-vector-id681125144?b=1&k=20&m=681125144&s=612x612&w=0&h=HuAyC6qrPy3i-C16ZLeAKlUZJJbj5GOyacYI3kwk2ho=" class="white_border"></div>
+				<figcaption>6.00 am</figcaption>
+				</figure>
+				<figure>
+				<div class="small_img"><img src = "https://media.istockphoto.com/vectors/flying-cartoon-rocket-in-flat-style-isolated-on-blue-background-vector-id681125144?b=1&k=20&m=681125144&s=612x612&w=0&h=HuAyC6qrPy3i-C16ZLeAKlUZJJbj5GOyacYI3kwk2ho=" class="white_border"></div>
+				<figcaption>6.00 am</figcaption>
+				</figure>
+				<figure>
+				<div class="small_img"><img src = "https://media.istockphoto.com/vectors/flying-cartoon-rocket-in-flat-style-isolated-on-blue-background-vector-id681125144?b=1&k=20&m=681125144&s=612x612&w=0&h=HuAyC6qrPy3i-C16ZLeAKlUZJJbj5GOyacYI3kwk2ho=" class="white_border"></div>
+				<figcaption>6.00 am</figcaption>
+				</figure>
+				<figure>
+				<div class="small_img"><img src = "https://media.istockphoto.com/vectors/flying-cartoon-rocket-in-flat-style-isolated-on-blue-background-vector-id681125144?b=1&k=20&m=681125144&s=612x612&w=0&h=HuAyC6qrPy3i-C16ZLeAKlUZJJbj5GOyacYI3kwk2ho=" class="white_border"></div>
+				<figcaption>6.00 am</figcaption>
+				</figure>
+				<figure>
+				<div class="small_img"><img src = "https://media.istockphoto.com/vectors/flying-cartoon-rocket-in-flat-style-isolated-on-blue-background-vector-id681125144?b=1&k=20&m=681125144&s=612x612&w=0&h=HuAyC6qrPy3i-C16ZLeAKlUZJJbj5GOyacYI3kwk2ho=" class="white_border"></div>
+				<figcaption>6.00 am</figcaption>
+				</figure>
+				<figure>
+				<div class="small_img"><img src = "https://media.istockphoto.com/vectors/flying-cartoon-rocket-in-flat-style-isolated-on-blue-background-vector-id681125144?b=1&k=20&m=681125144&s=612x612&w=0&h=HuAyC6qrPy3i-C16ZLeAKlUZJJbj5GOyacYI3kwk2ho=" class="white_border"></div>
+				<figcaption>6.00 am</figcaption>
+				</figure>
+				<figure>
+				<div class="small_img"><img src = "https://media.istockphoto.com/vectors/flying-cartoon-rocket-in-flat-style-isolated-on-blue-background-vector-id681125144?b=1&k=20&m=681125144&s=612x612&w=0&h=HuAyC6qrPy3i-C16ZLeAKlUZJJbj5GOyacYI3kwk2ho=" class="white_border"></div>
+				<figcaption>6.00 am</figcaption>
+				</figure>
+			</div>
+		</div>
+	</div>
+	<div class="content_block middle_block">
+		<div class="left_block_left_grid">
+			<figure>
+				<div style="width: 424px; height: 200px;" >
+				<img src = "https://img.freepik.com/free-vector/space-background-with-planet-landscape_107791-6146.jpg?w=2000" class="white_border">
+				</div>
+				<figcaption style="margin: 13px;">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</figcaption>
+			</figure>
+			<div class="white_border" style = "width: 424px;">
+				<div class="blue_back horizontal_flexbox menu_block" style="color: white;">
+					<div class="middle_block_menu_option" style="background-color: #92C15F;"><h2>About Example</h2></div>
+					<div class="middle_block_menu_option"><h2>Marketplaces</h2></div>
+					<div class="middle_block_menu_option"><h2>Tuts+ Network</h2></div>
+				</div>
+				<div class="text_block">
+					<div class="image_in_text_block green_border"><img src = "https://img.freepik.com/free-vector/space-background-with-planet-landscape_107791-6146.jpg?w=2000"></div>
+					Proin hendrerit laoreet libero, non iaculis enim consequat in. Cras suscipit tempor egestas. Interdum et malesuada fames ac ante ipsum primis in faucibus. Aliquam massa ante, sagittis sed magna nec, molestie tincidunt lorem. Cras finibus libero vel nisl laoreet faucibus. Suspendisse a urna feugiat, blandit eros vitae, iaculis est. Morbi lacus mauris, mollis non eros eu, pharetra pretium urna. Quisque a tincidunt nunc. Vivamus scelerisque, enim sed sollicitudin blandit, risus nulla auctor dui, nec condimentum nisi mauris vulputate leo. Aliquam dignissim lacus ac sodales aliquet. In lobortis neque ac est euismod sollicitudin.
+					<h3><a href="https://media.istockphoto.com/vectors/rockets-and-astronauts-in-space-vector-id1255355313?b=1&k=20&m=1255355313&s=612x612&w=0&h=cxt6XfNeujtdTvgpWEnpgHXviKBeFdhsQD9xE-o1cA4=">Visit The Exotic Website</a></h3>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="content_block right_block">
+		<div class="left_block_left_grid">
+			<figure>
+				<div style="width: 424px; height: 200px;" >
+				<img src = "https://img.freepik.com/free-vector/space-background-with-planet-landscape_107791-6146.jpg?w=2000" class="white_border">
+				</div>
+				<figcaption style="margin: 13px;">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</figcaption>
+			</figure>
+			<div class="white_border" style = "width: 424px;">
+				<div class="gray_back horizontal_flexbox menu_block">
+					<div class="menu_option" style="background-color: white; color: #F247A0;"><h2>About Example</h2></div>
+					<div class="menu_option"><h2>Marketplaces</h2></div>
+					<div class="menu_option"><h2>Tuts+ Network</h2></div>
+				</div>
+				<div class="text_block">
+					<div class="image_in_text_block gray_border"><img src = "https://img.freepik.com/free-vector/space-background-with-planet-landscape_107791-6146.jpg?w=2000"></div>
+					Proin hendrerit laoreet libero, non iaculis enim consequat in. Cras suscipit tempor egestas. Interdum et malesuada fames ac ante ipsum primis in faucibus. Aliquam massa ante, sagittis sed magna nec, molestie tincidunt lorem. Cras finibus libero vel nisl laoreet faucibus. Suspendisse a urna feugiat, blandit eros vitae, iaculis est. Morbi lacus mauris, mollis non eros eu, pharetra pretium urna. Quisque a tincidunt nunc. Vivamus scelerisque, enim sed sollicitudin blandit, risus nulla auctor dui, nec condimentum nisi mauris vulputate leo. Aliquam dignissim lacus ac sodales aliquet. In lobortis neque ac est euismod sollicitudin.
+					<h3><a href="https://media.istockphoto.com/vectors/rockets-and-astronauts-in-space-vector-id1255355313?b=1&k=20&m=1255355313&s=612x612&w=0&h=cxt6XfNeujtdTvgpWEnpgHXviKBeFdhsQD9xE-o1cA4=">Visit The Exotic Website</a></h3>
+				</div>
+			</div>
+		</div>
+		<div class="right_block_images_grid">
+				<figure>
+				<div class="medium_img"><img src = "https://media.istockphoto.com/vectors/planets-in-outer-space-with-satellites-and-meteors-vector-id1225608964?k=20&m=1225608964&s=612x612&w=0&h=bozwoNm0D2-tYTesB8uShwpuyeRukeWGzt8D2S_wOhY=" class="white_border"></div>
+				<figcaption>(7 abraca to 12 abraca)<br>Morning</figcaption>
+				</figure>
+				<figure>
+				<div class="medium_img"><img src = "https://media.istockphoto.com/vectors/planets-in-outer-space-with-satellites-and-meteors-vector-id1225608964?k=20&m=1225608964&s=612x612&w=0&h=bozwoNm0D2-tYTesB8uShwpuyeRukeWGzt8D2S_wOhY=" class="white_border"></div>
+				<figcaption>(7 abraca to 12 abraca)<br>Morning</figcaption>
+				</figure>
+				<figure>
+				<div class="medium_img"><img src = "https://media.istockphoto.com/vectors/planets-in-outer-space-with-satellites-and-meteors-vector-id1225608964?k=20&m=1225608964&s=612x612&w=0&h=bozwoNm0D2-tYTesB8uShwpuyeRukeWGzt8D2S_wOhY=" class="white_border"></div>
+				<figcaption>(7 abraca to 12 abraca)<br>Morning</figcaption>
+				</figure>
+				<figure>
+				<div class="medium_img"><img src = "https://media.istockphoto.com/vectors/planets-in-outer-space-with-satellites-and-meteors-vector-id1225608964?k=20&m=1225608964&s=612x612&w=0&h=bozwoNm0D2-tYTesB8uShwpuyeRukeWGzt8D2S_wOhY=" class="white_border"></div>
+				<figcaption>(7 abraca to 12 abraca)<br>Morning</figcaption>
+				</figure>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

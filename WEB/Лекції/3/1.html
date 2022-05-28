@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+	<style>
+		.general {
+			width: 100%;
+			border: none;
+			margin: 0;
+			padding: 0;
+			line-height: 1.2;
+		}
+		.header {
+			background-color: #f1c134;
+		}
+		.header_text {
+			text-align: center;
+			font-weight: bolder;
+			font-size: large;
+		}
+		.main {
+			background-color: #eaec35;
+		}
+		.first-column {
+			text-align: right;
+			vertical-align: top;
+		}
+	</style>
+</head>
+<body class="general main">
+	<div class = "general header header_text">The World of Fruit</div>
+	<div class = "general">
+		<div class = "header_text" style = "line-height: 0.6"><br>Fruit Servey</div>
+		<form>
+			<table cellspacing="5">
+				<tr>
+					<td class="first-column">Name</td>
+					<td><input type="text"></td>
+				</tr>
+				<tr>
+					<td class="first-column">Address</td>
+					<td><input type="text"></td>
+				</tr>
+				<tr>
+					<td class="first-column">Email</td>
+					<td><input type="text"></td>
+				</tr>
+				<tr>
+					<td class="first-column">How many pieces of fruit<br>do you eat per day?</td>
+					<td>
+						<input type="radio" name="test" id="">0
+						<br>
+						<input type="radio" name="test" id="">1
+						<br>
+						<input type="radio" name="test" id="">2
+						<br>
+						<input type="radio" name="test" id="">More than 2
+						<br>
+					</td>
+				</tr>
+				<tr>
+					<td class="first-column">My favourite fruit</td>
+					<td>
+						<select size = "4">
+							
+							<option>Apple</option>
+							<option>Banana</option>
+							<option>Plum</option>
+							<option>Pomegranate</option>
+							<option>Mango</option>
+
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td class="first-column">Would you like a <br>brochure?</td>
+					<td><input type="checkbox"></td>
+				</tr>
+				<tr>
+					<td></td>
+					<td><input type="submit" value = "Submit"></td>
+				</tr>
+			</table>
+		</form>
+	</div>
+</body>
+</html>
+
+		

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+	<style type="text/css">
+		.main_grid_block {
+			display: grid;
+			grid-template-areas:
+						"One One One"
+						"One One One"
+						"Two Three Four"
+						"Two Five .";
+			grid-template-rows: 1fr 1fr 1fr 1fr;
+			grid-template-columns: 1fr 1fr 1fr;
+			min-height: 440px;
+		}
+		.One_grid {
+			display: grid;
+			margin: 15px;
+			grid-template-rows: 1fr 1fr 1fr;
+			min-height: 184px;
+			gap: 2px;
+		}
+		.border {
+			border: solid;
+		}
+		.red_border {
+			border-color: #FF5E0D;
+		}
+		.orange_border {
+			border-color: #FFA43D;
+		}
+		.yellow_border {
+			border-color: #FFEF96;
+		}
+		.yellow_back {
+			background-color: #FFFAD9;
+		}
+		.pale_back {
+			background-color: #FFF4E5;
+		}
+		.orange_back {
+			background-color: #FFD7A4;
+		}
+		.red_font {
+			color: #F71813;
+		}
+		.text_padding {
+			padding-left: 15px;
+			padding-top: 15px;
+		}
+		.bold {
+			font-weight: bold;
+		}
+		.rounded_corners {
+			border-radius: 5px;
+		}
+	</style>
+</head>
+<body>
+	<div class="main_grid_block border red_border red_font pale_back rounded_corners">
+		<div class="border orange_border orange_back" style = "grid-area: One;">
+			<div class="One_grid">
+				<div class="border yellow_border yellow_back text_padding bold rounded_corners">a</div>
+				<div class="border yellow_border yellow_back text_padding bold rounded_corners">b</div>
+				<div class="border yellow_border yellow_back text_padding bold rounded_corners">c</div>
+			</div>
+		</div>
+		<div class="border orange_border orange_back text_padding bold rounded_corners" style = "grid-area: Two;">Two</div>
+		<div class="border orange_border orange_back text_padding bold rounded_corners" style = "grid-area: Three;">Three</div>
+		<div class="border orange_border orange_back text_padding bold rounded_corners" style = "grid-area: Four;">Four</div>
+		<div class="border orange_border orange_back text_padding bold rounded_corners" style = "grid-area: Five;">Five</div>
+	</div>
+</body>
+</html>

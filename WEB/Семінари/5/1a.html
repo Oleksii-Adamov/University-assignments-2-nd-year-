@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+	<style type="text/css">
+		.rounded_corners {
+			border-radius: 10px;
+		}
+		.horizontal_flex {
+			display: flex;
+			justify-content: center;
+			gap: 10px;
+		}
+		.vertical_flex {
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			gap: 10px;	
+		}
+		.violet_block {
+			background-color: #8D43B3;
+		} 
+		.green_block {
+			background-color: #2AA650;
+		} 
+		.blue_block {
+			background-color: #58AAE8;
+		} 
+		.red_block {
+			background-color: #E74E33;
+		} 
+	</style>
+</head>
+<body>
+	<div class="horizontal_flex" style="width: 1200px; height: 700px; margin: auto;">
+		<div class="vertical_flex" style = "flex: 1;">
+			<div class="violet_block rounded_corners" style = "flex: 1.5;"></div>
+			<div class="horizontal_flex" style="flex: 1;">
+				<div class="green_block rounded_corners" style = "flex: 1;" ></div>
+				<div class="vertical_flex" style = "flex: 1;">
+					<div class="blue_block rounded_corners" style = "flex: 1;" ></div>
+					<div class="red_block rounded_corners" style = "flex: 5;" ></div>
+				</div>
+			</div>
+			<div class="green_block rounded_corners" style = "flex: 1;" ></div>
+		</div>
+		<div class="vertical_flex" style = "flex: 1;">
+			<div class="horizontal_flex" style="flex: 2;">
+				<div class="green_block rounded_corners" style="flex: 1;"></div>
+				<div class="vertical_flex" style="flex: 1;">
+					<div class="blue_block rounded_corners" style="flex: 1;"></div>
+					<div class="red_block rounded_corners" style="flex: 4;"></div>
+				</div>
+			</div>
+			<div class="violet_block rounded_corners" style="flex: 1;"></div>
+		</div>
+		<div class="vertical_flex" style = "flex: 1;">
+			<div class="green_block rounded_corners" style="flex: 1;"></div>
+			<div class="horizontal_flex" style="flex: 1;">
+				<div class="blue_block rounded_corners" style="flex: 1;"></div>
+				<div class="red_block rounded_corners" style="flex: 4;"></div>
+			</div>
+			<div class="violet_block rounded_corners" style="flex: 5;"></div>
+			<div class="blue_block rounded_corners" style="flex: 1;"></div>
+		</div>
+	</div>
+</body>
+</html>

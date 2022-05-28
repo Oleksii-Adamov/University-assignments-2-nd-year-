@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+</head>
+<body>
+	<script>
+		let cost = (hr,kop) => {
+			hr += Math.floor(kop / 100);
+			kop %= 100;
+			let kop_last_digit = kop % 10;
+			let hr_last_digit = hr % 10;
+			let output = "Вартість замовлення: "+ hr + " ";
+			if (hr_last_digit == 1) {
+				output += "гривня";
+			}
+			else if (hr_last_digit != 0 && hr_last_digit < 5) {
+				output += "гривні";
+			}
+			else {
+				output += "гривень";
+			}
+			output += " " + kop + " ";
+			if (kop_last_digit == 1) {
+				output += "копійка";
+			}
+			else if (kop_last_digit != 0 && kop_last_digit < 5) {
+				output += "копійки";
+			}
+			else {
+				output += "копійок";
+			}
+			console.log(output);
+		};
+		cost(2,75);
+		cost(0,1);
+		cost(25,3);
+		cost(20,102);
+	</script>
+</body>
+</html>

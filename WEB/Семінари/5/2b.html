@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+	<style type="text/css">
+		.main_grid_block {
+			display: grid;
+			grid-template-areas:
+						"Header Header Header Header"
+						"A B C D"
+						"E F G H"
+						"I J . ."
+						"Footer Footer Footer Footer";
+			grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
+			grid-template-columns: 1fr 1fr 1fr 1fr;
+			gap: 5px;
+			min-height: 440px;
+			width: 600px;
+			margin: auto;
+		}
+		.black_back {
+			background-color: #444444;
+		}
+		.white_font {
+			color: #CDCDCD;
+		}
+		.text_padding {
+			padding-left: 15px;
+			padding-top: 15px;
+		}
+		.rounded_corners {
+			border-radius: 5px;
+		}
+	</style>
+</head>
+<body>
+	<div class="main_grid_block white_font">
+		<div class="black_back text_padding rounded_corners" style = "grid-area: Header;">My header</div>
+		<div class="black_back text_padding rounded_corners" style = "grid-area: A;">Panel A</div>
+		<div class="black_back text_padding rounded_corners" style = "grid-area: B;">Panel B</div>
+		<div class="black_back text_padding rounded_corners" style = "grid-area: C;">Panel C</div>
+		<div class="black_back text_padding rounded_corners" style = "grid-area: D;">Panel D</div>
+		<div class="black_back text_padding rounded_corners" style = "grid-area: E;">Panel E</div>
+		<div class="black_back text_padding rounded_corners" style = "grid-area: F;">Panel F</div>
+		<div class="black_back text_padding rounded_corners" style = "grid-area: G;">Panel G</div>
+		<div class="black_back text_padding rounded_corners" style = "grid-area: H;">Panel H</div>
+		<div class="black_back text_padding rounded_corners" style = "grid-area: I;">Panel I</div>
+		<div class="black_back text_padding rounded_corners" style = "grid-area: J">Panel J</div>
+		<div class="black_back text_padding rounded_corners" style = "grid-area: Footer">My footer</div>
+	</div>
+</body>
+</html>

@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>5</title>
+	<style>
+		.slide_show {
+			margin-top: 10px;
+			position: relative;
+			height: 500px;
+		}
+
+		.slide_show .slide {
+			display: none;
+			animation: reveal .5s ease-in-out;
+			position: absolute;
+			left: 50%;
+			transform: translateX(-50%);
+			width: 500px;
+			height: 500px;
+		}
+
+		.settings {
+			margin-top: 10px;
+			width: 100%;
+			text-align: center;
+		}
+
+		.slide_show .slide.active {
+			display: block;
+		}
+
+		img {
+			width: 100%;
+			height: 100%;
+		}
+
+		@keyframes reveal{
+			from{
+			opacity: 0;
+			}
+			to{
+			opacity: 1;
+			}
+		}
+	</style>
+</head>
+<body>
+
+	<div id="slide_show" class="slide_show">
+		<div class="slide active"><img src="https://image.winudf.com/v2/image/Y29tLkRyZWFtV2FsbHBhcGVycy5Cb29rMDFfc2NyZWVuc2hvdHNfMF9mNzdhNGRiNw/screen-0.jpg?fakeurl=1&type=.jpg"></div>
+		<div class="slide"><img src="https://wallpapercave.com/wp/wp3903755.jpg"></div>
+	    <div class="slide"><img src="https://cdn.wallpapersafari.com/52/40/U0A48u.jpg"></div>
+	</div>
+	<div class="settings">
+    	<label>Ширина у пікселях:</label>
+    	<input type="text" name="width" id = "width">
+    	<label>Висота у пікселях:</label>
+		<input type="text" name="height" id = "height">
+		<label>Час перемикання у секундах:</label>
+		<input type="text" name="loop" id = "loop">
+		<label>Крок (може бути від'ємним)</label>
+		<input type="text" name="step" id = "step">
+		<input type="button" id = "apply" name="apply" value="Застосувати">
+	</div>
+	<script>
+		// initialization
+		let slide_show = document.getElementById('slide_show');
+		let slides = slide_show.getElementsByTagName('div');
+		let current_item = 0;
+		let timer = setInterval(()=>runSlideShow(1, false), 1000);
+
+		// default settings
+		document.getElementById('width').value = 500;
+		document.getElementById('height').value = 500;
+		document.getElementById('loop').value = 1;
+		document.getElementById('step').value = 1;
+
+		let runSlideShow = function(step, stop, new_interaval = 0) {
+		  let cur_index = current_item + step;
+		  
+		  if(stop) {
+		  	clearInterval(timer);
+		  	if (new_interaval > 0) {
+		  		timer = setInterval(()=>runSlideShow(step, false), new_interaval);
+		  		return;
+		  	}
+		  }
+
+		  console.log(cur_index);
+
+		  if (cur_index >= slides.length) {
+		  	cur_index %= slides.length;
+		  }
+
+  		  if (cur_index < 0 && cur_index <= (-1)*slides.length) {
+		  	while(cur_index < 0) {
+		  		cur_index += slides.length;
+		  	}
+  		  }
+
+  		  let active_index = cur_index;
+
+  		  if (cur_index < 0) {
+  		  	active_index = slides.length + cur_index;
+  		  }
+
+		  current_item = cur_index;
+		  for (let i = 0; i < slides.length; i++) {
+		    slides[i].classList.remove('active');
+		  }
+		  console.log(active_index);
+		  slides[active_index].classList.add('active');			 
+		};
+
+		let validate = function() {
+			let validUInt = /^[0-9]+$/;
+			let validInt = /^-?[0-9]+$/;
+			let validFloat = /^[0-9]+(\.[0-9]+)?$/;
+			let correct = true;
+			if(!document.getElementById('width').value.match(validUInt)) {
+				alert("Ширина введена неправильно");
+				correct = false;
+			}
+			if(!document.getElementById('height').value.match(validUInt)) {
+				alert("Висота введена неправильно");
+				correct = false;
+			}
+			if(!document.getElementById('loop').value.match(validFloat)) {
+				alert("Час введений неправильно");
+				correct = false;
+			}
+			if(!document.getElementById('step').value.match(validInt)) {
+				alert("Крок введений неправильно");
+				correct = false;
+			}
+			return correct;
+		}
+
+		document.getElementById('apply').onclick = function() {
+			if (!validate()) return;
+			new_width = document.getElementById('width').value;
+			new_height = document.getElementById('height').value;
+			new_loop = Math.round(parseFloat(document.getElementById('loop').value) * 1000);
+			new_step = parseInt(document.getElementById('step').value);
+			for (let i = 0; i < slides.length; i++) {
+		    	slides[i].style.width = new_width + 'px';
+		    	slides[i].style.height = new_height + 'px';
+		  	}
+		  	slide_show.style.height = new_height + 'px';
+			runSlideShow(new_step, true, new_loop);
+		}
+	</script>
+</body>
+</html>

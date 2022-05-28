@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+	<style type="text/css">
+		body {
+			display: flex;
+		}
+		.grid_container {
+			margin-left: 100px;
+			margin-right: 100px;
+			margin-top: 5px;
+			padding: 0;
+			display: grid;
+			grid-column-gap: 40px;
+			
+			/*grid-template-areas: ". . . ."
+								 ". . . ."
+								 ". . . ."
+								 ". . . ."
+								 ". . . ."
+								 ". . . ."
+								 ". . . ."
+								 ". . . ."
+								 ". . . .";*/
+		}
+		.first_grid_container {
+			grid-template-columns: repeat(4, 80px);
+			grid-template-rows: repeat(9, 15px);
+			grid-template-areas: ". d d d"
+								 ". . . ."
+								 ". . . ."
+								 ". . . ."
+								 "b b . a"
+								 ". . . ."
+								 ". . . ."
+								 ". . . ."
+								 "c c c e";
+		}
+		.second_grid_container {
+			grid-template-columns: repeat(4, 80px);
+			grid-template-rows: repeat(10, 15px);
+			grid-template-areas: "b d d a"
+								 "b . . a"
+								 "b . . a"
+								 "b . . a"
+								 "b . . a"
+								 "b c . ."
+								 "b c . ."
+								 "b c . ."
+								 "b c . ."
+								 "b c . e";
+		}
+		.grid_item {
+			background-color: #F7A11D;
+			font-weight: bold;
+		}
+	</style>
+</head>
+<body>
+	<div class = "grid_container first_grid_container">
+		<div class = "grid_item" style = "grid-area: a;">1</div>
+		<div class = "grid_item" style = "grid-area: b;">2</div>
+		<div class = "grid_item" style = "grid-area: c;">3</div>
+		<div class = "grid_item" style = "grid-area: d;">4</div>
+		<div class = "grid_item" style = "grid-area: e;">5</div>
+	</div>
+	<div class = "grid_container second_grid_container" style = "margin-left: 300px;">
+		<div class = "grid_item" style = "grid-area: a;">1</div>
+		<div class = "grid_item" style = "grid-area: b;">2</div>
+		<div class = "grid_item" style = "grid-area: c;">3</div>
+		<div class = "grid_item" style = "grid-area: d;">4</div>
+		<div class = "grid_item" style = "grid-area: e;">5</div>
+	</div>
+</body>
+</html>

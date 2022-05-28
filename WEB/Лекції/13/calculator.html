@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+</head>
+<body>
+	<h3 style="text-align: center;">
+		You can perform +,-,*,^ operations on non-negative real numbers.
+	</h3>
+	<div style="display: flex; width: 250px; margin: auto;">
+	<input type="text" id = "line_edit"> 
+	<button type="button" id = "equal_button">=</button>
+	</div>
+
+	<script>
+		document.getElementById('equal_button').onclick = function() {
+				let line_edit = document.getElementById('line_edit');
+				let text = line_edit.value;
+				let reg_exp = /\s*(\d+\.*\d*)\s*(\D)\s*(\d+\.*\d*)/;
+				let arr = text.match(reg_exp);
+				if (arr && arr.length == 4) {
+					let left = parseFloat(arr[1]);
+					let right = parseFloat(arr[3]);
+					let res = 0.0;
+					if (arr[2] == '+') {
+						line_edit.value = left + right;
+					}
+					else if (arr[2] == '-') {
+						line_edit.value = left - right;
+					}
+					else if (arr[2] == '*') {
+						line_edit.value = left * right;
+					}
+					else if (arr[2] == '/') {
+						line_edit.value = left / right;
+					}
+					else if (arr[2] == '^') {
+						line_edit.value = Math.pow(left,right);
+					}
+					else {
+						line_edit.value = "Invalid operation";	
+					}
+				}
+				else {
+					line_edit.value = "Invalid input";
+				}
+				if (!document.getElementById('clear_buton')) {
+					let clear_buton = document.createElement("button");
+					clear_buton.type = "button";
+					clear_buton.id = "clear_buton";
+					clear_buton.innerHTML = "Clear";
+					line_edit.parentNode.appendChild(clear_buton);
+					document.getElementById('clear_buton').onclick = function() {
+						document.getElementById('line_edit').value = "";
+						document.getElementById('clear_buton').remove();
+					};
+				}
+		};
+	</script>
+</body>
+</html>

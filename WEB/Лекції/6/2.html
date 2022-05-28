@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+	<style type="text/css">
+		body {
+			margin: 0;
+		}
+		.header_footer {
+			margin: 0;
+			background-color: #6E1704;
+			color: #F7F6F8;
+			padding-left: 5px;
+			padding-top: 5px;
+			min-height: 100px;
+		}
+		header {
+			top: 0px;	
+		}
+		footer {
+			bottom: 0px;	
+		}
+		.main {
+			display: flex;
+			padding: 0px;
+			color: #06000A;
+			min-height: 511px;
+			margin: 0;
+		}
+		.left_right {
+			background-color: #E3674B;
+			flex: 1;
+		}
+		.content {
+			background-color: #DC3510;
+			flex: 5;
+		}
+
+	</style>
+</head>
+<body>
+	<header class = "header_footer">
+		header
+	</header>
+	<div class = "main">
+		<div class="left_right">left</div>
+		<div class="content">content</div>
+		<div class="left_right">right</div>
+	</div>
+	<footer class = "header_footer">
+		footer
+	</footer>
+</body>
+</html>

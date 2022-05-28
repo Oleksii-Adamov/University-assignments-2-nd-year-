@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+	<style type="text/css">
+		.main_block {
+			display: flex;
+			max-width: 1600px;
+			flex-wrap: wrap;
+			border-style: solid;
+		}
+		.base_rectangle {
+			min-width: 250px;
+			min-height: 80px;
+			margin: 2px;
+		}
+		.standart_rectangle {
+			flex-grow: 1;
+		}
+		.wider_rectangle {
+			flex-grow: 1.2;
+		}
+		.blue_rectangle {
+			background: #10F7F9;
+		}
+		.yellow_rectangle {
+			background: #F9CE10;
+		}
+		.pink_rectangle {
+			background: #D427D8;
+		}
+	</style>
+</head>
+<body>
+	<div class = "main_block">
+		<div class="base_rectangle blue_rectangle standart_rectangle"></div>
+		<div class="base_rectangle blue_rectangle wider_rectangle"></div>
+		<div class="base_rectangle blue_rectangle standart_rectangle"></div>
+		<div class="base_rectangle yellow_rectangle wider_rectangle"></div>
+		<div class="base_rectangle yellow_rectangle standart_rectangle"></div>
+		<div class="base_rectangle yellow_rectangle wider_rectangle"></div>
+		<div class="base_rectangle pink_rectangle standart_rectangle"></div>
+		<div class="base_rectangle pink_rectangle wider_rectangle"></div>
+	</div>
+</body>
+</html>

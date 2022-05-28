@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+	
+</head>
+<body>
+	<script>
+		let f = function(array) {
+			let product = array.reduce(function(prev,cur,index,array) { return prev * cur;});
+			console.log(product);
+		};
+		f([0,1,2,6,1,-1,2,5,-3,-2]);
+		f([1,2,-3,2]);
+	</script>
+</body>
+</html>

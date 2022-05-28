@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+</head>
+<body>
+	<script>
+		let gallery = {gallery: [{name: 'Bird', src: 'img/bird.jpg', date: '12.01.2003'}, {name: '', src: 'img/none.jpg', date: '01.02.1999'}, {name: 'Tiger', src: 'img/tiger.jpg', date: '23.05.2022'}]};
+		let fulljson = JSON.stringify(gallery);
+		console.log(fulljson);
+
+		for (let i = 0; i < gallery.gallery.length; i++) {
+			gallery.gallery[i].toJSON = function() {
+				return {name : this.name};
+			};
+		}
+		let only_names_json = JSON.stringify(gallery);
+		console.log(only_names_json);
+
+		for (let i = 0; i < gallery.gallery.length; i++) {
+			gallery.gallery[i].toJSON = function() {
+				if (this.name != "") {
+					return this;
+				}
+			};
+		}
+		let non_empty_names_json = JSON.stringify(gallery);
+		console.log(non_empty_names_json);
+		let date_parsing = function(key, value) {
+			if (key == 'date') {
+				return Date(value);
+			}
+			else {
+				return value;
+			}
+		}
+		let full_from_json = JSON.parse(fulljson, date_parsing);
+		console.log(full_from_json);
+		let only_names_from_json = JSON.parse(only_names_json, date_parsing);
+		console.log(only_names_from_json);
+		let non_empty_names_from_json = JSON.parse(non_empty_names_json, date_parsing);
+		console.log(non_empty_names_from_json);
+	</script>
+</body>
+</html>

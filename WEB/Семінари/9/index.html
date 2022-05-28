@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Document</title>
+		<style type="text/css">
+		table {
+			background-color: #86d9d6;
+			width: 700px;
+			border-spacing: 3px;
+    		border-collapse: separate;
+		}
+		td {
+			border: 1px solid black;
+		}
+	</style>
+	</head>
+	<body>
+		<form>
+			<table>
+				<tr>
+					<td><div style="text-align: center; font-size: large;">Замовлення на придбання товару</div></td>
+				</tr>
+				<tr>
+					<td>
+						<div>Назва товару</div>
+						<select name="product" id="product">
+							<option value="10.5">Книга Гаррі Поттер і філософський камінь - 10.5</option>
+							<option value="12.5">Книга Гаррі Поттер і таємна кімната - 12.5</option>
+							<option value="14.5">Книга Гаррі Поттер і келих вогню - 14.5</option>
+							<option value="16.5">Книга Гаррі Поттер i в’язень Азкабану - 16.5</option>
+							<option value="18.5">Книга Гаррі Поттер і Напівкровний Принц - 18.5</option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label>Кількість:</label>
+						<input type="text" name="qty" id="qty">
+						<label>Вартість:</label>
+						<input type="text" name="sum" id="sum">
+					</td>
+				</tr>
+				<tr>
+					<td>
+					<div>Спосіб доставки замовлення</div>
+						<input type="radio" value="1" name="shipping">
+						<label>Поштою</label><br>
+						<input type="radio" value="2" name="shipping">
+						<label>Доставка додому</label><br>
+						<input type="checkbox" name="wrap" id="wrap">
+						<label>У св'ятковій упаковці</label>
+					</td>
+				</tr>
+				<tr>
+					<td style="text-align: right;">
+						<label>Загальна вартість замовлення</label>
+						<input type="text" name="total" id="total">
+						<button type="button" id = "summarize_button">Підрахувати</button>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<div>Дані замовника</div>
+						<label>Ім'я:</label>
+						  <input type="text" name="name" id="name">
+						<label>Адреса:</label>
+						  <input type="text" name="address" id="address">
+					</td>
+				</tr>
+				<tr>
+					<td style="text-align: right;">
+						<button type="reset" id = "reset_button">Відновити початкові значення полів</button>
+						<button type="button" id = "submit_button">Відіслати дані</button>
+					</td>
+				</tr>
+			</table>
+			<table id="details" style="display: none; margin-top: 15px;">
+				<tr><td>Ім'я</td><td id="det_name"></td></tr>
+				<tr><td>Адреса</td><td id="det_addr"></td></tr>
+				<tr><td>Товар</td><td id="det_prod"></td></tr>
+				<tr><td>Вартість</td><td id="det_sum"></td></tr>
+				<tr><td>Доставка та упаковка</td><td id="det_ship"></td></tr>
+				<tr><td>Загальна сума</td><td id="det_total"></td></tr>
+			</table>
+		</form>
+		<script>
+
+			let update_sum = function() {
+				let price = parseFloat(document.getElementById('product').value);
+				let qty = parseFloat(document.getElementById('qty').value);
+				document.getElementById('sum').value = price * qty;
+			};
+
+			document.getElementById('product').onchange = update_sum;
+
+			document.getElementById('qty').oninput = update_sum;
+
+			let summarize = function() {
+				let shipping_post = 0.05;
+				let shipping_home = 0.15;
+				let wrap_cost =  0.1;
+				let sum = document.getElementById('sum').value;
+				let shipping = document.querySelector('input[name="shipping"]:checked');
+				let multi = 1;
+
+				if(shipping) {
+					 if(shipping.value == 1) {
+						multi += shipping_post;
+					 } 
+					 else if(shipping.value == 2) {
+						multi += shipping_home;
+				 	 }
+				}
+
+ 				if(document.getElementById('wrap').checked) {
+					multi += wrap_cost;
+				}
+
+				let total = sum * multi;	
+				document.getElementById('total').value = total.toFixed(2);
+			};
+
+			document.getElementById('summarize_button').onclick = summarize;
+
+			document.getElementById('reset_button').onclick = function() {
+				document.getElementById('det_name').innerHtml="";
+				document.getElementById('det_addr').innerHtml="";
+				document.getElementById('det_prod').innerHtml="";
+				document.getElementById('det_sum').innerHtml="";
+				document.getElementById('det_ship').innerHtml="";
+				document.getElementById('det_total').innerHtml="";
+				document.getElementById('details').style.display = 'none';
+			}
+
+			let validate = function() {
+				let validCount = /[0-9]+/;
+				let correct = true;
+				let qty_field = document.getElementById('qty').value;
+				let mtch = qty_field.match(validCount);
+				if (!mtch || mtch[0].length != qty_field.length) {
+					alert("Кількість введена неправильно");
+					correct = false;
+				}
+				if (document.getElementById('name').value == '') {
+					alert("Ім'я не введено");
+					correct = false;
+				}
+				if (document.getElementById('address').value == '') {
+					alert("Адреса не введена");
+					correct = false;
+				}
+				if (!document.querySelector('input[name="shipping"]:checked')) {
+					alert("Спосіб доставки не вибрано");
+					correct = false;
+				}
+				return correct;
+			}
+			
+			document.getElementById('submit_button').onclick =  function() {
+				if (!validate()) {
+					document.getElementById('details').style.display = 'none';
+					return;
+				}
+
+				summarize();
+
+				let prod = document.getElementById('product');
+				let ship_sum = parseFloat(document.getElementById('total').value) - parseFloat(document.getElementById('sum').value);
+
+				document.getElementById('det_name').innerText=document.getElementById('name').value;
+				document.getElementById('det_addr').innerText=document.getElementById('address').value;
+				document.getElementById('det_prod').innerText=prod.options[prod.selectedIndex].innerHTML;
+				document.getElementById('det_sum').innerText=document.getElementById('sum').value;
+				document.getElementById('det_ship').innerText= ship_sum.toFixed(2);
+				document.getElementById('det_total').innerText=document.getElementById('total').value;
+			    document.getElementById('details').style.display = 'block';
+			}
+		</script>
+	</body>
+</html>

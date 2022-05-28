@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Fira+Sans+Condensed:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+	<style type="text/css">
+		body {
+			margin: 0;
+		}
+		.main_grid_block {
+			margin: auto;
+			display: grid;
+			grid-template-columns: 207px auto;
+			grid-template-rows: 40px auto;
+			width: 635px;
+			position: relative;
+		}
+		.black_horizontal_bar {
+			grid-row: 1;
+			grid-column-start: 1;
+			grid-column-end: 3;
+			background-color: #000000;
+		}
+		.left_column {
+			padding-top: 40px;
+			padding-bottom: 120px;
+			display: flex;
+			flex-direction: column;
+			align-items: flex-end;
+			background-color: #9196B5;
+		}
+		.left_col_img {
+			margin-bottom: 10px;
+			width: 163px;
+		}
+		.second_third_left_col_img {
+			height: 145px;
+		}
+		.top_left_col_img {
+			width: 75px;
+			box-shadow: 5px 6px 8px #000000;
+			margin-right: 50px;
+			margin-bottom: 55px;
+			height: 130px;
+		}
+		.last_two_left_col_img {
+			height: 110px;
+		}
+		.right_column {
+			padding-top: 40px;
+			padding-bottom: 30px;
+			padding-left: 25px;
+			padding-right: 40px;
+			font-size: x-small;
+			font-family: 'Fira Sans Condensed', sans-serif;
+			letter-spacing: 0.001px;
+			font-weight: 500;
+			text-align: justify;
+			hyphens: auto;
+			background-color: #C0C4E1;
+		}
+		.right_col_img {
+			margin-top: 40px;
+			height: 190px;
+			width: 100%;
+		}
+		.right_column_grid {
+			display: grid;
+			grid-template-columns: 1fr 1fr;
+			grid-template-rows: auto;
+			margin-top: 5px;
+			column-gap: 15px;
+		}
+		h4 {
+			margin-top: 5px;
+			margin-bottom: 0;
+		}
+		p {
+			margin-top: 5px;
+		}
+		.yellow_background {
+			background: #FFF200;
+		}
+		.list_item {
+			display: flex;
+			margin-top: 4px;
+		}
+		.list_item::before {
+			content: '';
+			display: block;
+			background: #000000;
+			width: 6px;
+			height: 8px;
+			clip-path: polygon(0 50%, 50% 0, 100% 50%, 50% 100%);;
+			margin-top: 2px;
+			margin-right: 3px;
+			align-self: top;
+			flex-shrink: 0;
+		}		
+		.transperent_bar {
+			position: absolute;
+			left: 0;
+			right: 0;
+			background: #000000;
+			opacity: 0.2;
+			padding: 0;
+		}
+		.top_transperent_bar {
+			top: 40px;
+			height: 100px;
+			clip-path: polygon(0 0, 0 100%, 100% 75%, 100% 0);
+		}
+		.bottom_transperent_bar {
+			bottom: 0;
+			height: 85px;
+			clip-path: polygon(0 25%, 0 100%, 100% 100%, 100% 0);
+		}
+	</style>
+</head>
+<body>
+	<div class = "main_grid_block">
+		<div class="transperent_bar top_transperent_bar"></div>
+		<div class="transperent_bar bottom_transperent_bar"></div>
+		<div class="black_horizontal_bar"></div>
+		<div class = "left_column">
+					<img src = "https://media.gettyimages.com/photos/stack-of-books-picture-id157482029?s=612x612" class = "left_col_img top_left_col_img">
+					<img src = "https://cdn.pixabay.com/photo/2015/11/19/21/10/glasses-1052010__340.jpg" class = "left_col_img second_third_left_col_img">
+					<img src = "https://cdn.britannica.com/55/142355-131-EFF621AF/books-Stack-literature-pile-reading-entertainment-society-2010.jpg" class="left_col_img second_third_left_col_img">
+					<img src = "https://naurok-test2.nyc3.digitaloceanspaces.com/502179/images/336265_1648013828.jpg" class = "left_col_img last_two_left_col_img">
+					<img src = "https://hips.hearstapps.com/hmg-prod/images/old-books-arranged-on-shelf-royalty-free-image-1572384534.jpg" class = "left_col_img last_two_left_col_img">
+		</div>
+		<div class="right_column">
+			<div>
+				Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec suscipit mauris quis sodales elementum. Nunc nec lobortis lacus. Suspendisse ullamcorper sapien tortor, sit amet venenatis arcu tempor ac. Aenean et eros velit. Proin id lacinia purus. Donec tempus ultricies nisi sit amet pellentesque. Praesent eu sodales nulla, a suscipit ex. Etiam placerat ultricies turpis a facilisis. Fusce id massa ut ex interdum tempus non.
+			</div>
+			<img src = "https://wallpaperaccess.com/full/2890760.jpg" class = "right_col_img">
+			<div class = "right_column_grid">
+				<div>
+					<h4>Aliquam &laquoLacus&raquo</h4>
+					<p>
+						Ut vestibulum годара blandit tempus. Aenean malesuada tincidunt velit at pharetra. Etiam lobortis luctus est, vitae sagittis leo bibendum ac. Mauris risus sapien, imperdiet faucibus egestas ut, aliquam in enim. Cras mi orci, gravida vitae leo vitae, molestie congue purus. Mauris quis consequat massa, eget.
+					</p>
+					<h4>Integer volutpat leo nulla, vitae fringilla nisi luctus et</h4>
+					<p>
+						Nulla tempus, metus eget molestie aliquam, nisl sapien venenatis sapien, vitae maximus nunc dolor non dolor. Nunc dapibus iaculis scelerisque. Aenean et diam at odio tempus molestie non quis ex. Sed porttitor erat eros, eget semper ex maximus ac. Sed mollis placerat tincidunt. Nam ac imperdiet eros, dictum.
+					</p>
+					<h4>Suspendisse dignissim</h4>
+					<p>
+						Diam eget felis ultrices, ac accumsan ipsum mattis. Quisque luctus dui ac elit vehicula, sed elementum nisl sagittis. Mauris in justo ac diam rutrum placerat. Sed vel bibendum ante. Aliquam erat volutpat. Integer pellentesque tortor neque.
+					</p>
+					<h4>Curabitur malesuada volutpat</h4>
+					<p>
+						Mauris finibus lorem enim, congue vehicula dui posuere ac. Pellentesque nibh nunc, gravida mollis pretium vel, ornare id odio. In tincidunt et arcu non rhoncus.
+					</p>
+					<h4>Nulla posuere, nibh sed pellentesque rutrum</h4>
+					<p>
+						Augue neque consequat eros, non dignissim quam augue eget nulla. Ut sit amet pulvinar nibh. Sed hendrerit lectus no. 
+						<span class = "yellow_background">&laquoAugue tempus, ultrices nisi&raquo</span>, finibus  mauris mattis venenatis. Quisque tempus ultrices diam, non blandit dolor pretium id. Quis ex sit amet justo convallis.
+					</p>
+				</div>
+				<div>
+					<h4>Donec tempor nulla eros, ac cursus elit blandit</h4>
+					<p>
+						Pellentesque placerat nulla et nisl malesuada, ac consectetur turpis aliquet. Nam commodo mauris nec tempor ullamcorper. Donec consectetur ante massa, a interdum nulla molestie vel. Integer nec velit felis. Aliquam luctus nisl sit amet lorem varius pharetra. Duis nec. 
+					</p>
+					<h4>Duis condimentum:</h4>
+					<div class = "list_item">Nunc vel velit tempus, ac pulvinar</div>
+					<div class = "list_item">Class aptent taciti sociosqu ad litora torquent.</div>
+					<div class = "list_item">Vivamus lacinia quam odio, sed consequat.</div>
+					<div class = "list_item">Donec efficitur neque eu tempus sodales. Maecenas tristique.</div>
+					<div class = "list_item">Nunc nec sapien diam. Cras ornare magna ac ante lobortis, eu lobortis velit rutrum.</div>
+					<div class = "list_item">Nulla vel varius sem, ut sagittis quam. Morbi auctor, erat non.</div>
+					<div class = "list_item">In sed sem a arcu bibendum pellentesque vel sagittis ex. Suspendisse.</div>
+					<div class = "list_item">Nunc facilisis tortor quam, vel blandit lacus sagittis quis.</div>
+					<div class = "list_item">Morbi finibus tellus eu ultrices ornare. Vivamus dapibus.</div>
+					<div class = "list_item">Vestibulum ante ipsum primis in faucibus orci.</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

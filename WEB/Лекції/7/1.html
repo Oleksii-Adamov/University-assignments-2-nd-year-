@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+	<style type="text/css">
+		.block {
+			margin: 10px;
+			padding: 5px;
+			border-style: solid;
+			border-color: #DC3510;
+			display: flex;
+		}
+		.base_rectangle {
+			display: flex;
+  			justify-content: center;
+  			align-items: center;
+  			margin: 5px;
+		}
+		.rectangle_1 {
+			font-weight: bold;
+			font-size: larger;
+			background: #EAB127;
+		}
+		.rectangle_2 {
+			font-weight: bold;
+			font-size: large;
+			background: #2752EA;
+		}
+		.rectangle_3 {
+			font-weight: bold;
+			font-size: medium;
+			background: #077738;
+		}
+		.rectangle_4 {
+			font-size: small;
+			background: #F1F807;
+		}
+	</style>
+</head>
+<body>
+	<div class = "block" style = "height: 200px; align-items: center; justify-content: center;">
+		<div class="base_rectangle rectangle_1" style = "height: 150px; width: 30px">1</div>
+		<div class="base_rectangle rectangle_2" style = "height: 130px; width: 30px">2</div>
+		<div class="base_rectangle rectangle_3" style = "height: 120px; width: 30px">3</div>
+		<div class="base_rectangle rectangle_4" style = "height: 100px; width: 30px">4</div>
+	</div>
+	<div class = "block" style = "height: 400px; align-items: flex-end; justify-content: flex-end; flex-direction: column-reverse;">
+		<div class="base_rectangle rectangle_1" style = "height: 120px; width: 20px">1</div>
+		<div class="base_rectangle rectangle_2" style = "height: 100px; width: 20px">2</div>
+		<div class="base_rectangle rectangle_3" style = "height: 90px; width: 20px">3</div>
+		<div class="base_rectangle rectangle_4" style = "height: 40px; width: 20px">4</div>
+	</div>
+</body>
+</html>

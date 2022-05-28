@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+</head>
+<body>
+	<script>
+		let quarter = function(x, y, name) {
+			if (x < 0 && y > 0) {
+				console.log(name + " у першій чверті");
+			}
+			if (x > 0 && y > 0) {
+				console.log(name + " у другій чверті");
+			}
+			if (x > 0 && y < 0) {
+				console.log(name + " у третій чверті");
+			}
+			if (x < 0 && y < 0) {
+				console.log(name + " у четверій чверті");
+			}
+			if (x == 0 || y == 0) {
+				console.log(name + " одна з кординат дорівнює нулю");
+			}
+		}
+		let dist = function(x1,y1,x2,y2) {
+			if (x1 * x2 > 0 && y1 * y2 > 0) {
+				console.log(Math.sqrt((x1-x2)*(x1-x2) + (y1-y2)*(y1-y2)));
+			}
+			else {
+				quarter(x1,y1,"Перша точка");
+				quarter(x2,y2,"Друга точка");
+			}
+		};
+		dist(1,1,2,2);
+		dist(-2,-2,-1,-1);
+		dist(3,-3,3,-2);
+		dist(-4,4,-4,3);
+		dist(-1,1,2,2);
+		dist(1,-1,2,2);
+		dist(-1,-1,2,2);
+		dist(0,-1,1,2);
+	</script>
+</body>
+</html>

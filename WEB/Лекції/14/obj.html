@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+</head>
+<body>
+	<script>
+		let add_key = function(obj, key, value) {
+			if (!(key in obj)) {
+				obj[key] = value;
+			}
+		}
+		let obj = {};
+		add_key(obj,'name','Oleksii');
+		console.log(obj);
+		add_key(obj,'age',19);
+		console.log(obj);
+		add_key(obj,'age',20);
+		console.log(obj);
+		for (let key in obj) {
+			console.log("Ключ: " + key + ", значення: " + obj[key]);
+		}
+		for (const [key, value] of Object.entries(obj)) {
+ 			console.log("Ключ: " + key + ", значення: " + obj[key]);
+		}
+	</script>
+</body>
+</html>

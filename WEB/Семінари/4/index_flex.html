@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+	<style type="text/css">
+		.horizontal_flexbox {
+			display: flex;
+			justify-content: space-between;
+			padding: 5px;
+		}
+		.vertical_padding {
+			padding-top: 10px;
+			padding-bottom: 10px;
+		}
+		.left_block_grid {
+			display: grid;
+			grid-template-rows: 1fr 1fr;
+			grid-template-columns: 1fr;
+		}
+		img {
+			border: 3px solid /*#DDDBDE*/white;
+			max-width: 100%;
+			/*max-height: 100%;*/
+			/*height:100%;*/
+		}
+		.small_img {
+			/*height: 40px;*/
+		}
+		figure, div {
+			margin: 0;
+		}
+		figcaption {
+			/*position: relative;*/
+		}
+		.vertical_flexbox {
+			display: flex;
+			flex-direction: column;
+			justify-content: space-between;
+		}
+		.circles_back1 {
+			background-image: url(https://i2.wp.com/files.123freevectors.com/wp-content/original/201630-abstract-purple-green-and-yellow-circle-background.jpg?w=800&q=95);
+		}
+		.circles_back2 {
+			background-image: url(https://i2.wp.com/files.123freevectors.com/wp-content/original/201618-abstract-red-and-yellow-circle-background.jpg?w=800&q=95);
+		}
+		.circles_back3 {
+			background-image: url(https://i2.wp.com/files.123freevectors.com/wp-content/original/201585-dark-blue-circle-background.jpg?w=800&q=95);
+		}
+		body {
+			/*position: relative;*/
+		}
+		.content_block {
+			width: 38%;
+			height: /*520px*/500px;
+			/*height: 69%;*/
+			z-index: -2;
+			color: white;
+			font-size: x-small;
+			line-height: 0.8em;
+			text-align: center;
+			padding-left: 5px;
+			padding-right: 5px;
+			padding-bottom: 10px;
+			padding-top: 10px;
+		}
+		.left_block {
+			position: absolute;
+			top: 5px;
+			left: 5px;
+			background-image: url(https://i2.wp.com/files.123freevectors.com/wp-content/original/201630-abstract-purple-green-and-yellow-circle-background.jpg?w=800&q=95);
+		}
+		.middle_block {
+			position: absolute;
+			top: /*22%*/200px;
+			left: 50%;
+  			margin-left: -19%;
+  			z-index: -1;
+  			background-image: url(https://i2.wp.com/files.123freevectors.com/wp-content/original/201618-abstract-red-and-yellow-circle-background.jpg?w=800&q=95);
+		}
+		.right_block {
+			position: absolute;
+			top: 5px;
+			right: 5px;
+			background-image: url(https://i2.wp.com/files.123freevectors.com/wp-content/original/201585-dark-blue-circle-background.jpg?w=800&q=95);
+		}
+		.gray_back {
+			background-color: #E0E0E0;
+		}
+	</style>
+</head>
+<body>
+	<div class="content_block left_block horizontal_flexbox" style="/*gap: 15px*/gap: 5%;">
+		<div class="vertical_flexbox" style="flex: 3; gap: 5px">
+			<figure style="flex: 1;">
+				<img src = "https://media.istockphoto.com/vectors/rockets-and-astronauts-in-space-vector-id1255355313?b=1&k=20&m=1255355313&s=612x612&w=0&h=cxt6XfNeujtdTvgpWEnpgHXviKBeFdhsQD9xE-o1cA4=">
+				<figcaption>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</figcaption>
+			</figure>
+			<div class="vertical_flexbox"  style="flex: 1;">
+				<div class="gray_back" style="flex: 1;"></div>
+				<div style="flex: 10;"></div>
+			</div>
+		</div>
+		<div class="horizontal_flexbox" style="flex: 1; gap: /*8%*/10px;margin-bottom: /*200px;*/15%">
+			<div class="vertical_flexbox" style="flex: 1; justify-content: flex-start; gap: 10px;">
+				<figure style="/*height: 60px;*/">
+				<div><img src = "https://media.istockphoto.com/vectors/flying-cartoon-rocket-in-flat-style-isolated-on-blue-background-vector-id681125144?b=1&k=20&m=681125144&s=612x612&w=0&h=HuAyC6qrPy3i-C16ZLeAKlUZJJbj5GOyacYI3kwk2ho="></div>
+				<figcaption>6.00 am</figcaption>
+				</figure>
+				<figure style="/*height: 60px;*/">
+				<div><img src = "https://media.istockphoto.com/vectors/flying-cartoon-rocket-in-flat-style-isolated-on-blue-background-vector-id681125144?b=1&k=20&m=681125144&s=612x612&w=0&h=HuAyC6qrPy3i-C16ZLeAKlUZJJbj5GOyacYI3kwk2ho="></div>
+				<figcaption>6.00 am</figcaption>
+				</figure>
+				<figure style="/*height: 60px;*/">
+				<div><img src = "https://media.istockphoto.com/vectors/flying-cartoon-rocket-in-flat-style-isolated-on-blue-background-vector-id681125144?b=1&k=20&m=681125144&s=612x612&w=0&h=HuAyC6qrPy3i-C16ZLeAKlUZJJbj5GOyacYI3kwk2ho="></div>
+				<figcaption>6.00 am</figcaption>
+				</figure>
+				<figure style="/*height: 60px;*/">
+				<div><img src = "https://media.istockphoto.com/vectors/flying-cartoon-rocket-in-flat-style-isolated-on-blue-background-vector-id681125144?b=1&k=20&m=681125144&s=612x612&w=0&h=HuAyC6qrPy3i-C16ZLeAKlUZJJbj5GOyacYI3kwk2ho="></div>
+				<figcaption>6.00 am</figcaption>
+				</figure>
+				<figure style="/*height: 60px;*/">
+				<div><img src = "https://media.istockphoto.com/vectors/flying-cartoon-rocket-in-flat-style-isolated-on-blue-background-vector-id681125144?b=1&k=20&m=681125144&s=612x612&w=0&h=HuAyC6qrPy3i-C16ZLeAKlUZJJbj5GOyacYI3kwk2ho="></div>
+				<figcaption>6.00 am</figcaption>
+				</figure>
+			
+			</div>
+			<div class="vertical_flexbox" style="flex: 1; justify-content: flex-start;">
+				<figure style="flex: 1; display: inline-block;">
+				<img src = "https://media.istockphoto.com/vectors/flying-cartoon-rocket-in-flat-style-isolated-on-blue-background-vector-id681125144?b=1&k=20&m=681125144&s=612x612&w=0&h=HuAyC6qrPy3i-C16ZLeAKlUZJJbj5GOyacYI3kwk2ho=">
+				<figcaption>6.00 am</figcaption>
+				</figure>
+				<figure style="flex: 1; display: inline-block;">
+				<img src = "https://media.istockphoto.com/vectors/flying-cartoon-rocket-in-flat-style-isolated-on-blue-background-vector-id681125144?b=1&k=20&m=681125144&s=612x612&w=0&h=HuAyC6qrPy3i-C16ZLeAKlUZJJbj5GOyacYI3kwk2ho=">
+				<figcaption>6.00 am</figcaption>
+				</figure>
+				<figure style="flex: 1; display: inline-block;">
+				<img src = "https://media.istockphoto.com/vectors/flying-cartoon-rocket-in-flat-style-isolated-on-blue-background-vector-id681125144?b=1&k=20&m=681125144&s=612x612&w=0&h=HuAyC6qrPy3i-C16ZLeAKlUZJJbj5GOyacYI3kwk2ho=">
+				<figcaption>6.00 am</figcaption>
+				</figure>
+				<figure style="flex: 1; display: inline-block;">
+				<img src = "https://media.istockphoto.com/vectors/flying-cartoon-rocket-in-flat-style-isolated-on-blue-background-vector-id681125144?b=1&k=20&m=681125144&s=612x612&w=0&h=HuAyC6qrPy3i-C16ZLeAKlUZJJbj5GOyacYI3kwk2ho=">
+				<figcaption>6.00 am</figcaption>
+				</figure>
+				<figure style="flex: 1; display: inline-block;">
+				<img src = "https://media.istockphoto.com/vectors/flying-cartoon-rocket-in-flat-style-isolated-on-blue-background-vector-id681125144?b=1&k=20&m=681125144&s=612x612&w=0&h=HuAyC6qrPy3i-C16ZLeAKlUZJJbj5GOyacYI3kwk2ho=">
+				<figcaption>6.00 am</figcaption>
+				</figure>
+			</div>
+		</div>
+	</div>
+	<div class="content_block middle_block"></div>
+	<div class="content_block right_block"></div>
+</body>
+</html>

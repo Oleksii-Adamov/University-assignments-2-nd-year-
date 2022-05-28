@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>3</title>
+	<script src="https://kit.fontawesome.com/8c006ae312.js" crossorigin="anonymous"></script>
+	<style type="text/css">
+		.calculator_block {
+			margin: auto;
+			width: 365px;
+			background-color: #D3DEDF;
+		}
+		.input_panel {
+			margin-top: 15px;
+			display: grid;
+			grid-template-rows: repeat(6, 80px);
+			grid-template-columns: repeat(4, 80px);
+			grid-gap: 15px;
+		}
+		.input_panel div {
+			text-align: center;
+			line-height: 80px;
+			font-size: xx-large;
+		}
+		.input_panel input, .input_panel button {
+			text-align: center;
+			line-height: 80px;
+			font-size: xx-large;
+		}
+		.field {
+			border: solid 1px;
+			text-align: right;
+			background-color: #FFFFFF;
+		}
+		.history_field {
+			height: 30px;
+			line-height: 30px;
+			font-size: normal;
+			color: #A09F9F;
+		}
+		.input_field {
+			height: 50px;
+			line-height: 50px;
+			font-size: large;
+		}
+	</style>
+</head>
+<body>
+	<div class = "calculator_block">
+		<div id = 'history_field' class="field history_field"></div>
+		<div id = 'input_field' class="field input_field"></div>
+		<div class="input_panel">
+			<input type="button" id = 'AC' value="AC">
+			<input type="button">
+			<input type="button">
+			<input type="button">
+			<input type="button" name = 'operation' value="%">
+			<input type="button" name = 'operation' value="sqrt">
+			<input type="button" name = 'operation' value="^">
+			<input type="button" name = 'operation' value="/">
+			<input type="button" name = 'number' value="7">
+			<input type="button" name = 'number' value="8">
+			<input type="button" name = 'number' value="9">
+			<input type="button" name = 'operation' value="*">
+			<input type="button" name = 'number' value="4">
+			<input type="button" name = 'number' value="5">
+			<input type="button" name = 'number' value="6">
+			<input type="button" name = 'operation' value="-">
+			<input type="button" name = 'number' value="1">
+			<input type="button" name = 'number' value="2">
+			<input type="button" name = 'number' value="3">
+			<input type="button" name = 'operation' value="+">
+			<input type="button" name = 'number' value="0">
+			<input type="button" id = 'dot' value=".">
+			<button type="button" id = 'BS'><i class="fa-solid fa-delete-left"></i></button>
+			<input type="button" id = 'equal_sign' value="=">
+		</div>
+	</div>
+	<script>
+
+		let input_field = document.getElementById('input_field');
+		let history_field = document.getElementById('history_field');
+		input_field.innerHTML = "";
+		history_field.innerHTML = "";
+		let input_field_for_eval = "";
+		let already_dot_in_number = false;
+		let already_operation_entered = false;
+		let op_index_in_html = -1;
+		let op_index_in_eval = -1;
+
+		document.getElementById('AC').onclick = function() {
+			input_field.innerHTML = "";
+			history_field.innerHTML = "";
+			input_field_for_eval = "";
+			already_operation_entered = false;
+			already_dot_in_number = false;
+			op_index_in_html = -1;
+			op_index_in_eval = -1;
+		}
+		
+		let is_op = function(char) {
+			if (char == "+" || char == "-" || char == "*" || char == "/" || char == "^") return true;
+			else return false;
+		} 
+
+		document.getElementById('BS').onclick = function() {
+			if (input_field.innerHTML != "Помилка") {
+				let add_delete_to_input_eval = 0;
+				let was_op = false;
+				if (input_field.innerHTML.length - 1 == op_index_in_html) {
+					if (input_field.innerHTML[input_field.innerHTML.length - 1] == '^') {
+						add_delete_to_input_eval = 1;
+					}
+					already_operation_entered = false;
+					op_index_in_html = -1;
+					op_index_in_eval = -1;
+					was_op = true;
+				}
+				else if (input_field.innerHTML[input_field.innerHTML.length - 1] == '.') {
+					already_dot_in_number = false;
+				}
+				input_field.innerHTML = input_field.innerHTML.slice(0, input_field.innerHTML.length - 1);
+				input_field_for_eval = input_field_for_eval.slice(0, input_field_for_eval.length - 1 - add_delete_to_input_eval);
+				if (was_op) {
+					input_field_for_eval = input_field_for_eval.slice(1, input_field_for_eval.length - 1);
+				}
+			}
+		}
+
+		document.getElementById('dot').onclick = function() {
+			if (!already_dot_in_number && input_field.innerHTML != "Помилка" && (!(input_field.innerHTML == ""
+					|| is_op(input_field.innerHTML[input_field.innerHTML.length - 1])))) {
+				input_field.innerHTML += ".";
+				input_field_for_eval += ".";
+				already_dot_in_number = true;
+			}
+		}
+
+		let evaluate = function() {
+			if (input_field.innerHTML != "Помилка") {
+				history_field.innerHTML = input_field.innerHTML;
+				input_field_for_eval = input_field_for_eval.slice(0, op_index_in_eval + 1) + "(" + input_field_for_eval.slice(op_index_in_eval + 1) + ")";
+				let ans = eval(input_field_for_eval);
+				if (isNaN(ans)) {
+					input_field.innerHTML = "Помилка";	
+				}
+				else {
+					input_field_for_eval = ans;
+					input_field.innerHTML = input_field_for_eval;
+					already_operation_entered = false;
+					op_index_in_html = -1;
+					op_index_in_eval = -1;
+				}
+			}
+		}
+
+		document.getElementById('equal_sign').onclick = evaluate;
+
+		let set_onclick = function(element, func) {
+			element.onclick = func;
+		}
+
+		let is_num = function(char) {
+			if (char >= "0" && char <= "9") return true;
+			else return false;
+		}
+
+		let input_number = function(element) {
+			if (input_field.innerHTML != "Помилка") {
+				if (!(!already_dot_in_number && input_field.innerHTML[input_field.innerHTML.length - 1] == "0")) {
+					input_field.innerHTML += element.value;
+					input_field_for_eval += element.value;
+				}
+			}
+		}
+
+		let numbers = document.getElementsByName('number');
+		numbers.forEach(element => set_onclick(element, () => input_number(element)));
+
+		let input_operation = function(element) {
+			if (input_field.innerHTML != "Помилка") {
+				already_dot_in_number = false;
+				if (input_field.innerHTML == "") {
+					if (element.value == "-") {
+						input_field.innerHTML += element.value;
+						input_field_for_eval += element.value;
+						return;
+					}
+					else {
+						input_field.innerHTML = "0";
+					}
+				}
+				if (already_operation_entered) {
+					if (is_num(input_field.innerHTML[input_field.innerHTML.length - 1])) {
+						evaluate();
+					}
+					else if (element.value != "-" || (element.value == "-" && input_field.innerHTML[input_field.innerHTML.length - 1] == '-')) {
+						input_field.innerHTML = "Помилка";
+						return;
+					}
+					else if (element.value == "-") {
+						input_field.innerHTML += element.value;
+						input_field_for_eval += element.value;
+						return;
+					}
+				}
+				if (element.value == "%") {
+					history_field.innerHTML = input_field.innerHTML + "%";
+					input_field.innerHTML = parseFloat(input_field.innerHTML) / 100;
+					input_field_for_eval = input_field.innerHTML;
+				}
+				else if (element.value == "sqrt") {
+					history_field.innerHTML = "sqrt(" + input_field.innerHTML + ")";
+					let ans = Math.sqrt(parseFloat(input_field.innerHTML));
+					if (isNaN(ans)) {
+						input_field.innerHTML = "Помилка";	
+					}
+					else {
+						input_field.innerHTML = ans;
+						input_field_for_eval = input_field.innerHTML;
+					}
+				}
+				else {
+					input_field.innerHTML += element.value;
+					op_index_in_html = input_field.innerHTML.length - 1;
+					input_field_for_eval = "(" + input_field_for_eval + ")";
+					if (element.value == "^") {
+						input_field_for_eval += "**";
+					}
+					else {
+						input_field_for_eval += element.value;
+					}
+					op_index_in_eval = input_field_for_eval.length - 1;
+					already_operation_entered = true;
+				}
+			}
+		}
+
+		let operations = document.getElementsByName('operation');
+		operations.forEach(element => set_onclick(element, () => input_operation(element)));
+	</script>
+</body>
+</html>
